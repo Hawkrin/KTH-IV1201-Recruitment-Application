@@ -4,6 +4,9 @@ require("dotenv").config(); // init dotenv
 const functions = require("firebase-functions"); // init firebase functions
 const express = require("express"); // init express
 const admin = require("firebase-admin"); // init firebase admin
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash"); // init flash
 
 admin.initializeApp(functions.config().firebase);
 
@@ -15,18 +18,21 @@ require("./db").connect();
 // App configuration
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-// app.use(cookieParser());
-app.set("view engine", "ejs");
+app.use(cookieParser());
+app.set("view engine", "ejs"); // framework for view files
+app.use(session({
+  secret: "keyboard cat",
+  saveUninitialized: true,
+  resave: true,
+}));
+app.use(flash()); // used for "global" error messaging
 
 // Routes
 app.use("/auth", require("./routes/auth.routes"));
+app.use("", require("./routes/home.routes"));
 
 app.use((req, res) => {
   res.status(404).render("404");
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World");
 });
 
 exports.app = functions.https.onRequest(app);

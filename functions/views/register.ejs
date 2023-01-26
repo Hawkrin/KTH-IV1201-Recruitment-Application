@@ -1,0 +1,171 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+    </head>
+    <body>
+        <form id="signInBox" method="post">
+
+            <p style="font-size: xx-small; color: red;" ><%= error %></p>
+            <div id="signin">
+                <h2>Sign Up</h2>
+                <!-- Error for username -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].username %></p>
+                <% } %> 
+                <label id="username">
+                    <input 
+                        type="text"
+                        name="username"
+                        placeholder='Username'
+                    />
+                </label> 
+                <!-- Error for email -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].email %></p>
+                <% } %> 
+                <label id="email">
+                    <input 
+                        type="text"
+                        name="email"
+                        placeholder='Email'
+                    />
+                </label>
+                <!-- Error for password -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].password %></p>
+                <% } %> 
+                <label id="password">
+                    <input 
+                        type="password"
+                        name="password"
+                        placeholder='Password' 
+                    />
+                </label>
+                <!-- Error for cofirmPassword -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].confirmpassword %></p>
+                <% } %> 
+                <label id="confirmpassword">
+                    <input 
+                        type="password"
+                        name="confirmpassword"
+                        placeholder='Confirm password' 
+                    />
+                </label>
+                <label id="signin-footer">
+                    <button id='signUpButton' type="submit">Sign Up</button>
+                    <span> <a href="/auth/login" style="text-decoration: none; color:black;">Already Registered User? Click here to login</a></span>
+                </label>
+            </div>
+        </form>
+    </body>
+    <style>
+        #signInBox{
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            padding-top: 180px;
+        }
+        #signin{
+            padding-top: 40px;
+            height: 500px;
+            width: 400px;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            background: f2f2f2;
+            border-radius: 10px;
+            box-shadow: 5px 20px 50px #000;
+        }
+        label, input {
+            display: block;
+        }
+        label {
+            margin-bottom: 20px;
+        }
+        #signin-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #signUpButton {
+            height: 30px;
+            margin: 10px auto;
+            justify-content: center;
+            display: block;
+            color: #fff;
+            background: #3b478a;
+            font-weight: bold;
+            margin-top: 20px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            transition: .2s ease-in;
+            cursor: pointer;
+        }
+        #signUpButton:hover{
+            transform: scale(1.10);
+            position:relative;
+            z-index:5;
+        }   
+        #email {
+            display: flex;
+            align-items: center;
+            background-color: rgb(233, 233, 233); 
+            border-radius: 5px;
+            padding: 5px;
+        }   
+        #email input {
+            border: none;
+            background-color: rgb(233, 233, 233);  
+        }
+        #email input:focus {
+            outline: none;
+        }
+        #password {
+            display: flex;
+            align-items: center;
+            background-color: rgb(233, 233, 233); 
+            border-radius: 5px;
+            padding: 5px;
+        }
+        #password input {
+            border: none;
+            background-color: rgb(233, 233, 233);  
+        }
+        #password input:focus {
+            outline: none;
+        }
+        #confirmPassword {
+            display: flex;
+            align-items: center;
+            background-color: rgb(233, 233, 233); 
+            border-radius: 5px;
+            padding: 5px;
+        }
+        #confirmPassword input {
+            border: none;
+            background-color: rgb(233, 233, 233);  
+        }
+        #confirmPassword input:focus {
+            outline: none;
+        }
+        #username {
+            display: flex;
+            align-items: center;
+            background-color: rgb(233, 233, 233); 
+            border-radius: 5px;
+            padding: 5px;
+        }
+        #username input {
+            border: none;
+            background-color: rgb(233, 233, 233);  
+        }
+        #username input:focus {
+            outline: none;
+        }
+    </style>
+</html>
