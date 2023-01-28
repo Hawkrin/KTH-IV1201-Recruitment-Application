@@ -1,8 +1,8 @@
 /* eslint-disable */
 const { Router } = require("express");
 const _ = require("lodash");
-const { fullUrl } = require("../util/url");
-const { check, validationResult } = require('express-validator/check');
+const { fullUrl, originalURL } = require("../util/url");
+const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
 const authenticated = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
@@ -44,7 +44,7 @@ router
         loginUser(email, password)
             .then((user) => {
                 const token = jwt.sign(user._id.toString(), process.env.JWT_TOKEN);
-                return res.cookie("Authenticate", token).redirect("/");
+                return res.cookie("Authenticate", token).redirect(originalURL);
                 
             })
             .catch((error) => {
@@ -56,7 +56,7 @@ router
 
     //Logout routes
     .get("/logout", (req, res, next) => {
-        return res.cookie("Authenticate", null).redirect("/");
+        return res.cookie("Authenticate", null).redirect(originalURL);
     })
 
     //Register routes
@@ -80,18 +80,37 @@ router
         check("confirmpassword", "Password does not match")
             .trim()
             .exists()
-            // .custom(async (confirmPassword, {req}) => {
-            //     const password = req.body.password;
+            .custom(async (confirmPassword, {req}) => {
+                const password = req.body.password;
 
-            //     if (password !== confirmPassword) {
-            //         throw new Error("Password must be same.");
-            //     }
-            // })
+                if (password !== confirmPassword) {
+                    throw new Error("Password must be same.");
+                }
+            }),
+        check("personal_number", "Enter your personal number")
+            .exists()
+            .isNumeric(),
+            // .isLength(12),
+        check("first_name", "Enter your first name")
+            .exists()
+            .isAlpha(),
+        check("last_name", "Enter your last name")
+            .exists()
+            .isAlpha(),
+
     ],
     
     
     (req, res) => {
-        const {username, password, confirmpassword, email} = _.pick(req.body, ["username", "password", "confirmpassword", "email"]);
+        const { 
+                username, 
+                password, 
+                confirmpassword, 
+                email, 
+                personal_number, 
+                first_name, 
+                last_name 
+            } = _.pick(req.body, ["username", "password", "confirmpassword", "email", "personal_number", "first_name", "last_name"]);
         
         //Form errors.
         const errors = validationResult(req);
@@ -101,14 +120,15 @@ router
         }
 
         
-        registerUser(username, password, confirmpassword, email)
+        registerUser(username, password, confirmpassword, email, personal_number, first_name, last_name)
             .then((user) => {
                 const token = jwt.sign(user._id.toString(), process.env.JWT_TOKEN);
-                return res.cookie("Authenticate", token).redirect("/");
+                return res.cookie("Authenticate", token).redirect(originalURL);
             })
             .catch((error) => {
+                console.log(error)
                 req.flash("error", error);
-                return res.redirect(fullUrl(req));
+                return res.send(error);
             })
     })
 

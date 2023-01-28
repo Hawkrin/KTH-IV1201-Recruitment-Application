@@ -12,7 +12,7 @@ const User = require("../model/user.model"); // Connection to User model
  * @param {String} email 
  * @returns {Promise}
  */
-const registerUser = (username, password, confirmpassword, email) => {
+const registerUser = (username, password, confirmpassword, email, personal_number, first_name, last_name) => {
     return new Promise((resolve, reject) => {
         User.userAlreadyExists(username, email)
             .then((userExists) => {
@@ -23,6 +23,9 @@ const registerUser = (username, password, confirmpassword, email) => {
                     username,
                     password,
                     email,
+                    personal_number,
+                    first_name,
+                    last_name
                 })
 
                 newUser.save((error) => {

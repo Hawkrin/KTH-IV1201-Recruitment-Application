@@ -27,9 +27,12 @@ app.use(session({
 }));
 app.use(flash()); // used for "global" error messaging
 
-// Routes
+// App Routes
+app.get("/hej", (req,res)=> {
+  res.send("Hello")
+} )
 app.use("/auth", require("./routes/auth.routes"));
-app.use("", require("./routes/home.routes"));
+app.use("/", require("./routes/home.routes"));
 
 app.use((req, res) => {
   res.status(404).render("404");

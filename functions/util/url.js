@@ -3,4 +3,7 @@ function fullUrl(req) {
     return req.protocol + "://" + req.hostname + ":" + process.env.PORT + req.originalUrl;
 }
 
-module.exports = { fullUrl }
+const originalURL = "/iv1201-recruitment-application/us-central1/app";
+
+
+module.exports = { fullUrl, originalURL }

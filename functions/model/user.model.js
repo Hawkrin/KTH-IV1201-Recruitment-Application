@@ -3,6 +3,8 @@ const mongoose = require("mongoose"); // init mongoose for user
 const validator = require("validator"); // init validator for validating strings
 const bcrypt = require("bcrypt"); // init bcrypt for hashing passwords
 
+// mongoose.set('strictQuery', true);
+
 const userSchema = new mongoose.Schema({
     type: {
         type: String,
@@ -24,6 +26,19 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         unique: true,
     },
+    personal_number: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    first_name: {
+        type: String,
+        required: true,
+    },
+    last_name: {
+        type: String,
+        required: true,
+    }
 });
 
 /**
@@ -54,8 +69,8 @@ userSchema.pre("save", function(next) {
     next();
 });
 
-userSchema.statics.userAlreadyExists = function (username, email) {
-    return this.findOne({ $or: [{ username }, { email }] })
+userSchema.statics.userAlreadyExists = function (username, email, personal_number) {
+    return this.findOne({ $or: [{ username }, { email }, {personal_number}] })
 }
 
 userSchema.statics.getUser = function(_id) {

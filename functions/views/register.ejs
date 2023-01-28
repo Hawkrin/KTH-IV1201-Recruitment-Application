@@ -55,6 +55,39 @@
                         placeholder='Confirm password' 
                     />
                 </label>
+                <!-- Error for personal number -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].personal_number %></p>
+                <% } %> 
+                <label id="personal_number">
+                    <input 
+                        type="text"
+                        name="personal_number"
+                        placeholder='ÅÅÅÅMMDDXXXX' 
+                    />
+                </label>
+                <!-- Error for first name -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].first_name %></p>
+                <% } %> 
+                <label id="first_name">
+                    <input 
+                        type="text"
+                        name="first_name"
+                        placeholder='First name' 
+                    />
+                </label>
+                <!-- Error for last name -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].last_name %></p>
+                <% } %> 
+                <label id="last_name">
+                    <input 
+                        type="text"
+                        name="last_name"
+                        placeholder='Last name' 
+                    />
+                </label>
                 <label id="signin-footer">
                     <button id='signUpButton' type="submit">Sign Up</button>
                     <span> <a href="/auth/login" style="text-decoration: none; color:black;">Already Registered User? Click here to login</a></span>
@@ -165,6 +198,48 @@
             background-color: rgb(233, 233, 233);  
         }
         #username input:focus {
+            outline: none;
+        }
+        #personal_number {
+            display: flex;
+            align-items: center;
+            background-color: rgb(233, 233, 233); 
+            border-radius: 5px;
+            padding: 5px;
+        }
+        #personal_number input {
+            border: none;
+            background-color: rgb(233, 233, 233);  
+        }
+        #personal_number input:focus {
+            outline: none;
+        }
+        #first_name {
+            display: flex;
+            align-items: center;
+            background-color: rgb(233, 233, 233); 
+            border-radius: 5px;
+            padding: 5px;
+        }
+        #first_name input {
+            border: none;
+            background-color: rgb(233, 233, 233);  
+        }
+        #first_name input:focus {
+            outline: none;
+        }
+        #last_name {
+            display: flex;
+            align-items: center;
+            background-color: rgb(233, 233, 233); 
+            border-radius: 5px;
+            padding: 5px;
+        }
+        #last_name input {
+            border: none;
+            background-color: rgb(233, 233, 233);  
+        }
+        #last_name input:focus {
             outline: none;
         }
     </style>
