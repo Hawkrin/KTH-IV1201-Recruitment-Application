@@ -2,6 +2,33 @@
 const User = require("../model/user.model"); // Connection to User model
 
 /**
+ * Checks if a users username, email or personal_number exists in the database
+ * 
+ * @param {String} username 
+ * @param {String} email 
+ * @param {Integer} personal_number 
+ * @returns a user if in database
+ */
+const userAlreadyExists = (username, email, personal_number) => {
+    return User.findOne({ $or: [{ username }, { email }, {personal_number}] })
+}
+
+/**
+ * Looks up a user via the user_id and then returns the user.
+ * The promise gets rejected if no user can be found.
+ * 
+ * @param {Integer} _id 
+ * @returns {Promise}
+ */
+const getUser = (_id) => {
+    return new Promise((resolve, reject) => {
+        User.findById(id)
+            .then((user) => { return resolve(user); })
+            .catch((error) => { return reject(user); })
+    })
+}
+
+/**
  * Register user by taking username, password and email.
  * Encrypting password with hash and salt.
  * Returning a promise, resolve if successfully register user.
@@ -14,7 +41,7 @@ const User = require("../model/user.model"); // Connection to User model
  */
 const registerUser = (username, password, confirmpassword, email, personal_number, first_name, last_name) => {
     return new Promise((resolve, reject) => {
-        User.userAlreadyExists(username, email)
+        userAlreadyExists(username, email, personal_number)
             .then((userExists) => {
                 
                 if (userExists) { return reject("User Already exists"); }
@@ -46,6 +73,7 @@ const registerUser = (username, password, confirmpassword, email, personal_numbe
  *  
  * @param {String} email
  * @param {String} password
+ * @returns {Promise}
  */
 const loginUser = (email, password) => {
     return new Promise((resolve, reject) => {
@@ -61,4 +89,4 @@ const loginUser = (email, password) => {
 }
 
 
-module.exports = { registerUser, loginUser }
+module.exports = { registerUser, loginUser, getUser }

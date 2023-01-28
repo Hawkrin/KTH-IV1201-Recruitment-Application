@@ -13,7 +13,7 @@ const { registerUser, loginUser } = require('../controller/user.controller')
 
 router
 
-    //Login routes
+    /*Login routes*/
     .get("/login", (req, res, next) => {
 
         res.render('login', {
@@ -54,12 +54,12 @@ router
 
     })
 
-    //Logout routes
+    /*Logout routes*/
     .get("/logout", (req, res, next) => {
         return res.cookie("Authenticate", null).redirect("/auth/login");
     })
 
-    //Register routes
+    /*Register routes*/
     .get("/register", (req, res) => {
         return res.render('register', {
             error: req.flash("error"), 
@@ -89,8 +89,8 @@ router
             }),
         check("personal_number", "Enter your personal number")
             .exists()
-            .isNumeric(),
-            // .isLength(12),
+            .isNumeric()
+            .isLength({min: 12}, {max: 12}),
         check("first_name", "Enter your first name")
             .exists()
             .isAlpha(),

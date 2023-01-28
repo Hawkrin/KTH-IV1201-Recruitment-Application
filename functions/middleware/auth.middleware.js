@@ -2,6 +2,14 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/user.model")
 
+/**
+ * Function used for authorizing users, verifies JWTs
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 const authorization = function(req, res, next) {
     const token = req.cookies.Authenticate;
 

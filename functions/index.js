@@ -30,6 +30,7 @@ app.use(flash()); // used for "global" error messaging
 // App Routes
 app.use("/auth", require("./routes/auth.routes"));
 app.use("/", require("./routes/home.routes"));
+app.use("/application", require("./routes/application.routes"));
 
 app.use((req, res) => {
   res.status(404).render("404");
