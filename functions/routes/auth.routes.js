@@ -38,13 +38,13 @@ router
         const errors = validationResult(req);
         if (errors.errors.length > 0) {
             req.flash("form-error", formErrorFormatter(errors));
-            return res.redirect(fullUrl(req));
+            return res.redirect("/auth/login");
         }
 
         loginUser(email, password)
             .then((user) => {
                 const token = jwt.sign(user._id.toString(), process.env.JWT_TOKEN);
-                return res.cookie("Authenticate", token).redirect(originalURL);
+                return res.cookie("Authenticate", token).redirect("/");
                 
             })
             .catch((error) => {
@@ -56,7 +56,7 @@ router
 
     //Logout routes
     .get("/logout", (req, res, next) => {
-        return res.cookie("Authenticate", null).redirect(originalURL + "/auth/login");
+        return res.cookie("Authenticate", null).redirect("/auth/login");
     })
 
     //Register routes
@@ -116,19 +116,19 @@ router
         const errors = validationResult(req);
         if (errors.errors.length > 0) {
             req.flash("form-error", formErrorFormatter(errors));
-            return res.redirect(originalURL + "/auth/register");
+            return res.redirect("/app/auth/register");
         }
 
         
         registerUser(username, password, confirmpassword, email, personal_number, first_name, last_name)
             .then((user) => {
                 const token = jwt.sign(user._id.toString(), process.env.JWT_TOKEN);
-                return res.cookie("Authenticate", token).redirect(originalURL);
+                return res.cookie("Authenticate", token).redirect("/app/");
             })
             .catch((error) => {
                 console.log(error)
                 req.flash("error", error);
-                return res.redirect(originalURL + "/auth/register");
+                return res.redirect("/app/auth/register");
             })
     })
 

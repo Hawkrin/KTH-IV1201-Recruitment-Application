@@ -3,8 +3,6 @@ const mongoose = require("mongoose"); // init mongoose for user
 const validator = require("validator"); // init validator for validating strings
 const bcrypt = require("bcrypt"); // init bcrypt for hashing passwords
 
-// mongoose.set('strictQuery', true);
-
 const userSchema = new mongoose.Schema({
     type: {
         type: String,
