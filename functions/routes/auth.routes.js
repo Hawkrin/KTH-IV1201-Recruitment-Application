@@ -56,7 +56,7 @@ router
 
     //Logout routes
     .get("/logout", (req, res, next) => {
-        return res.cookie("Authenticate", null).redirect(originalURL);
+        return res.cookie("Authenticate", null).redirect(originalURL + "/auth/login");
     })
 
     //Register routes
@@ -116,7 +116,7 @@ router
         const errors = validationResult(req);
         if (errors.errors.length > 0) {
             req.flash("form-error", formErrorFormatter(errors));
-            return res.redirect(fullUrl(req));
+            return res.redirect(originalURL + "/auth/register");
         }
 
         
@@ -128,7 +128,7 @@ router
             .catch((error) => {
                 console.log(error)
                 req.flash("error", error);
-                return res.send(error);
+                return res.redirect(originalURL + "/auth/register");
             })
     })
 

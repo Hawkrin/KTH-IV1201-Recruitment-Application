@@ -3,11 +3,11 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
+        <link rel="stylesheet" href="register.css">
+        <title>Register</title>
     </head>
     <body>
         <form id="signInBox" method="post">
-
             <p style="font-size: xx-small; color: red;" ><%= error %></p>
             <div id="signin">
                 <h2>Sign Up</h2>
@@ -90,7 +90,7 @@
                 </label>
                 <label id="signin-footer">
                     <button id='signUpButton' type="submit">Sign Up</button>
-                    <span> <a href="/auth/login" style="text-decoration: none; color:black;">Already Registered User? Click here to login</a></span>
+                    <span> <a href="/iv1201-recruitment-application/us-central1/app/auth/login" style="text-decoration: none; color:black;">Already Registered User? Click here to login</a></span>
                 </label>
             </div>
         </form>
@@ -104,8 +104,8 @@
         }
         #signin{
             padding-top: 40px;
-            height: 500px;
-            width: 400px;
+            height: 700px;
+            width: 500px;
             display: flex; 
             flex-direction: column;
             align-items: center; 

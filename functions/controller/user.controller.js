@@ -27,7 +27,7 @@ const registerUser = (username, password, confirmpassword, email, personal_numbe
                     first_name,
                     last_name
                 })
-
+                
                 newUser.save((error) => {
                     if (error) { return reject(error);}
                     return resolve(newUser)
