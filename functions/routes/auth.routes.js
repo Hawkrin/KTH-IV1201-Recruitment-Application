@@ -89,8 +89,8 @@ router
             }),
         check("personal_number", "Enter your personal number")
             .exists()
-            .isNumeric()
-            .isLength({min: 12}, {max: 12}),
+            .isNumeric(),
+            // .isLength({min: 12}, {max: 12}),
         check("first_name", "Enter your first name")
             .exists()
             .isAlpha(),

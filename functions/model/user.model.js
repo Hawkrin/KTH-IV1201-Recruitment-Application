@@ -67,20 +67,4 @@ userSchema.pre("save", function(next) {
     next();
 });
 
-userSchema.statics.loginUser = function(email, password) {
-    return new Promise((resolve, reject) => {
-        this.findOne({ email })
-            .then((user) => {
-                if (!user) { return reject("Email does not exists."); }
-
-                bcrypt.compare(password, user.password, (error, result) => {
-                    if (error) { return reject(error); }
-                    if (result) {
-                        return resolve(user);
-                    }
-                })
-            })
-    })
-}
-
 module.exports = mongoose.model("user", userSchema);

@@ -5,5 +5,7 @@ function fullUrl(req) {
 
 const originalURL = "/iv1201-recruitment-application/us-central1/app";
 
+const dataBaseConnectionString = "mongodb+srv://" + process.env.USER + ":" + process.env.PASSWORD + "@cluster0.5mad5tg.mongodb.net/?retryWrites=true&w=majority";
 
-module.exports = { fullUrl, originalURL }
+
+module.exports = { fullUrl, originalURL, dataBaseConnectionString }

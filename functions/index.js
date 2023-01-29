@@ -12,9 +12,6 @@ admin.initializeApp(functions.config().firebase);
 
 const app = express();
 
-// Database connection
-require("./db").connect();
-
 // App configuration
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -26,6 +23,11 @@ app.use(session({
   resave: true,
 }));
 app.use(flash()); // used for "global" error messaging
+
+
+// CSS files
+app.use("/assets", express.static("assets"));
+
 
 // App Routes
 app.use("/auth", require("./routes/auth.routes"));

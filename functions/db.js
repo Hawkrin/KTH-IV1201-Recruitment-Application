@@ -1,11 +1,12 @@
 /* eslint-disable */
 const mongoose = require("mongoose");
+const { dataBaseConnectionString } = require("./util/url");
 
 mongoose.set('strictQuery', true);
 
-const connect = () => {
-  return mongoose.connect("mongodb+srv://" + process.env.USER + ":" + process.env.PASSWORD + "@cluster0.5mad5tg.mongodb.net/?retryWrites=true&w=majority")
-}
+mongoose.connect(dataBaseConnectionString, { useNewUrlParser: true });
 
-module.exports = {connect};
+const db = mongoose.connection;
+
+module.exports = {db};
 
