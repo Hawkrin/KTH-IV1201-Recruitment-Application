@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken")
 
 const router = Router();
 
-const { registerUser, loginUser } = require('../controller/user.controller')
+const { registerUser, loginUser } = require('../controller/person.controller')
 
 router
 
@@ -42,9 +42,10 @@ router
         }
 
         loginUser(email, password)
-            .then((user) => {
-                const token = jwt.sign(user._id.toString(), process.env.JWT_TOKEN);
-                return res.cookie("Authenticate", token).redirect("/");
+            .then((person) => {
+                const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
+
+                return res.cookie("Authenticate", token).redirect("/iv1201-recruitment-application/us-central1/app/");
                 
             })
             .catch((error) => {
@@ -87,14 +88,12 @@ router
                     throw new Error("Password must be same.");
                 }
             }),
-        check("personal_number", "Enter your personal number")
-            .exists()
-            .isNumeric(),
-            // .isLength({min: 12}, {max: 12}),
-        check("first_name", "Enter your first name")
+        check("pnr", "Enter a valid personal number (8 digits-4 digits)")
+            .matches(/^\d{8}-\d{4}$/),
+        check("name", "Enter your first name")
             .exists()
             .isAlpha(),
-        check("last_name", "Enter your last name")
+        check("surname", "Enter your last name")
             .exists()
             .isAlpha(),
 
@@ -103,14 +102,16 @@ router
     
     (req, res) => {
         const { 
-                username, 
-                password, 
-                confirmpassword, 
+                name, 
+                surname,
+                pnr, 
                 email, 
-                personal_number, 
-                first_name, 
-                last_name 
-            } = _.pick(req.body, ["username", "password", "confirmpassword", "email", "personal_number", "first_name", "last_name"]);
+                password, 
+                confirmpassword,
+                role_id,
+                username, 
+    
+            } = _.pick(req.body, ["name", "surname", "pnr", "email","password", "confirmpassword", "role_id", "username"]);
         
         //Form errors.
         const errors = validationResult(req);
@@ -119,14 +120,14 @@ router
             return res.redirect("/app/auth/register");
         }
 
-        
-        registerUser(username, password, confirmpassword, email, personal_number, first_name, last_name)
-            .then((user) => {
-                const token = jwt.sign(user._id.toString(), process.env.JWT_TOKEN);
-                return res.cookie("Authenticate", token).redirect("/app/");
+        registerUser(name, surname, pnr, email, password, confirmpassword, role_id, username)
+            .then((person) => {
+                if(person) {
+                    const token = jwt.sign(person._id.toString(), process.env.JWT_TOKEN);
+                    return res.cookie("Authenticate", token).redirect("/app/");
+                }
             })
             .catch((error) => {
-                console.log(error)
                 req.flash("error", error);
                 return res.redirect("/app/auth/register");
             })

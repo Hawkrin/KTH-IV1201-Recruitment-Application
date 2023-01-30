@@ -57,34 +57,34 @@
                 </label>
                 <!-- Error for personal number -->
                 <% if (form_error[0]) {%> 
-                    <p style="font-size: xx-small; color: red;"><%= form_error[0].personal_number %></p>
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].pnr %></p>
                 <% } %> 
-                <label id="personal_number">
+                <label id="pnr">
                     <input 
                         type="text"
-                        name="personal_number"
+                        name="pnr"
                         placeholder='ÅÅÅÅMMDDXXXX' 
                     />
                 </label>
                 <!-- Error for first name -->
                 <% if (form_error[0]) {%> 
-                    <p style="font-size: xx-small; color: red;"><%= form_error[0].first_name %></p>
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].name %></p>
                 <% } %> 
-                <label id="first_name">
+                <label id="name">
                     <input 
                         type="text"
-                        name="first_name"
+                        name="name"
                         placeholder='First name' 
                     />
                 </label>
                 <!-- Error for last name -->
                 <% if (form_error[0]) {%> 
-                    <p style="font-size: xx-small; color: red;"><%= form_error[0].last_name %></p>
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].surname %></p>
                 <% } %> 
-                <label id="last_name">
+                <label id="surname">
                     <input 
                         type="text"
-                        name="last_name"
+                        name="surname"
                         placeholder='Last name' 
                     />
                 </label>

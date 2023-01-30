@@ -5,7 +5,7 @@ function fullUrl(req) {
 
 const originalURL = "/iv1201-recruitment-application/us-central1/app";
 
-const dataBaseConnectionString = "mongodb+srv://" + process.env.USER + ":" + process.env.PASSWORD + "@cluster0.5mad5tg.mongodb.net/?retryWrites=true&w=majority";
+const dataBaseConnectionString = "postgres://" + process.env.USER + ":" + process.env.PASSWORD + "@" + process.env.DB_HOST + ":" + process.env.DB_PORT + "/" + process.env.DB_NAME;
 
 
 module.exports = { fullUrl, originalURL, dataBaseConnectionString }

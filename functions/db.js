@@ -1,12 +1,16 @@
 /* eslint-disable */
-const mongoose = require("mongoose");
 const { dataBaseConnectionString } = require("./util/url");
+const { Sequelize } = require('sequelize');
 
-mongoose.set('strictQuery', true);
+const db = new Sequelize(dataBaseConnectionString);
 
-mongoose.connect(dataBaseConnectionString, { useNewUrlParser: true });
 
-const db = mongoose.connection;
+try {
+    db.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
 
 module.exports = {db};
 

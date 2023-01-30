@@ -104,45 +104,45 @@ label {
 #username input:focus {
     outline: none;
 }
-#personal_number {
+#pnr {
     display: flex;
     align-items: center;
     background-color: rgb(233, 233, 233); 
     border-radius: 5px;
     padding: 5px;
 }
-#personal_number input {
+#pnr input {
     border: none;
     background-color: rgb(233, 233, 233);  
 }
-#personal_number input:focus {
+#pnr input:focus {
     outline: none;
 }
-#first_name {
+#name {
     display: flex;
     align-items: center;
     background-color: rgb(233, 233, 233); 
     border-radius: 5px;
     padding: 5px;
 }
-#first_name input {
+#name input {
     border: none;
     background-color: rgb(233, 233, 233);  
 }
-#first_name input:focus {
+#name input:focus {
     outline: none;
 }
-#last_name {
+#surname {
     display: flex;
     align-items: center;
     background-color: rgb(233, 233, 233); 
     border-radius: 5px;
     padding: 5px;
 }
-#last_name input {
+#surname input {
     border: none;
     background-color: rgb(233, 233, 233);  
 }
-#last_name input:focus {
+#surname input:focus {
     outline: none;
 }

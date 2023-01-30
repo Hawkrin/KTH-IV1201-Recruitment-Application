@@ -1,6 +1,6 @@
 /* eslint-disable */
 const jwt = require("jsonwebtoken");
-const User = require("../model/user.model")
+const User = require("../model/person.model")
 
 /**
  * Function used for authorizing users, verifies JWTs
@@ -14,16 +14,18 @@ const authorization = function(req, res, next) {
     const token = req.cookies.Authenticate;
 
     if (token == null) {
-        return res.sendStatus(401).redirect("/iv1201-recruitment-application/us-central1/app/auth/login");
+        return res.sendStatus(401).redirect("/auth/login");
     }
 
     jwt.verify(token, process.env.JWT_TOKEN, (err, _id) => {
         if (err) {
             console.log(err);
-            return res.sendStatus(403).redirect("/iv1201-recruitment-application/us-central1/app/auth/login");
+            return res.sendStatus(403).redirect("/auth/login");
         }
 
-        User.findById(_id)
+        User.findOne({
+            where: { person_id : _id }
+            })
             .then((user) => {
                 req.user = user; 
                 next();
