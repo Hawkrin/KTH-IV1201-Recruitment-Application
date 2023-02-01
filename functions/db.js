@@ -1,11 +1,16 @@
 /* eslint-disable */
-const mongoose = require("mongoose");
+const { dataBaseConnectionString } = require("./util/url");
+const { Sequelize } = require('sequelize');
 
-mongoose.set('strictQuery', true);
+const db = new Sequelize(dataBaseConnectionString);
 
-const connect = () => {
-  return mongoose.connect("mongodb+srv://" + process.env.USER + ":" + process.env.PASSWORD + "@cluster0.5mad5tg.mongodb.net/?retryWrites=true&w=majority")
-}
 
-module.exports = {connect};
+try {
+    db.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+
+module.exports = {db};
 
