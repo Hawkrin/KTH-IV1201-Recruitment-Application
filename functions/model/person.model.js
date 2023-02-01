@@ -3,6 +3,7 @@ const Sequelize = require('sequelize'); // ORM for connection with postgres
 const validator = require('validator'); // Framework for string validation
 const bcrypt = require('bcrypt'); // Library for encrypting data
 const {db} = require('../db'); // Connection to database
+const Role = require('./role.model'); // Role model
 
 
 const Person = db.define("person", { 
@@ -74,8 +75,14 @@ Person.beforeCreate(async (person, options) => {
     const encryptedPassword = bcrypt.hashSync(person.password, salt);
     person.password = encryptedPassword;
 
+    const role = await Role.findOne({
+        where: {
+            role_id: "applicant"
+        }
+    });
+
     // Set role_id
-    person.role_id = 2;
+    person.role_id = role.role_id;
     
 });
 
