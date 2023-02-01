@@ -10,6 +10,10 @@
 
 3. to start the program run "npm run serve" <- this will run the program locally.
 
-4. atm only 2 pages are active, you can find them by going to the end point "/auth/register" and/or "/auth/login"
+4. atm only 2 pages are active, you can find them by going to the end point `/auth/register` or `/auth/login` <br>
+    `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/login`
+<br>
+`http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/register`  
 
-Test// Test murtadha
+ 
+
