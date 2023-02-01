@@ -11,3 +11,5 @@
 3. to start the program run "npm run serve" <- this will run the program locally.
 
 4. atm only 2 pages are active, you can find them by going to the end point "/auth/register" and/or "/auth/login"
+
+Test
