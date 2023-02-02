@@ -1,3 +1,4 @@
+/* eslint-disable */
 require("dotenv").config(); // init dotenv
 // const _= require("lodash"); // init lodash
 
