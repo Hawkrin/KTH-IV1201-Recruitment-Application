@@ -8,46 +8,46 @@ const Role = require('./role.model'); // Role model
 
 const Person = db.define("person", { 
 
-        person_id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: Sequelize.STRING,
-            required: true,
-        },
-        surname: {
-            type: Sequelize.STRING,
-            required: true,
-        },
-        pnr: {
-            type: Sequelize.INTEGER,
-            required: true,
-            unique: true,
-        },
-        email: {
-            type: Sequelize.STRING,
-            required: true,
-            unique: true,
-            validate: {
-            isEmail: true,
-            isLowercase: true
-            }
-        },
-        password: {
-            type: Sequelize.STRING,
-            required: true,
-        },
-        role_id: {
-            type: Sequelize.INTEGER,
-            required: true,
-        }, 
-        username: {
-            type: Sequelize.STRING,
-            unique: true,
-            required: true,
-        }, 
+    person_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.STRING,
+        required: true,
+    },
+    surname: {
+        type: Sequelize.STRING,
+        required: true,
+    },
+    pnr: {
+        type: Sequelize.INTEGER,
+        required: true,
+        unique: true,
+    },
+    email: {
+        type: Sequelize.STRING,
+        required: true,
+        unique: true,
+        validate: {
+        isEmail: true,
+        isLowercase: true
+        }
+    },
+    password: {
+        type: Sequelize.STRING,
+        required: true,
+    },
+    role_id: {
+        type: Sequelize.INTEGER,
+        required: true,
+    }, 
+    username: {
+        type: Sequelize.STRING,
+        unique: true,
+        required: true,
+    }, 
     },{
         tableName: "person",
         timestamps: false
@@ -75,14 +75,13 @@ Person.beforeCreate(async (person, options) => {
     const encryptedPassword = bcrypt.hashSync(person.password, salt);
     person.password = encryptedPassword;
 
+    // Set role_id
     const role = await Role.findOne({
         where: {
-            role_id: "applicant"
+            name: "applicant"
         }
     });
-
-    // Set role_id
-    person.role_id = role.role_id;
+    person.role_id = role.role_id;;
     
 });
 

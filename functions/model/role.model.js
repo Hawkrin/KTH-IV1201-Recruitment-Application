@@ -1,24 +1,24 @@
 /* eslint-disable */
-const Sequelize = require('sequelize'); // ORM for connection with postgres
-const {db} = require('../db'); // Connection to database
+const Sequelize = require('sequelize');
+const { db } = require('../db');
 
 const Role = db.define("role", {
 
-        role_id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-        },
-        name: {
-            type: Sequelize.STRING,
-            required: true,
-        }
+    role_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+    },
+    name: {
+        type: Sequelize.STRING,
+        required: true,
+    },
     },{
         tableName: "role",
-        timestamps: false
+        timestamps: false,
     }
 );
 
 // Synchronize the model with the database
-db.sync({ force: false })
+db.sync({ force: false });
 
 module.exports = Role;
