@@ -28,11 +28,10 @@ const Availability = db.define("availability", {
 );
 
 // Adds a beforeCreate hook to hash the password
-Availability.beforeCreate(async (availability, options) => {
+// Availability.beforeCreate(async (availability, options) => {
 
-    availability.person_id = user.person_id;
-    
-});
+   
+// });
 
 
 // Synchronize the model with the database

@@ -25,6 +25,7 @@
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^4.2.0",
     "lodash": "^4.17.21",
+    "memorystore": "^1.6.7",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.28.0",

@@ -81,7 +81,7 @@ Person.beforeCreate(async (person, options) => {
             name: "applicant"
         }
     });
-    person.role_id = role.role_id;;
+    person.role_id = role.role_id;
     
 });
 
