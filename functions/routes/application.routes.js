@@ -8,6 +8,7 @@ router
 
     /*Application List*/
     .get("/applications", authenticated, (req, res) => { 
+        
         res.render('applications', {
             user: req.user
         }); 
@@ -16,7 +17,7 @@ router
     /*Application-form*/
     .get("/application-form", authenticated, (req, res) => { 
         res.render('application-form', {
-            user: req.user
+             user: req.user
         }); 
     })
 

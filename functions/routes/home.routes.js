@@ -9,7 +9,10 @@ const router = Router();
 router
 
     .get("/", authenticated, (req, res) => { 
-        res.render('home', {
+        // res.render('home', {
+        //     user: req.user
+        // }); 
+        res.render('application-form', {
             user: req.user
         }); 
     })
