@@ -8,7 +8,7 @@ Recruitment application is project in the course ***iv1201 Design of Global Appl
 1. To start the project first you need to download `existing-database.sql` from canvas.
     * Create database and upload sql file above.
     * Create file `.env` in the project `functions/.env`
-    * Put all the information about the DB such as `db-name´, ´db_password`, etc...  
+    * Put all the information about the DB such as `db-name`, `db_password`, etc...  
 
 2. `cd` into the functions folder `cd functions`
 
