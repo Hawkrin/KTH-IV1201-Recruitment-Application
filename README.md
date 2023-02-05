@@ -5,13 +5,18 @@ Recruitment application is project in the course ***iv1201 Design of Global Appl
 
 ## To run the application:
 
-1. /cd into the functions folder "/cd functions"
+1. To start the project first you need to download `existing-database.sql` from canvas.
+    * Create database and upload sql file above.
+    * Create file `.env` in the project `functions/.env`
+    * Put all the information about the DB such as `db-name´, ´db_password`, etc...  
 
-2. write "npm install" to install all dependencies
+2. `cd` into the functions folder `cd functions`
 
-3. to start the program run "npm run serve" <- this will run the program locally.
+3. Write `npm install` to install all dependencies
 
-4. atm only 2 pages are active, you can find them by going to the end point `/auth/register` or `/auth/login` 
+4. To start the program run `npm run serve` this will run the program locally.
+
+5. atm only 2 pages are active, you can find them by going to the end point `/auth/register` or `/auth/login` <br>
 <br>
     `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/login`
 <br>
