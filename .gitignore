@@ -104,3 +104,5 @@ dist
 # TernJS port file
 .tern-port
 tstex_modules/_api.ts
+existing-database.sql
+.DS_Store

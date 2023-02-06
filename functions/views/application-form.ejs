@@ -6,6 +6,30 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>Job Application Form</h1>
+    <form action="/" method="post">
+      <div>
+        <label for="availability">Availability:</label>
+        <input type="text" id="startDate" name="startDate" placeholder="Start date">
+        <input type="text" id="endDate" name="endDate" placeholder="End date">
+      </div>
+      <div>
+        <label for="competences">Competences:</label>
+        <div id="competencesContainer">
+          <input type="text" name="competences[]">
+        </div>
+        <button type="button" id="addCompetenceBtn">+</button>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      document.getElementById("addCompetenceBtn").addEventListener("click", function () {
+        let competencesContainer = document.getElementById("competencesContainer");
+        let newInput = document.createElement("input");
+        newInput.type = "text";
+        newInput.name = "competences[]";
+        competencesContainer.appendChild(newInput);
+      });
+    </script>
 </body>
 </html>
