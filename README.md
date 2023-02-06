@@ -12,7 +12,7 @@ Recruitment application is project in the course ***iv1201 Design of Global Appl
 
 2. `cd` into the functions folder `cd functions`
 
-3. Write `npm install` to install all dependencies
+3. Write `npm install` to install all dependencies.
 
 4. To start the program run `npm run serve` this will run the program locally.
 
