@@ -21,8 +21,7 @@ Recruitment application is project in the course ***iv1201 Design of Global Appl
     `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/login`
 <br>
     `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/register`
-    `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/applications/applications`
-    `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/application-form/application-form`       
+     
  ## Contributing
 <div>
    <img src="https://avatars.githubusercontent.com/u/69900487?v=4" alt="Murtadha Alobaidi" width="100px"> 
