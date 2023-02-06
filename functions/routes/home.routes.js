@@ -1,20 +1,15 @@
 /* eslint-disable */
-const { Router } = require("express");
-const authenticated = require("../middleware/auth.middleware");
+const { Router } = require('express')
+const authenticated = require('../middleware/auth.middleware')
 
-// const User = require("../model/person.model");
+const User = require('../model/person.model')
 
-const router = Router();
+const router = Router()
 
-router
+router.get('/', authenticated, (req, res) => {
+  res.render('home', {
+    user: req.user,
+  })
+})
 
-    .get("/", authenticated, (req, res) => { 
-        // res.render('home', {
-        //     user: req.user
-        // }); 
-        res.render('application-form', {
-            user: req.user
-        }); 
-    })
-
-module.exports = router;
+module.exports = router
