@@ -16,12 +16,13 @@ Recruitment application is project in the course ***iv1201 Design of Global Appl
 
 4. To start the program run `npm run serve` this will run the program locally.
 
-5. atm only 2 pages are active, you can find them by going to the end point `/auth/register` or `/auth/login` <br>
+4. atm only 2 pages are active, you can find them by going to the end point `/auth/register` or `/auth/login` 
 <br>
     `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/login`
 <br>
     `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/register`
-
+    `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/applications/applications`
+    `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/application-form/application-form`       
  ## Contributing
 <div>
    <img src="https://avatars.githubusercontent.com/u/69900487?v=4" alt="Murtadha Alobaidi" width="100px"> 
