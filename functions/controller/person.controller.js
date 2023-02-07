@@ -1,6 +1,5 @@
 /* eslint-disable */
 const Person = require("../model/person.model"); // Connection to User model
-const {db} = require("../db");
 const bcrypt = require("bcrypt");
 const Sequelize = require('sequelize');
 
@@ -12,7 +11,7 @@ const Sequelize = require('sequelize');
  * @param {Integer} _id 
  * @returns {Promise}
  */
-const getUser = async (db, id) => {
+const getUser = async (id) => {
     try {
         const user = await Sequelize.models.Person.finsequelizeyPk(id);
         if (!user) {
@@ -35,7 +34,7 @@ const getUser = async (db, id) => {
  * @param {String} email 
  * @returns {Promise}
  */
-const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username, db) => {
+const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
     
     try {
         const userExists = await Person.findOne({
@@ -71,7 +70,7 @@ const registerUser = async (name, surname, pnr, email, password, confirmpassword
  * @param {String} password
  * @returns {Promise}
  */
-const loginUser = async (email, password, db) => {
+const loginUser = async (email, password) => {
     try {
         const user = await Person.findOne({
             where: { email }

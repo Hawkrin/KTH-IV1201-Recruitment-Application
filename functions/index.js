@@ -1,17 +1,21 @@
 /* eslint-disable */
 require("dotenv").config(); // init dotenv
 // const _= require("lodash"); // init lodash
-
+const { Sequelize } = require('sequelize');
 const functions = require("firebase-functions"); // init firebase functions
 const express = require("express"); // init express
 const admin = require("firebase-admin"); // init firebase admin
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash"); // init flash
+const connectToDb = require('./middleware/dbConnect.middleware');
 
 admin.initializeApp(functions.config().firebase);
 
 const app = express();
+
+// Connection to db
+app.use(connectToDb);
 
 // App configuration
 app.use(express.json());
@@ -40,5 +44,3 @@ app.use((req, res) => {
 });
 
 exports.app = functions.https.onRequest(app);
-
-

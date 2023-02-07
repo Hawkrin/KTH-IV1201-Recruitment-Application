@@ -1,16 +1,15 @@
-/* eslint-disable */
 const { dataBaseConnectionString } = require("./util/url");
 const { Sequelize } = require('sequelize');
 
 const db = new Sequelize(dataBaseConnectionString);
 
-
-try {
-    db.authenticate();
+db.sync()
+    .then(() => {
         console.log('Connection has been established successfully.');
-    } catch (error) {
+    })
+    .catch(error => {
         console.error('Unable to connect to the database:', error);
-    }
+    });
 
-module.exports = {db};
+module.exports = { db };
 

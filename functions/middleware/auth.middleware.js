@@ -10,17 +10,17 @@ const User = require("../model/person.model")
  * @param {*} next 
  * @returns 
  */
-const authorization = function(req, res, next) {
+const authenticated = function(req, res, next) {
     const token = req.cookies.Authenticate;
 
     if (token == null) {
-        return res.sendStatus(401).redirect("/auth/login");
+        return res.redirect(401, "/iv1201-recruitmenapp/us-central1/app/auth/login");
     }
 
     jwt.verify(token, process.env.JWT_TOKEN, (err, _id) => {
         if (err) {
             console.log(err);
-            return res.sendStatus(403).redirect("/auth/login");
+            return res.redirect(403 ,"/iv1201-recruitmenapp/us-central1/app/auth/login");
         }
 
         User.findOne({
@@ -37,4 +37,5 @@ const authorization = function(req, res, next) {
     })
 }
 
-module.exports = authorization;
+
+module.exports = authenticated;

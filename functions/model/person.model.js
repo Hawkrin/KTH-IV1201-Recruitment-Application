@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt'); // Library for encrypting data
 const {db} = require('../db'); // Connection to database
 const Role = require('./role.model'); // Role model
 
-
 const Person = db.define("person", { 
 
         person_id: {
@@ -75,16 +74,24 @@ Person.beforeCreate(async (person, options) => {
     const encryptedPassword = bcrypt.hashSync(person.password, salt);
     person.password = encryptedPassword;
 
+    // Set role_id
     const role = await Role.findOne({
         where: {
-            role_id: "applicant"
+            name: "applicant"
         }
+    }).catch(error => {
+        console.error(error);
+        return next(new Error("Error finding Role"));
     });
-
-    // Set role_id
+    
+    if (!role) {
+        return next(new Error("Role not found"));
+    }
+    
     person.role_id = role.role_id;
     
 });
+
 
 // Synchronize the model with the database
 db.sync({ force: false })

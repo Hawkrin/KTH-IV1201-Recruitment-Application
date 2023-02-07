@@ -1,4 +1,3 @@
-/* eslint-disable */
 const Sequelize = require('sequelize'); // ORM for connection with postgres
 const {db} = require('../db'); // Connection to database
 

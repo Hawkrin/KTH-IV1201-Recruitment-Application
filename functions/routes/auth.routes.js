@@ -38,14 +38,14 @@ router
         const errors = validationResult(req);
         if (errors.errors.length > 0) {
             req.flash("form-error", formErrorFormatter(errors));
-            return res.redirect("/auth/login");
+            return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/login");
         }
 
         loginUser(email, password)
             .then((person) => {
                 const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
 
-                return res.cookie("Authenticate", token).redirect("/iv1201-recruitment-application/us-central1/app/");
+                return res.cookie("Authenticate", token).redirect("/iv1201-recruitmenapp/us-central1/app/");
                 
             })
             .catch((error) => {
@@ -57,7 +57,7 @@ router
 
     /*Logout routes*/
     .get("/logout", (req, res, next) => {
-        return res.cookie("Authenticate", null).redirect("/auth/login");
+        return res.cookie("Authenticate", null).redirect("/iv1201-recruitmenapp/us-central1/app/auth/login");
     })
 
     /*Register routes*/
@@ -117,19 +117,20 @@ router
         const errors = validationResult(req);
         if (errors.errors.length > 0) {
             req.flash("form-error", formErrorFormatter(errors));
-            return res.redirect("/app/auth/register");
+            return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/register");
         }
 
         registerUser(name, surname, pnr, email, password, confirmpassword, role_id, username)
             .then((person) => {
                 if(person) {
-                    const token = jwt.sign(person._id.toString(), process.env.JWT_TOKEN);
-                    return res.cookie("Authenticate", token).redirect("/app/");
+                    const token = jwt.sign(person.person_id.toString(), process.env.JWT_TOKEN);
+                    res.cookie("Authenticate", token);
+                    return res.redirect("/iv1201-recruitmenapp/us-central1/app/");
                 }
             })
             .catch((error) => {
                 req.flash("error", error);
-                return res.redirect("/app/auth/register");
+                return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/register");
             })
     })
 
