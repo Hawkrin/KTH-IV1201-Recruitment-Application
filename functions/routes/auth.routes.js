@@ -6,10 +6,11 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
 const authenticated = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
+const { registerUser, loginUser } = require('../controller/person.controller')
 
 const router = Router();
 
-const { registerUser, loginUser } = require('../controller/person.controller')
+
 
 router
 
@@ -117,7 +118,7 @@ router
         const errors = validationResult(req);
         if (errors.errors.length > 0) {
             req.flash("form-error", formErrorFormatter(errors));
-            return res.redirect("/app/auth/register");
+            return res.redirect("/auth/register");
         }
 
         registerUser(name, surname, pnr, email, password, confirmpassword, role_id, username)
@@ -129,7 +130,7 @@ router
             })
             .catch((error) => {
                 req.flash("error", error);
-                return res.redirect("/app/auth/register");
+                return res.redirect("/auth/register");
             })
     })
 

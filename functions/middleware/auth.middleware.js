@@ -1,6 +1,6 @@
 /* eslint-disable */
 const jwt = require("jsonwebtoken");
-const User = require("../model/person.model")
+const Person = require("../model/person.model")
 
 /**
  * Function used for authorizing users, verifies JWTs
@@ -23,11 +23,11 @@ const authorization = function(req, res, next) {
             return res.sendStatus(403).redirect("/auth/login");
         }
 
-        User.findOne({
+        Person.findOne({
             where: { person_id : _id }
             })
-            .then((user) => {
-                req.user = user; 
+            .then((Person) => {
+                req.Person = Person; 
                 next();
             })
             .catch((error) => {

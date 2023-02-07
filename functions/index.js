@@ -4,13 +4,11 @@ require("dotenv").config(); // init dotenv
 
 const functions = require("firebase-functions"); // init firebase functions
 const express = require("express"); // init express
-const admin = require("firebase-admin"); // init firebase admin
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const flash = require("connect-flash"); // init flash
 
-admin.initializeApp(functions.config().firebase);
 
 const app = express();
 

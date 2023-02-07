@@ -76,12 +76,13 @@ Person.beforeCreate(async (person, options) => {
     person.password = encryptedPassword;
 
     // Set role_id
-    const role = await Role.findOne({
-        where: {
-            name: "applicant"
-        }
-    });
-    person.role_id = role.role_id;
+    // const role = await Role.findOne({
+    //     where: {
+    //         name: "applicant"
+    //     }
+    // });
+    // person.role_id = role.role_id;
+    person.role_id = 2;
     
 });
 
