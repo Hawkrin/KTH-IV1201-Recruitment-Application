@@ -1,7 +1,6 @@
 /* eslint-disable */
-const Availbility = require('../model/availability.model') // Connection to User model
-const { db } = require('../db')
-const bcrypt = require('bcrypt')
+const Availability = require('../model/availability.model') // Connection to User model
+const Competence_Profile = require('../model/competence_profile.model') // Connection to User model
 const Sequelize = require('sequelize')
 
 /**
@@ -12,26 +11,42 @@ const Sequelize = require('sequelize')
  *
  * @returns {Promise}
  */
-const registerAvailability = async (avStartDate, avEndDate, db) => {
+const registerApplication = async (from_date, to_date, competenceData) => {
   try {
-    const userExists = await Availbility.findOne({
-      where: {
-        [Sequelize.Op.or]: [{ avStartDate }, { avEndDate }],
-      },
-    })
-    if (userExists) {
-      throw new Error('User Already exists')
-    }
+      const [availabilityExists, competenceProfileExists] = await Promise.all([
+        Availability.findOne({
+            where: {
+                person_id: Sequelize.col('person_id')
+            }
+        }),
+        Competence_Profile.findOne({
+            where: {
+                person_id: Sequelize.col('person_id')
+            }
+        })
+      ]);
+  
+      if (availabilityExists || competenceProfileExists) {
+          throw new Error("You have already made an application");
+      }
 
-    const newAvailability = Availbility.create({
-      availability_id,
-      pers_id,
-      from_date,
-      to_date,
-    })
+      const newAvailability = await Availability.create({
+          from_date,
+          to_date,
+      });
 
-    return newAvailability
+      const newCompetenceProfiles = await Promise.all(competenceData.map(({competence_id, years_of_experience}) => {
+          return Competence_Profile.create({
+              competence_id,
+              years_of_experience
+          });
+      }));
+
+      return {newAvailability, newCompetenceProfiles};
   } catch (error) {
-    throw error
+      throw error;
   }
-}
+};
+
+
+module.exports = { registerApplication }

@@ -5,8 +5,9 @@ const bcrypt = require('bcrypt') // Library for encrypting data
 const { db } = require('../db') // Connection to database
 const Role = require('./role.model') // Role model
 
-const Person = db.define("person", { 
+const Person = db.define("person", 
 
+{ 
     person_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -47,10 +48,11 @@ const Person = db.define("person", {
         unique: true,
         required: true,
     }, 
-},{
+},
+{
     tableName: "person",
     timestamps: false
-    }
+}
 );
 
 // Adds a beforeCreate hook to hash the password
