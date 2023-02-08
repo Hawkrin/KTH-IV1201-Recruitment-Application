@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const { db } = require('../db')
 const { User } = require('firebase-functions/v1/auth')
+const Person = require('./person.model') // Role model
 
 const Availability = db.define(
   'availability',
@@ -28,10 +29,6 @@ const Availability = db.define(
     timestamps: false,
   },
 )
-
-Availability.beforeCreate((availability, options, cb) => {
-  availability.person_id = User.person_id
-})
 
 db.sync({ force: false })
 
