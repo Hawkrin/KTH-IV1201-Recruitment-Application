@@ -1,37 +1,27 @@
-/* eslint-disable */
-const Availbility = require('../model/availability.model') // Connection to User model
-const { db } = require('../db')
-const bcrypt = require('bcrypt')
+const Availability = require('../model/availability.model')
 const Sequelize = require('sequelize')
+const { user } = require('firebase-functions/v1/auth')
+const Person = require('../model/person.model') // Connection to User model
 
-/**
- * Application User by taking Availability, Competence .
- *
- * Returning a promise, resolve if successfully register user.
- * Reject if problems occured registering Application.
- *
- * @returns {Promise}
- */
-const registerAvailability = async (avStartDate, avEndDate, db) => {
+const registerAvailability = async (person_id, from_date, to_date) => {
   try {
-    const userExists = await Availbility.findOne({
+    const availabilityExists = await Availability.findOne({
       where: {
-        [Sequelize.Op.or]: [{ avStartDate }, { avEndDate }],
+        [Sequelize.Op.and]: [{ person_id }, { from_date }, { to_date }],
       },
     })
-    if (userExists) {
-      throw new Error('User Already exists')
+    if (availabilityExists) {
+      throw new Error('Availability Already exists')
     }
-
-    const newAvailability = Availbility.create({
-      availability_id,
-      pers_id,
+    const newAvailability = await Availability.create({
+      person_id,
       from_date,
       to_date,
     })
-
     return newAvailability
   } catch (error) {
     throw error
   }
 }
+
+module.exports = { registerAvailability }

@@ -1,26 +1,26 @@
-/* eslint-disable */
-const Sequelize = require('sequelize') // ORM for connection with postgres
-const validator = require('validator') // Framework for string validation
-const bcrypt = require('bcrypt') // Library for encrypting data
-const { db } = require('../db') // Connection to database
+const Sequelize = require('sequelize')
+const { db } = require('../db')
+const { User } = require('firebase-functions/v1/auth')
+const Person = require('./person.model') // Role model
 
 const Availability = db.define(
   'availability',
   {
     availability_id: {
+      type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    pers_id: {
+    person_id: {
       type: Sequelize.INTEGER,
       required: true,
     },
     from_date: {
-      type: date,
+      type: Sequelize.DATE,
       required: true,
     },
     to_date: {
-      type: date,
+      type: Sequelize.DATE,
       required: true,
     },
   },
@@ -30,7 +30,7 @@ const Availability = db.define(
   },
 )
 
-// Synchronize the model with the database
 db.sync({ force: false })
 
 module.exports = Availability
+//h
