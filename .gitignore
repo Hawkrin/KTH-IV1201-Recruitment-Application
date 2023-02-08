@@ -106,3 +106,5 @@ dist
 tstex_modules/_api.ts
 existing-database.sql
 .DS_Store
+.firebaserc
+.firebaserc
