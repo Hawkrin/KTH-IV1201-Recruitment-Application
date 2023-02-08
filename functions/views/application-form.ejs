@@ -11,20 +11,19 @@
 
 <body>
   <form method="post">
-
-
-    <script>
-      alert("<%= error %>");
-    </script>
+    <!-- Error for from_date -->
+    <span>
+      <%= error %>
+    </span>
 
     <h1>Job Application Form</h1>
 
     <h2>
       Name: <%=user.name %><br>
-        Surname: <%=user.surname %> <br>
-          Personnummer: <%=user.pnr %> <br>
-            Email: <%=user.email %> <br>
-              Person-ID: <%=user.person_id %> <br>
+      Surname: <%=user.surname %> <br>
+      Personnummer: <%=user.pnr %> <br>
+      Email: <%=user.email %> <br>
+      Person-ID: <%=user.person_id %> <br>
     </h2>
 
     <div>
@@ -33,17 +32,17 @@
         Availability:
       </label>
       <% if (form_error[0]) {%>
-        <p>
-          <%= form_error[0].from_date %>
-        </p>
-        <% } %>
-          <input type="date" id="startDate" name="from_date">
-          <% if (form_error[0]) {%>
-            <p>
-              <%= form_error[0].to_date %>
-            </p>
-            <% } %>
-              <input type="date" id="endDate" name="to_date">
+      <p>
+        <%= form_error[0].from_date %>
+      </p>
+      <% } %>
+      <input type="date" id="startDate" name="from_date">
+      <% if (form_error[0]) {%>
+      <p>
+        <%= form_error[0].to_date %>
+      </p>
+      <% } %>
+      <input type="date" id="endDate" name="to_date">
     </div>
     <div>
       <label for="competences">Competences:</label>
