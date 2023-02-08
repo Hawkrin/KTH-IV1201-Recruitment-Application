@@ -1,0 +1,42 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../assets/login.css" rel="stylesheet" type="text/css">
+        <title>Login</title>
+    </head>
+    <body>
+        <form id="signInBox" method="post">
+            <div id="signin">
+                <h2>Sign In</h2>
+                <!-- Error for email -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].email %></p>
+                <% } %> 
+                <label id="email">
+                    <input 
+                        type="text"
+                        placeholder='Email'
+                        name="email"
+                    />
+                </label>
+                <!-- Error for password -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].password %></p>
+                <% } %> 
+                <label id="password">
+                    <input 
+                        type="password"
+                        placeholder='Password' 
+                        name="password"
+                    />
+                </label>
+                <label id="signin-footer">
+                    <button id='signUpButton' type="submit">Sign In</button>
+                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black;">Not a member yet? Register now</a></span>
+                </label>
+            </div>
+        </form>
+    </body>
+</html>
