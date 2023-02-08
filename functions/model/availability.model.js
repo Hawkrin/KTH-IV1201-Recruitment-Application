@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const { db } = require('../db')
-const { User } = require('firebase-functions/v1/auth')
 
 const Availability = db.define(
   'availability',
