@@ -70,6 +70,11 @@ form {
   }
 
   p {
-    font-size: xx-small;
+    font-size: x-small;
     color: red;
+  }
+
+  span {
+    color: red;
+    font-size: xx-large;
   }
