@@ -33,11 +33,11 @@ router
       check(
         'from_date',
         'You have to enter the start date of your availability period',
-      ).exists(),
+      ).isDate(),
       check(
         'to_date',
         'You have to enter the end date of your availability period',
-      ).exists(),
+      ).isDate(),
     ],
     (req, res) => {
       const { person_id } = _.pick(req.user, ['person_id'])
@@ -59,10 +59,10 @@ router
           })
         })
         .catch((error) => {
-          res.status(400).json({
-            success: false,
-            error: error.message,
-          })
+          req.flash('error', error.message)
+          return res.redirect(
+            '/iv1201-recruitmenapp/us-central1/app/application/application-form',
+          )
         })
     },
   )

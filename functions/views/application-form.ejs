@@ -29,13 +29,18 @@
       <label for="availability">
         Availability:
       </label>
-      <input type="date" id="startDate" name="from_date">
       <% if (form_error[0]) {%>
         <p>
           <%= form_error[0].from_date %>
         </p>
         <% } %>
-          <input type="date" id="endDate" name="to_date">
+          <input type="date" id="startDate" name="from_date">
+          <% if (form_error[0]) {%>
+            <p>
+              <%= form_error[0].to_date %>
+            </p>
+            <% } %>
+              <input type="date" id="endDate" name="to_date">
     </div>
     <div>
       <label for="competences">Competences:</label>

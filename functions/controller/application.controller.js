@@ -1,7 +1,5 @@
 const Availability = require('../model/availability.model')
 const Sequelize = require('sequelize')
-const { user } = require('firebase-functions/v1/auth')
-const Person = require('../model/person.model') // Connection to User model
 
 const registerAvailability = async (person_id, from_date, to_date) => {
   try {
