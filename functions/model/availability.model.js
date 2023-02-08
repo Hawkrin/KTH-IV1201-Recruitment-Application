@@ -33,3 +33,4 @@ const Availability = db.define(
 db.sync({ force: false })
 
 module.exports = Availability
+//h
