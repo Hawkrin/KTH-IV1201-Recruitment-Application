@@ -1,9 +1,8 @@
 /* eslint-disable */
 const Sequelize = require('sequelize') // ORM for connection with postgres
-const validator = require('validator') // Framework for string validation
 const { db } = require('../db') // Connection to database
 
-const Competence_Profile = db.define(
+const CompetenceProfile = db.define(
   'competence_profile',
   {
     competence_profile_id: {
@@ -32,4 +31,4 @@ const Competence_Profile = db.define(
 
 db.sync({ force: false })
 
-module.exports = Competence_Profile
+module.exports = CompetenceProfile
