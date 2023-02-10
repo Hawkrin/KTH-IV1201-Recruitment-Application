@@ -162,7 +162,9 @@ router
           '/iv1201-recruitmenapp/us-central1/app/application/application-form',
         )
       }
-
+      /**
+       * Register new availability
+       */
       registerAvailability(person_id, from_date, to_date)
         .then((newAvailability) => {
           res.redirect(
