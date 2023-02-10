@@ -46,7 +46,7 @@ form {
     color: #b0b0b0;
   }
 
-
+/* hhh */
   input[type="checkbox"] {
     height: 20px;
     padding: 5px;
@@ -76,5 +76,9 @@ form {
 
   span {
     color: red;
+    font-size: xx-large;
+  }
+  h3{
+    color: green;
     font-size: xx-large;
   }

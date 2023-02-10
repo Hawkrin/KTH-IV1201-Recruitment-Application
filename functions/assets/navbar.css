@@ -5,21 +5,25 @@
     display: flex;
     justify-content: space-between;
     margin: 0 0 1em 0;
+    height: auto;
 }
 
 #leftHeaderContainer {
     display: flex;
     justify-content: flex-start;
+    height: auto;
 }
 
 #nav ul {
     list-style: none;
     margin: 0 auto;
     padding: 0;
+    height: auto;
 }
 
 #nav li {
     float: left;
+    height: auto;
 }
 
 #nav li a {
@@ -29,21 +33,26 @@
     font-weight: bold;
     color: #069;
     border-right: 1px solid #ccc;
+    height: auto;
 }
 
 #nav li:first-child a {
     border-left: 1px solid #ccc;
+    height: auto;
 }
 
 #nav li a:hover {
     color: #c00;
     background-color: #fff;
+    height: auto;
 }
 
 #middleHeaderContainer {
     display: flex;
     justify-content: center;
     padding-right: 10%;
+    height: auto;
+    
 }
 
 #headerTitle {
@@ -51,11 +60,15 @@
     font-family: 'Bitter', serif;
     font-size: x-large;
     font-weight: normal;
+    height: auto;
 }
 
 #logoutButtonBox {
     margin: 0 auto;
     padding: 0;
+    height: auto;
+    color: #ccc;
+    background-color: #fff;
 }
 
 #logoutButton {
@@ -63,9 +76,11 @@
     padding: 8px 15px;
     text-decoration: none;
     font-weight: bold;
-    color: #069;
+    color: #ccc;
+    height: auto;
 }
 
 #logoutButton:hover {
     cursor: pointer;
+    height: auto;
 }

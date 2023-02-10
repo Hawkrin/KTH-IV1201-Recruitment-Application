@@ -30,6 +30,7 @@ router
   .get('/application-form', authenticated, (req, res, next) => {
     res.render('application-form', {
       user: req.user,
+      success: req.flash('success'),
       error: req.flash('error'),
       form_error: req.flash('form-error'),
     })
@@ -46,14 +47,6 @@ router
         'to_date',
         'You have to enter the end date of your availability period',
       ).isDate(),
-      // check(
-      //   'competence_1_start_time',
-      //   'You have to enter the start date of your availability period for Lotteries',
-      // ).isDate(),
-      // check(
-      //   'competence_1_end_time',
-      //   'You have to enter the end date of your availability period for Lotteries',
-      // ).isDate(),
     ],
 
     (req, res) => {
@@ -101,25 +94,19 @@ router
       )
 
       const { competences1, competences2, competences3 } = req.body
-      console.log('\n ls' + competences1)
-
-      if (true) {
-        ;[
-          check(
-            'competence_1_start_time',
-            'You have to enter the start date of your availability period for Lotteries',
-          )
-            .isDate()
-            .run(req),
+      if (competences1 == '1') {
+        check(
+          'competence_1_start_time',
+          'You have to enter the start date of your availability period for Lotteries',
+        )
+          .isDate()
+          .run(req),
           check(
             'competence_1_end_time',
             'You have to enter the end date of your availability period for Lotteries',
           )
             .isDate()
-            .run(req),
-        ]
-
-        console.log('\n ' + 'Hello \n')
+            .run(req)
         // Form errors
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -128,7 +115,6 @@ router
             '/iv1201-recruitmenapp/us-central1/app/application/application-form',
           )
         }
-
         registerCompetence(person_id, 1, years_of_experience_1)
           .then((newCompetenceProfile) => {})
           .catch((error) => {
@@ -143,11 +129,23 @@ router
         check(
           'competence_2_start_time',
           'You have to enter the start date of your availability period for Lotteries',
-        ).isDate()
+        )
+          .isDate()
+          .run(req)
         check(
           'competence_2_end_time',
           'You have to enter the end date of your availability period for Lotteries',
-        ).isDate()
+        )
+          .isDate()
+          .run(req)
+        // Form errors
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+          req.flash('form-error', formErrorFormatter(errors))
+          return res.redirect(
+            '/iv1201-recruitmenapp/us-central1/app/application/application-form',
+          )
+        }
         registerCompetence(person_id, 2, years_of_experience_2)
           .then((newCompetenceProfile) => {})
           .catch((error) => {
@@ -162,11 +160,23 @@ router
         check(
           'competence_3_start_time',
           'You have to enter the start date of your availability period for Lotteries',
-        ).isDate()
+        )
+          .isDate()
+          .run(req)
         check(
           'competence_3_end_time',
           'You have to enter the end date of your availability period for Lotteries',
-        ).isDate()
+        )
+          .isDate()
+          .run(req)
+        // Form errors
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+          req.flash('form-error', formErrorFormatter(errors))
+          return res.redirect(
+            '/iv1201-recruitmenapp/us-central1/app/application/application-form',
+          )
+        }
         registerCompetence(person_id, 3, years_of_experience_3)
           .then((newCompetenceProfile) => {})
           .catch((error) => {
@@ -190,6 +200,7 @@ router
        */
       registerAvailability(person_id, from_date, to_date)
         .then((newAvailability) => {
+          req.flash('success', 'Your application was sent successfully')
           res.redirect(
             '/iv1201-recruitmenapp/us-central1/app/application/application-form',
           )

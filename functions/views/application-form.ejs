@@ -10,13 +10,20 @@
 </head>
 
 <body>
-  <%- include('./partials/navbar.ejs') %> 
+  <div>
+    <%- include('./partials/navbar.ejs') %>
+  </div>
   <form method="post">
 
     <!-- Error for from_date -->
     <span>
       <%= error %>
     </span>
+
+    <h3>
+      <%= success %>
+    </h3>
+
 
     <h1>Job Application Form</h1>
 
@@ -32,6 +39,8 @@
       <label for="availability">
         Availability:
       </label>
+
+
       <!-- Error for from_date -->
       <% if (form_error[0]) {%>
       <p>
@@ -90,7 +99,19 @@
         <div>
           <input type="checkbox" name="competences3" value="3">
           <h2>Roller Coaster Operation</h2>
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_3_start_time %>
+          </p>
+          <% } %>
           <input type="date" id="startDate3" name="competence_3_start_time">
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_2_end_time %>
+          </p>
+          <% } %>
           <input type="date" id="endDate3" name="competence_3_end_time">
         </div>
       </div>
