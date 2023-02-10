@@ -10,53 +10,108 @@
 </head>
 
 <body>
+  <div>
+    <%- include('./partials/navbar.ejs') %>
+  </div>
   <form method="post">
-    <p>
+
+    <!-- Error for from_date -->
+    <span>
       <%= error %>
-    </p>
+    </span>
+
+    <h3>
+      <%= success %>
+    </h3>
+
+
     <h1>Job Application Form</h1>
 
     <h2>
       Name: <%=user.name %><br>
-        Surname: <%=user.surname %> <br>
-          Personnummer: <%=user.pnr %> <br>
-            Email: <%=user.email %> <br>
-              Person-ID: <%=user.person_id %> <br>
+      Surname: <%=user.surname %> <br>
+      Personnummer: <%=user.pnr %> <br>
+      Email: <%=user.email %> <br>
+      Person-ID: <%=user.person_id %> <br>
     </h2>
 
     <div>
-      <!-- Error for from_date -->
       <label for="availability">
         Availability:
       </label>
-      <input type="date" id="startDate" name="from_date">
+
+
+      <!-- Error for from_date -->
       <% if (form_error[0]) {%>
-        <p>
-          <%= form_error[0].from_date %>
-        </p>
-        <% } %>
-          <input type="date" id="endDate" name="to_date">
+      <p>
+        <%= form_error[0].from_date %>
+      </p>
+      <% } %>
+      <input type="date" id="startDate" name="from_date">
+      <!-- Error for from_date -->
+      <% if (form_error[0]) {%>
+      <p>
+        <%= form_error[0].to_date %>
+      </p>
+      <% } %>
+      <input type="date" id="endDate" name="to_date">
     </div>
     <div>
       <label for="competences">Competences:</label>
       <div id="competencesContainer">
         <div>
-          <input type="checkbox" name="competences" value="1">
+          <input type="checkbox" name="competences1" value="1">
           <h2>Ticket Sales</h2>
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_1_start_time %>
+          </p>
+          <% } %>
           <input type="date" id="startDate1" name="competence_1_start_time">
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_1_end_time %>
+          </p>
+          <% } %>
           <input type="date" id="endDate1" name="competence_1_end_time">
         </div>
         <div>
-          <input type="checkbox" name="competences" value="2">
-          <h2>Lotteries</h2>
 
+          <input type="checkbox" name="competences2" value="2">
+          <h2>Lotteries</h2>
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_2_start_time %>
+          </p>
+          <% } %>
           <input type="date" id="startDate2" name="competence_2_start_time">
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_2_end_time %>
+          </p>
+          <% } %>
           <input type="date" id="endDate2" name="competence_2_end_time">
         </div>
         <div>
-          <input type="checkbox" name="competences" value="3">
+          <input type="checkbox" name="competences3" value="3">
           <h2>Roller Coaster Operation</h2>
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_3_start_time %>
+          </p>
+          <% } %>
           <input type="date" id="startDate3" name="competence_3_start_time">
+          <!-- Error for from_date -->
+          <% if (form_error[0]) {%>
+          <p>
+            <%= form_error[0].competence_2_end_time %>
+          </p>
+          <% } %>
           <input type="date" id="endDate3" name="competence_3_end_time">
         </div>
       </div>
@@ -64,6 +119,5 @@
     <button type="submit">Submit</button>
   </form>
 </body>
-
 
 </html>
