@@ -48,18 +48,18 @@ label {
     position:relative;
     z-index:5;
 }   
-#email {
+#username {
     display: flex;
     align-items: center;
     background-color: rgb(233, 233, 233); 
     border-radius: 5px;
     padding: 5px;
 }   
-#email input {
+#username input {
     border: none;
     background-color: rgb(233, 233, 233);  
 }
-#email input:focus {
+#username input:focus {
     outline: none;
 }
 #password {

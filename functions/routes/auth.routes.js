@@ -23,15 +23,14 @@ router
     .post("/login", 
     
     [
-        check("email", "Doesn't recognize this email")
-            .isEmail()
-            .normalizeEmail(),
+        check("username", "Doesn't recognize this username")
+            .exists(),
         check("password", "Password must be entered")
             .exists()
     ],
 
     (req, res) => {
-        const {email, password} = _.pick(req.body, ["password", "email"]);
+        const {username, password} = _.pick(req.body, ["password", "username"]);
 
         //Form errors.
         const errors = validationResult(req);
@@ -40,7 +39,7 @@ router
             return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/login");
         }
 
-        loginUser(email, password)
+        loginUser(username, password)
             .then((person) => {
                 const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
 

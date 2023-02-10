@@ -10,15 +10,15 @@
         <form id="signInBox" method="post">
             <div id="signin">
                 <h2>Sign In</h2>
-                <!-- Error for email -->
+                <!-- Error for username -->
                 <% if (form_error[0]) {%> 
-                    <p style="font-size: xx-small; color: red;"><%= form_error[0].email %></p>
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].username %></p>
                 <% } %> 
-                <label id="email">
+                <label id="username">
                     <input 
                         type="text"
-                        placeholder='Email'
-                        name="email"
+                        placeholder='Username'
+                        name="username"
                     />
                 </label>
                 <!-- Error for password -->
