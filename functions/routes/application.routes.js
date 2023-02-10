@@ -6,12 +6,16 @@ const { formErrorFormatter } = require('../util/errorFormatter')
 const _ = require('lodash')
 const jwt = require('jsonwebtoken')
 
-const { registerAvailability } = require('../controller/application.controller')
 const {
+  registerAvailability,
   registerCompetence,
-} = require('../controller/competence_profile.controller')
+} = require('../controller/application.controller')
+// const {
+//   registerCompetence,
+// } = require('../controller/competence_profile.controller')
 
 const { Competence } = require('../model/competence.model')
+
 router
   /*Application List*/
   .get('/applications', authenticated, (req, res) => {
@@ -42,6 +46,14 @@ router
         'to_date',
         'You have to enter the end date of your availability period',
       ).isDate(),
+      // check(
+      //   'competence_1_start_time',
+      //   'You have to enter the start date of your availability period for Lotteries',
+      // ).isDate(),
+      // check(
+      //   'competence_1_end_time',
+      //   'You have to enter the end date of your availability period for Lotteries',
+      // ).isDate(),
     ],
 
     (req, res) => {
@@ -89,24 +101,25 @@ router
       )
 
       const { competences1, competences2, competences3 } = req.body
-      if (competences1 === '1') {
-        check(
-          'competence_1_start_time',
-          'You have to enter the start date of your availability period for Lotteries',
-        ).isDate()
-        check(
-          'competence_1_end_time',
-          'You have to enter the end date of your availability period for Lotteries',
-        ).isDate()
-        registerCompetence(person_id, 1, years_of_experience_1)
-          .then((newCompetenceProfile) => {})
-          .catch((error) => {
-            req.flash('error', error.message)
-            return res.redirect(
-              '/iv1201-recruitmenapp/us-central1/app/application/application-form',
-            )
-          })
+      console.log('\n ls' + competences1)
 
+      if (true) {
+        ;[
+          check(
+            'competence_1_start_time',
+            'You have to enter the start date of your availability period for Lotteries',
+          )
+            .isDate()
+            .run(req),
+          check(
+            'competence_1_end_time',
+            'You have to enter the end date of your availability period for Lotteries',
+          )
+            .isDate()
+            .run(req),
+        ]
+
+        console.log('\n ' + 'Hello \n')
         // Form errors
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -115,7 +128,17 @@ router
             '/iv1201-recruitmenapp/us-central1/app/application/application-form',
           )
         }
+
+        registerCompetence(person_id, 1, years_of_experience_1)
+          .then((newCompetenceProfile) => {})
+          .catch((error) => {
+            req.flash('error', error.message)
+            return res.redirect(
+              '/iv1201-recruitmenapp/us-central1/app/application/application-form',
+            )
+          })
       }
+
       if (competences2 === '2') {
         check(
           'competence_2_start_time',
@@ -154,7 +177,7 @@ router
           })
       }
 
-      // Form errors
+      // // Form errors
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
         req.flash('form-error', formErrorFormatter(errors))
