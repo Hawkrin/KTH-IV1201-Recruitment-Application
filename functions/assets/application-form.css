@@ -54,7 +54,7 @@ form {
   }
 
 
-  .submitButton {
+  #submitButton {
     background-color: #0077c9;
     color: white;
     padding: 0.75em 2.5em;
@@ -64,7 +64,7 @@ form {
     margin-top: 1em;
   }
 
-  .submitButton:hover {
+  #submitButton:hover {
     background-color: #0066b2;
   }
 

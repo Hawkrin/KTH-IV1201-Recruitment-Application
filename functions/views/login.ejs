@@ -6,13 +6,6 @@
         <link href="../assets/login.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <form action="/iv1201-recruitmenapp/us-central1/app/auth/login" method="get">
-            <select name="language">
-                <option value="english" <%= language === 'english' ? 'selected' : '' %>>English</option>
-                <option value="swedish" <%= language === 'swedish' ? 'selected' : '' %>>Swedish</option>
-            </select>
-            <input type="submit" value="Submit">
-        </form>
 
         <%- include('./partials/navbar.ejs') %>
         <form id="signInBox" method="post">
@@ -42,9 +35,9 @@
                 </label>
                 <label id="signin-footer">
                     <button id='signUpButton' type="submit"><%= language['SIGN_IN_BUTTON'] %></button>
-                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black;"><%= language['NOT_A_MEMBER'] %></a></span>
+                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register?language=<%= selectedLanguage %>" style="text-decoration: none; color:black;"><%= language['NOT_A_MEMBER'] %></a></span>
                     <br>
-                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black; font-size: smaller;"><%= language['HAVE_YOU_FORGOTTEN_YOUR_PASSWORD'] %></a></span>
+                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register?language=<%= selectedLanguage %>" style="text-decoration: none; color:black; font-size: smaller;"><%= language['HAVE_YOU_FORGOTTEN_YOUR_PASSWORD'] %></a></span>
                 </label>
             </div>
         </form>

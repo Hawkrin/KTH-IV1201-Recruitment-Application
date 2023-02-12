@@ -3,47 +3,43 @@ const _ = require("lodash");
 const { fullUrl, originalURL } = require("../util/url");
 const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
-const authenticated = require("../middleware/auth.middleware");
+const { authenticated, selectLanguage } = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
 const english = require("../lang/english.lang");
 const swedish = require("../lang/swedish.lang");
+const { registerUser, loginUser } = require('../controller/person.controller')
 
 const router = Router()
-
-const { registerUser, loginUser } = require('../controller/person.controller')
+router.use(selectLanguage);
 
 router
 
     /*Login routes*/
     .get("/login", (req, res, next) => {
 
-        let selectedLanguage = req.query.language || 'english';
+        // let selectedLanguage = req.query.language || req.session.language  || 'english';
 
-        // Select the language
-        let language;
-        if (selectedLanguage === 'english') {
-            language = english;
-        } else if (selectedLanguage === 'swedish') {
-            language = swedish;
-        } else {
-            // Default to English
-            language = english;
-        }
+        // // Select the language
+        // let language;
+        // if (selectedLanguage === 'english') {
+        //     language = english;
+        // } else if (selectedLanguage === 'swedish') {
+        //     language = swedish;
+        // } else {
+        //     // Default to English
+        //     language = english;
+        // }
+
+        // req.session.language = selectedLanguage;
 
         res.render('login', {
             error: req.flash("error"), 
             form_error: req.flash("form-error"),
-            language: language,
+            // language: language,
+            // selectedLanguage: selectedLanguage
         });
     })
 
-  /*Login routes*/
-  .get('/login', (req, res, next) => {
-    res.render('login', {
-      error: req.flash('error'),
-      form_error: req.flash('form-error'),
-    })
-  })
   .post("/login", 
     
   [
@@ -89,12 +85,32 @@ router
   })
 
   /*Register routes*/
-  .get('/register', (req, res) => {
+  .get("/register", (req, res) => {
+
+    // let selectedLanguage = req.query.language || req.session.language  || 'english';
+
+    // // Select the language
+    // let language;
+    // if (selectedLanguage === 'english') {
+    //     language = english;
+    // } else if (selectedLanguage === 'swedish') {
+    //     language = swedish;
+    // } else {
+    //     // Default to English
+    //     language = english;
+    // }
+
+    // // Set the selected language in the session
+    // req.session.language = selectedLanguage;
+
     return res.render('register', {
       error: req.flash('error'),
       form_error: req.flash('form-error'),
-    })
+      // language: language,
+      // selectedLanguage: selectedLanguage
+    });
   })
+
   .post(
     '/register',
 

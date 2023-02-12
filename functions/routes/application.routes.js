@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const authenticated = require('../middleware/auth.middleware')
+const { authenticated } = require('../middleware/auth.middleware')
 const { check, validationResult } = require('express-validator')
 const { formErrorFormatter } = require('../util/errorFormatter')
 const _ = require('lodash')

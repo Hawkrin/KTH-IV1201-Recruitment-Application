@@ -4,7 +4,7 @@ const _= require("lodash"); // init lodash
 const functions = require("firebase-functions"); // init firebase functions
 const express = require("express"); // init express
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
+const session = require("express-session"); // init session
 const flash = require("connect-flash"); // init flash
 const connectToDb = require('./middleware/dbConnect.middleware');
 
