@@ -142,7 +142,7 @@ router
             )
             return res
               .cookie('Authenticate', token)
-              .redirect('/iv1201-recruitmenapp/us-central1/app/')
+              .redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
           }
         })
         .catch((error) => {
