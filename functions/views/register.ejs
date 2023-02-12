@@ -4,13 +4,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="../assets/register.css" rel="stylesheet" type="text/css">
-        <title>Register</title>
+        <title><%= language['SIGN_UP_TITLE'] %></title>
     </head>
     <body>
         <form id="signInBox" method="post">
             <p style="font-size: xx-small; color: red;" ><%= error %></p>
             <div id="signin">
-                <h2>Sign Up</h2>
+                <h2><%= language['SIGN_UP_TITLE'] %></h2>
                 <!-- Error for username -->
                 <% if (form_error[0]) {%> 
                     <p style="font-size: xx-small; color: red;"><%= form_error[0].username %></p>
@@ -19,7 +19,7 @@
                     <input 
                         type="text"
                         name="username"
-                        placeholder='Username'
+                        placeholder="<%= language['USERNAME_PLACE_HOLDER'] %>"
                     />
                 </label> 
                 <!-- Error for email -->
@@ -30,7 +30,7 @@
                     <input 
                         type="text"
                         name="email"
-                        placeholder='Email'
+                        placeholder='<%= language['EMAIL_PLACE_HOLDER'] %>'
                     />
                 </label>
                 <!-- Error for password -->
@@ -41,7 +41,7 @@
                     <input 
                         type="password"
                         name="password"
-                        placeholder='Password' 
+                        placeholder='<%= language['PASSWORD_PLACE_HOLDER'] %>' 
                     />
                 </label>
                 <!-- Error for cofirmPassword -->
@@ -52,7 +52,7 @@
                     <input 
                         type="password"
                         name="confirmpassword"
-                        placeholder='Confirm password' 
+                        placeholder='<%= language['CONFIRM_PASSWORD_PLACE_HOLDER'] %>' 
                     />
                 </label>
                 <!-- Error for personal number -->
@@ -63,7 +63,7 @@
                     <input 
                         type="text"
                         name="pnr"
-                        placeholder='ÅÅÅÅMMDD-XXXX' 
+                        placeholder='<%= language['PERSONAL_NUMBER_PLACE_HOLDER'] %>' 
                     />
                 </label>
                 <!-- Error for first name -->
@@ -74,7 +74,7 @@
                     <input 
                         type="text"
                         name="name"
-                        placeholder='First name' 
+                        placeholder='<%= language['FIRST_NAME_PLACE_HOLDER'] %>' 
                     />
                 </label>
                 <!-- Error for last name -->
@@ -85,12 +85,12 @@
                     <input 
                         type="text"
                         name="surname"
-                        placeholder='Last name' 
+                        placeholder='<%= language['LAST_NAME_PLACE_HOLDER'] %>' 
                     />
                 </label>
                 <label id="signin-footer">
-                    <button id='signUpButton' type="submit">Sign Up</button>
-                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/login" style="text-decoration: none; color:black;">Already Registered User? Click here to login</a></span>
+                    <button id='signUpButton' type="submit"><%= language['SIGN_UP_BUTTON'] %></button>
+                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/login" style="text-decoration: none; color:black;"><%= language['ALREADY_REGISTERED_USER'] %></a></span>
                 </label>
             </div>
         </form>

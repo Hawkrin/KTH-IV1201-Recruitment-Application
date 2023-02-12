@@ -5,8 +5,8 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
 const authenticated = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
-const english = require('../english.language.env');
-const swedish = require('../swedish.language.env');
+const english = require("../lang/english.lang");
+const swedish = require("../lang/swedish.lang");
 
 const router = Router();
 
@@ -29,12 +29,11 @@ router
             // Default to English
             language = english;
         }
-    
 
         res.render('login', {
             error: req.flash("error"), 
             form_error: req.flash("form-error"),
-            language: language
+            language: language,
         });
     })
 

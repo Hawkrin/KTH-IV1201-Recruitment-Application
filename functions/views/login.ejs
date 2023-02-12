@@ -14,10 +14,9 @@
             <input type="submit" value="Submit">
         </form>
 
-
         <form id="signInBox" method="post">
             <div id="signin">
-                <h2><%= language[process.env.SIGN_IN_TITLE] %></h2>
+                <h2><%= language['SIGN_IN_TITLE'] %></h2>
                 <!-- Error for username -->
                 <% if (form_error[0]) {%> 
                     <p style="font-size: xx-small; color: red;"><%= form_error[0].username %></p>
@@ -41,7 +40,7 @@
                     />
                 </label>
                 <label id="signin-footer">
-                    <button id='signUpButton' type="submit"><%= language['SIGN_IN.SIGN_IN_BUTTON'] %></button>
+                    <button id='signUpButton' type="submit"><%= language['SIGN_IN_BUTTON'] %></button>
                     <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black;"><%= language['NOT_A_MEMBER'] %></a></span>
                     <br>
                     <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black; font-size: smaller;"><%= language['HAVE_YOU_FORGOTTEN_YOUR_PASSWORD'] %></a></span>

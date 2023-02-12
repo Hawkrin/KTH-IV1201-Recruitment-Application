@@ -1,4 +1,4 @@
-#Copy this template and insert the values you want to use in a xxxx.language.env file.
+#Copy this template and insert the values you want to use in a xxxx.lang.JSON file.
 
 #SIGN IN
 TITLE=""
