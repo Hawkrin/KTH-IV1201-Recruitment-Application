@@ -13,39 +13,6 @@
     flex-direction: row;
 }
 
-#nav ul {
-    list-style: none;
-    margin: 0 auto;
-    padding: 0;
-    height: auto;
-}
-
-#nav li {
-    float: left;
-    height: auto;
-}
-
-#nav li a {
-    display: block;
-    padding: 8px 15px;
-    text-decoration: none;
-    font-weight: bold;
-    color: #069;
-    border-right: 1px solid #ccc;
-    height: auto;
-}
-
-#nav li:first-child a {
-    border-left: 1px solid #ccc;
-    height: auto;
-}
-
-#nav li a:hover {
-    color: #c00;
-    background-color: #fff;
-    height: auto;
-}
-
 #middleHeaderContainer {
     display: flex;
     justify-content: center;

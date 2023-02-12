@@ -3,6 +3,7 @@
     "SIGN_IN_BUTTON": "Logga in",
     "NOT_A_MEMBER": "Är du inte medlem ännu? Registrera dig nu",
     "HAVE_YOU_FORGOTTEN_YOUR_PASSWORD": "Har du glömt ditt lösenord?",
+
     "SIGN_UP_BUTTON": "Registrera dig",
     "SIGN_UP_TITLE": "Registrera dig",
     "ALREADY_REGISTERED_USER": "Är du redan en medlem? Klicka här för att logga in.",
@@ -12,5 +13,18 @@
     "CONFIRM_PASSWORD_PLACE_HOLDER": "Konfirmera Lösenordet",
     "PERSONAL_NUMBER_PLACE_HOLDER": "ÅÅÅÅMMDD-XXXX",
     "FIRST_NAME_PLACE_HOLDER": "Förnamm",
-    "LAST_NAME_PLACE_HOLDER": "Efternamn"
+    "LAST_NAME_PLACE_HOLDER": "Efternamn",
+
+    "APPLICATION_FORM_TITLE": "Formulär för jobbansökan",
+    "APPLICATION_FORM_PERSON_NAME": "Name: ",
+    "APPLICATION_FORM_PERSON_SURNAME": "Eftername: ",
+    "APPLICATION_FORM_PERSON_PERSONNUMMER": " Personnummer: ",
+    "APPLICATION_FORM_PERSON_EMAIL": "Mejladress: ",
+    "APPLICATION_FORM_PERSON_PERSON_ID": "Person ID: ",
+    "APPLICATION_FORM_AVAILABILITY_TITLE": "Tillgänglighet",
+    "APPLICATION_FORM_COMPETENCE_TITLE": "Kompetenser",
+    "APPLICATION_FORM_TICKET_SALES": "Biljettförsäljning",
+    "APPLICATION_FORM_LOTTERIES": "Lotterier",
+    "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Berg- och dalbane-operation",
+    "APPLICATION_FORM_SUBMIT_BUTTON": "Skicka"
 }

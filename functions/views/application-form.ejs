@@ -13,7 +13,7 @@
   <div>
     <%- include('./partials/navbar.ejs') %>
   </div>
-  <form method="post">
+  <form id="application-form_body" method="post">
 
     <!-- Error for from_date -->
     <span>
@@ -25,19 +25,19 @@
     </h3>
 
 
-    <h1>Job Application Form</h1>
+    <h1><%= language['APPLICATION_FORM_TITLE'] %></h1>
 
     <h2>
-      Name: <%=user.name %><br>
-      Surname: <%=user.surname %> <br>
-      Personnummer: <%=user.pnr %> <br>
-      Email: <%=user.email %> <br>
-      Person-ID: <%=user.person_id %> <br>
+      <%= language['APPLICATION_FORM_PERSON_NAME'] %> <%=user.name %><br>
+      <%= language['APPLICATION_FORM_PERSON_SURNAME'] %> <%=user.surname %> <br>
+      <%= language['APPLICATION_FORM_PERSON_PERSONNUMMER'] %> <%=user.pnr %> <br>
+      <%= language['APPLICATION_FORM_PERSON_EMAIL'] %> <%=user.email %> <br>
+      <%= language['APPLICATION_FORM_PERSON_PERSON_ID'] %> <%=user.person_id %> <br>
     </h2>
 
     <div>
       <label for="availability">
-        Availability:
+        <%= language['APPLICATION_FORM_AVAILABILITY_TITLE'] %>
       </label>
 
 
@@ -57,12 +57,12 @@
       <input type="date" id="endDate" name="to_date">
     </div>
     <div>
-      <label for="competences">Competences:</label>
+      <label for="competences"><%= language['APPLICATION_FORM_COMPETENCE_TITLE'] %></label>
       <div id="competencesContainer">
         <div>
           <input type="checkbox" name="competences1" value="1">
           <!-- Error for from_date -->
-          <h2>Ticket Sales</h2>
+          <h2><%= language['APPLICATION_FORM_TICKET_SALES'] %></h2>
           <!-- Error for from_date -->
           <p>
             <%= form_error1 %>
@@ -73,7 +73,7 @@
         <div>
 
           <input type="checkbox" name="competences2" value="2">
-          <h2>Lotteries</h2>
+          <h2><%= language['APPLICATION_FORM_LOTTERIES'] %></h2>
           <!-- Error for from_date -->
           <p>
             <%= form_error1 %>
@@ -83,7 +83,7 @@
         </div>
         <div>
           <input type="checkbox" name="competences3" value="3">
-          <h2>Roller Coaster Operation</h2>
+          <h2><%= language['APPLICATION_FORM_ROLLER_COASTER_OPERATION'] %></h2>
           <!-- Error for from_date -->
           <p>
             <%= form_error1 %>
@@ -93,7 +93,7 @@
         </div>
       </div>
     </div>
-    <button id="submitButton" type="submit">Submit</button>
+    <button id="submitButton" type="submit"><%= language['APPLICATION_FORM_SUBMIT_BUTTON'] %></button>
   </form>
 </body>
 

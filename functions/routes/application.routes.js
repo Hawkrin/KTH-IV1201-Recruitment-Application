@@ -1,10 +1,10 @@
 const express = require('express')
-const router = express.Router()
-const { authenticated } = require('../middleware/auth.middleware')
+const { authenticated, selectLanguage } = require('../middleware/auth.middleware')
 const { check, validationResult } = require('express-validator')
 const { formErrorFormatter } = require('../util/errorFormatter')
 const _ = require('lodash')
 const jwt = require('jsonwebtoken')
+const { Competence } = require('../model/competence.model')
 
 const {
   registerAvailability,
@@ -14,11 +14,15 @@ const {
 //   registerCompetence,
 // } = require('../controller/competence_profile.controller')
 
-const { Competence } = require('../model/competence.model')
+
+const router = express.Router();
+router.use(authenticated, selectLanguage)
 
 router
+
+
   /*Application List*/
-  .get('/applications', authenticated, (req, res) => {
+  .get('/applications', (req, res) => {
     res.render('applications', {
       user: req.user,
       error: req.flash('error'),
@@ -27,7 +31,7 @@ router
   })
 
   /*Application-form*/
-  .get('/application-form', authenticated, (req, res, next) => {
+  .get('/application-form', (req, res, next) => {
     res.render('application-form', {
       user: req.user,
       success: req.flash('success'),
@@ -38,7 +42,6 @@ router
   })
   .post(
     '/application-form',
-    authenticated,
     [
       check(
         'from_date',
