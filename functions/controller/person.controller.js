@@ -90,18 +90,23 @@ const loginUser = async (username, password) => {
 /**
  * 
  */
-async function encryptPasswords() {
-    const saltRounds = 10;
+// const encryptPasswordsInDatabase = async () => {
+    
+//     const saltRounds = 10;
+//     const persons = await Person.findAll();
 
-    const persons = await Person.findAll();
+//     if (persons.length > 0) {
+//         for (const person of persons) {
+//             if (person.password && !person.password.startsWith('$2b$')) {
+//                 const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
+//                 await person.update({ password: encryptedPassword });
+//             }
+//         }
+//     } else {
+//         console.log("No persons found in the database");
+//     }
+// }
 
-    for (const person of persons) {
-        if (!person.password.startsWith('$2b$')) {
-            const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
-            await person.update({ password: encryptedPassword });
-        }
-    }
-}
 
 
-module.exports = { registerUser, loginUser, getUser, encryptPasswords }
+module.exports = { registerUser, loginUser, getUser }

@@ -94,8 +94,26 @@ Person.beforeCreate(async (person, options) => {
     
 });
 
+Person.afterCreate(async () => {
+    
+    const saltRounds = 10;
+    const persons = await Person.findAll();
+
+    if (persons.length > 0) {
+        for (const person of persons) {
+            if (person.password && !person.password.startsWith('$2b$')) {
+                const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
+                await person.update({ password: encryptedPassword });
+            }
+        }
+    } else {
+        console.log("No persons found in the database");
+    }
+})
+
 
 // Synchronize the model with the database
 db.sync({ force: false })
 
 module.exports = Person
+

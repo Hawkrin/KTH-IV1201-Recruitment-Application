@@ -1,8 +1,7 @@
 /* eslint-disable */
 const { Router } = require('express')
 const authenticated = require('../middleware/auth.middleware')
-
-const User = require('../model/person.model')
+// const { encryptPasswordsInDatabase } = require('../controller/person.controller')
 
 const router = Router()
 

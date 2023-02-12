@@ -1,5 +1,7 @@
-require('dotenv').config() // init dotenv
+//require('dotenv').config() // init dotenv
 
+const path = require('path');
+const dotenv = require('dotenv');
 const _= require("lodash"); // init lodash
 const functions = require("firebase-functions"); // init firebase functions
 const express = require("express"); // init express
@@ -26,6 +28,13 @@ app.use(
   }),
 )
 app.use(flash()) // used for "global" error messaging
+
+
+dotenv.config({ path: path.join(__dirname, './english.language.env') });
+dotenv.config({ path: path.join(__dirname, './swedish.language.env') });
+
+//dotenv.config({ path: path.join(__dirname, './lang') });
+
 
 // CSS files
 app.use('/assets', express.static('assets'))
