@@ -1,16 +1,41 @@
-const { Router } = require('express')
-const _ = require('lodash')
-const { fullUrl, originalURL } = require('../util/url')
-const { check, validationResult } = require('express-validator')
-const { formErrorFormatter } = require('../util/errorFormatter')
-const authenticated = require('../middleware/auth.middleware')
-const jwt = require('jsonwebtoken')
+const { Router } = require("express");
+const _ = require("lodash");
+const { fullUrl, originalURL } = require("../util/url");
+const { check, validationResult } = require('express-validator');
+const { formErrorFormatter } = require("../util/errorFormatter");
+const authenticated = require("../middleware/auth.middleware");
+const jwt = require("jsonwebtoken")
+const english = require("../lang/english.lang");
+const swedish = require("../lang/swedish.lang");
 
 const router = Router()
 
 const { registerUser, loginUser } = require('../controller/person.controller')
 
 router
+
+    /*Login routes*/
+    .get("/login", (req, res, next) => {
+
+        let selectedLanguage = req.query.language || 'english';
+
+        // Select the language
+        let language;
+        if (selectedLanguage === 'english') {
+            language = english;
+        } else if (selectedLanguage === 'swedish') {
+            language = swedish;
+        } else {
+            // Default to English
+            language = english;
+        }
+
+        res.render('login', {
+            error: req.flash("error"), 
+            form_error: req.flash("form-error"),
+            language: language,
+        });
+    })
 
   /*Login routes*/
   .get('/login', (req, res, next) => {
@@ -19,16 +44,18 @@ router
       form_error: req.flash('form-error'),
     })
   })
-  .post(
-    '/login',
+  .post("/login", 
+    
+  [
+      check("username", "Doesn't recognize this username")
+          .exists(),
+      check("password", "Password must be entered")
+          .exists()
+  ],
 
-    [
-      check('email', "Doesn't recognize this email").isEmail().normalizeEmail(),
-      check('password', 'Password must be entered').exists(),
-    ],
-
-    (req, res) => {
-      const { email, password } = _.pick(req.body, ['password', 'email'])
+  (req, res) => {
+      const {username, password} = _.pick(req.body, ["password", "username"]);
+      
 
       //Form errors.
       const errors = validationResult(req)
@@ -37,9 +64,9 @@ router
         return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
       }
 
-      loginUser(email, password)
-        .then((person) => {
-          const token = jwt.sign(person.person_id, process.env.JWT_TOKEN)
+        loginUser(username, password)
+            .then((person) => {
+                const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
 
           return res
             .cookie('Authenticate', token)

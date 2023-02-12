@@ -4,22 +4,29 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="../assets/login.css" rel="stylesheet" type="text/css">
-        <title>Login</title>
     </head>
     <body>
+        <form action="/iv1201-recruitmenapp/us-central1/app/auth/login" method="get">
+            <select name="language">
+                <option value="english" <%= language === 'english' ? 'selected' : '' %>>English</option>
+                <option value="swedish" <%= language === 'swedish' ? 'selected' : '' %>>Swedish</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+
         <%- include('./partials/navbar.ejs') %>
         <form id="signInBox" method="post">
             <div id="signin">
-                <h2>Sign In</h2>
-                <!-- Error for email -->
+                <h2><%= language['SIGN_IN_TITLE'] %></h2>
+                <!-- Error for username -->
                 <% if (form_error[0]) {%> 
-                    <p style="font-size: xx-small; color: red;"><%= form_error[0].email %></p>
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].username %></p>
                 <% } %> 
-                <label id="email">
+                <label id="username">
                     <input 
                         type="text"
-                        placeholder='Email'
-                        name="email"
+                        placeholder="<%= language['USERNAME_PLACE_HOLDER'] %>"
+                        name="username"
                     />
                 </label>
                 <!-- Error for password -->
@@ -29,13 +36,15 @@
                 <label id="password">
                     <input 
                         type="password"
-                        placeholder='Password' 
+                        placeholder="<%= language['PASSWORD_PLACE_HOLDER'] %>"
                         name="password"
                     />
                 </label>
                 <label id="signin-footer">
-                    <button id='signUpButton' type="submit">Sign In</button>
-                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black;">Not a member yet? Register now</a></span>
+                    <button id='signUpButton' type="submit"><%= language['SIGN_IN_BUTTON'] %></button>
+                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black;"><%= language['NOT_A_MEMBER'] %></a></span>
+                    <br>
+                    <span> <a href="/iv1201-recruitmenapp/us-central1/app/auth/register" style="text-decoration: none; color:black; font-size: smaller;"><%= language['HAVE_YOU_FORGOTTEN_YOUR_PASSWORD'] %></a></span>
                 </label>
             </div>
         </form>

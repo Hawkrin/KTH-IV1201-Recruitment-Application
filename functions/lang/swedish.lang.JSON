@@ -1,0 +1,15 @@
+{
+    "SIGN_IN_TITLE": "Logga in",
+    "SIGN_IN_BUTTON": "Logga in",
+    "NOT_A_MEMBER": "Är du inte medlem ännu? Registrera dig nu",
+    "HAVE_YOU_FORGOTTEN_YOUR_PASSWORD": "Har du glömt ditt lösenord?",
+    "SIGN_UP_BUTTON": "Registrera dig",
+    "ALREADY_REGISTERED_USER": "Är du redan en medlem? Klicka här för att logga in.",
+    "USERNAME_PLACE_HOLDER": "Användarnamn",
+    "EMAIL_PLACE_HOLDER": "Mejladress",
+    "PASSWORD_PLACE_HOLDER": "Lösenord",
+    "CONFIRM_PASSWORD_PLACE_HOLDER": "Konfirmera Lösenordet",
+    "PERSONAL_NUMBER_PLACE_HOLDER": "ÅÅÅÅMMDD-XXXX",
+    "FIRST_NAME_PLACE_HOLDER": "Förnamm",
+    "LAST_NAME_PLACE_HOLDER": "Efternamn"
+}

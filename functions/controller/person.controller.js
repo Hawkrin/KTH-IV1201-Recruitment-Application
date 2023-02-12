@@ -66,16 +66,16 @@ const registerUser = async (name, surname, pnr, email, password, confirmpassword
  * checks if email exists and if it does we compare the password in the
  * database with the password provided and then log the user in with JWT
  *  
- * @param {String} email
+ * @param {String} username
  * @param {String} password
  * @returns {Promise}
  */
-const loginUser = async (email, password) => {
+const loginUser = async (username, password) => {
     try {
         const user = await Person.findOne({
-            where: { email }
+            where: { username }
         });
-        if (!user) { throw new Error("Email does not exist."); }
+        if (!user) { throw new Error("Username does not exist."); }
 
         const isMatch  = await bcrypt.compare(password, user.password);
 
@@ -86,6 +86,27 @@ const loginUser = async (email, password) => {
         throw error;
     }
 };
+
+/**
+ * 
+ */
+// const encryptPasswordsInDatabase = async () => {
+    
+//     const saltRounds = 10;
+//     const persons = await Person.findAll();
+
+//     if (persons.length > 0) {
+//         for (const person of persons) {
+//             if (person.password && !person.password.startsWith('$2b$')) {
+//                 const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
+//                 await person.update({ password: encryptedPassword });
+//             }
+//         }
+//     } else {
+//         console.log("No persons found in the database");
+//     }
+// }
+
 
 
 module.exports = { registerUser, loginUser, getUser }
