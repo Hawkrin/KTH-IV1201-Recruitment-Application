@@ -69,7 +69,7 @@ const registerUser = async (name, surname, pnr, email, password, confirmpassword
  * checks if email exists and if it does we compare the password in the
  * database with the password provided and then log the user in with JWT
  *  
- * @param {String} username
+ * @param {String} usernameOrEmail
  * @param {String} password
  * @returns {Promise}
  */
@@ -110,7 +110,7 @@ const loginUser = async (usernameOrEmail, password) => {
  * @param {Integer} confirmPassword 
  * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
-const changePassword = async (pnr, password, confirmPassword) => {
+const changePassword = async (pnr, password, confirmpassword) => {
 
     const person = await Person.findOne({ where: { pnr } })
         if (!person) {
