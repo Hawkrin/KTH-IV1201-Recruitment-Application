@@ -32,7 +32,6 @@ app.use(flash()) // used for "global" error messaging
 app.use('/assets', express.static('assets'))
 
 // App Routes
-app.use('/', require('./routes/home.routes'))
 app.use('/auth', require('./routes/auth.routes'))
 app.use('/application', require('./routes/application.routes'))
 
