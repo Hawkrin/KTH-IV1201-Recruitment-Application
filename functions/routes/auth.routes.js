@@ -6,10 +6,12 @@ const { formErrorFormatter } = require("../util/errorFormatter");
 const { selectLanguage } = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
 const { registerUser, loginUser, changePassword } = require('../controller/person.controller')
+const { requestLogger, queryLogger } = require("../middleware/logger.middleware");
+
 
 const router = Router()
 
-router.use(selectLanguage);
+router.use(requestLogger, queryLogger, selectLanguage);
 
 router
 
