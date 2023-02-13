@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken')
 const { Competence } = require('../model/competence.model')
 const {requestLogger, queryLogger } = require("../middleware/logger.middleware");
 const { registerAvailability, registerCompetence, calculate} = require('../controller/application.controller')
+
+
 const router = express.Router();
 router.use(authenticated, selectLanguage, requestLogger, queryLogger )
 
