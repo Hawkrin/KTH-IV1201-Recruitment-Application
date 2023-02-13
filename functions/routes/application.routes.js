@@ -6,16 +6,7 @@ const _ = require('lodash')
 const jwt = require('jsonwebtoken')
 const { Competence } = require('../model/competence.model')
 const {requestLogger, queryLogger } = require("../middleware/logger.middleware");
-
-const {
-  registerAvailability,
-  registerCompetence,
-} = require('../controller/application.controller')
-// const {
-//   registerCompetence,
-// } = require('../controller/competence_profile.controller')
-
-
+const { registerAvailability, registerCompetence, calculate} = require('../controller/application.controller')
 const router = express.Router();
 router.use(authenticated, selectLanguage, requestLogger, queryLogger )
 
@@ -73,15 +64,6 @@ router
         'competence_3_start_time',
         'competence_3_end_time',
       ])
-
-      const calculate = (start, end) => {
-        start = new Date(start)
-        end = new Date(end)
-        var timeDiff = end.getTime() - start.getTime()
-        var diffDays = timeDiff / (1000 * 3600 * 24)
-        var diffYears = diffDays / 365
-        return diffYears.toFixed(1)
-      }
 
       const years_of_experience_1 = calculate(
         competence_1_start_time,

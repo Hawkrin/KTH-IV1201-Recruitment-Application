@@ -30,6 +30,13 @@ const registerAvailability = async (person_id, from_date, to_date) => {
   }
 }
 
+/**
+ * 
+ * @param {*} person_id 
+ * @param {*} competence_id 
+ * @param {*} years_of_experience 
+ * @returns 
+ */
 const registerCompetence = async (
   person_id,
   competence_id,
@@ -59,4 +66,19 @@ const registerCompetence = async (
   }
 }
 
-module.exports = { registerAvailability, registerCompetence }
+/**
+ * 
+ * @param {*} start 
+ * @param {*} end 
+ * @returns 
+ */
+const calculate = (start, end) => {
+  start = new Date(start)
+  end = new Date(end)
+  let timeDiff = end.getTime() - start.getTime()
+  let diffDays = timeDiff / (1000 * 3600 * 24)
+  let diffYears = diffDays / 365
+  return diffYears.toFixed(1)
+}
+
+module.exports = { registerAvailability, registerCompetence, calculate }

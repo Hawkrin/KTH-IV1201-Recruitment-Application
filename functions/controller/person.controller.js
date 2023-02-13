@@ -37,7 +37,7 @@ const getUser = async (id) => {
  * @param {Integer} role_id 
  * @returns {Promise}
  */
-const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
+const registerUser = async (name, surname, pnr, email, password, role_id, username) => {
     
     try {
         const userExists = await Person.findOne({
@@ -107,22 +107,8 @@ const loginUser = async (usernameOrEmail, password) => {
  * 
  * @param {Integer} pnr 
  * @param {Integer} newPassword 
- * @param {Integer} confirmPassword 
  * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
-// const changePassword = async (pnr, password, confirmpassword) => {
-
-//     const person = await Person.findOne({ where: { pnr } })
-//         if (!person) {
-//             return Promise.reject(new Error("Person not found"))
-//         }
-
-//     // Generate encrypted password and update the password in the database
-//     const salt = bcrypt.genSaltSync(10)
-//     const encryptedPassword = bcrypt.hashSync(password, salt)
-//     return person.update({ password: encryptedPassword })
-// }
-
 const changePassword = async (pnr, password) => {
     try {
         const person = await Person.findOne({ where: { pnr } });

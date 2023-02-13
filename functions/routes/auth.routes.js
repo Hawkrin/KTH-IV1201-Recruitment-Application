@@ -27,7 +27,7 @@ router
 
   .post("/login", 
   [
-    check("usernameOrEmail", "Username or email must be entered")
+    check("usernameOrEmail", "Can't find a valid username")
       .exists(),
     check("password", "Password must be entered")
       .exists()
@@ -41,17 +41,21 @@ router
       return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/login");
     }
   
-    loginUser(usernameOrEmail, password)
-      .then((person) => {
-        const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
-        return res
-          .cookie("Authenticate", token)
-          .redirect("/iv1201-recruitmenapp/us-central1/app/application/application-form");
-      })
-      .catch((error) => {
-        req.flash("error", error);
-        return res.redirect(fullUrl(req));
-      });
+    return db.transaction(t => {
+      loginUser(usernameOrEmail, password)
+        .then((person) => {
+          const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
+          return res
+            .cookie("Authenticate", token)
+            .redirect("/iv1201-recruitmenapp/us-central1/app/application/application-form");
+        })
+        .catch((error) => {
+          console.error('Transaction failed: ', error)
+          t.rollback()
+          req.flash("error", error);
+          return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login');
+        });
+    });
   })
 
   /*Logout routes*/
@@ -102,7 +106,6 @@ router
       return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password')
     }
 
-    //connectToDb
     return db.transaction(t => {
       return changePassword(pnr, password, confirmpassword)
         .then(() => {
@@ -185,33 +188,37 @@ router
         )
       }
 
-      registerUser(
-        name,
-        surname,
-        pnr,
-        email,
-        password,
-        confirmpassword,
-        role_id,
-        username,
-      )
-        .then((person) => {
-          if (person) {
-            const token = jwt.sign(
-              person.person_id.toString(),
-              process.env.JWT_TOKEN,
+      return db.transaction(t => {
+        registerUser(
+          name,
+          surname,
+          pnr,
+          email,
+          password,
+          confirmpassword,
+          role_id,
+          username,
+        )
+          .then((person) => {
+            if (person) {
+              const token = jwt.sign(
+                person.person_id.toString(),
+                process.env.JWT_TOKEN,
+              )
+              return res
+                .cookie('Authenticate', token)
+                .redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
+            }
+          })
+          .catch((error) => {
+            console.error('Transaction failed: ', error)
+            t.rollback()
+            req.flash('error', error)
+            return res.redirect(
+              '/iv1201-recruitmenapp/us-central1/app/auth/register',
             )
-            return res
-              .cookie('Authenticate', token)
-              .redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
-          }
-        })
-        .catch((error) => {
-          req.flash('error', error)
-          return res.redirect(
-            '/iv1201-recruitmenapp/us-central1/app/auth/register',
-          )
-        })
+          })
+      })
     },
   )
 
