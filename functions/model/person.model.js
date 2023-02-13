@@ -48,9 +48,9 @@ const Person = db.define("person",
     password: {
         type: Sequelize.STRING,
         required: true,
-        validate: {
-            is: /^[a-f0-9]+$/,
-        }
+        // validate: {
+        //     is: /^[a-f0-9]+$/,
+        // }
     },
     role_id: {
         type: Sequelize.INTEGER,
@@ -79,7 +79,7 @@ const Person = db.define("person",
 );
 
 // Adds a beforeCreate hook to hash the password
-Person.beforeCreate(async (person, options) => {
+Person.beforeCreate(async (person) => {
 
     // Checks if person has changed password and email, if not just continue.
     if (!person.changed('password') && !person.changed('email')) return next()
@@ -119,14 +119,15 @@ Person.beforeCreate(async (person, options) => {
 
 Person.beforeUpdate(async (person) => {
 
-    if (person.password !== confirmPassword) {
-        return next(new Error("Password and Confirm Password do not match"))
-    }
-
     // Validate password
-    if (!validator.isLength(password, { min: 8, max: 16 })) {
+    if (!validator.isLength(person.password, { min: 8, max: 16 })) {
         return next(new Error('Password is not strong enough.'))
     }
+
+    // Generate encrypted password and setting password to the hash.
+    const salt = bcrypt.genSaltSync(10)
+    const encryptedPassword = bcrypt.hashSync(person.password, salt)
+    person.password = encryptedPassword
 });
 
 Person.afterCreate(async () => {

@@ -7,6 +7,7 @@ const { selectLanguage } = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
 const { registerUser, loginUser, changePassword } = require('../controller/person.controller')
 const { requestLogger, queryLogger } = require("../middleware/logger.middleware");
+const {db} = require('../db'); 
 
 
 const router = Router()
@@ -91,10 +92,8 @@ router
         })
       }),
   ], 
-  
   (req, res) => {
-
-      const {pnr, password, confirmpassword} = _.pick(req.body, ["pnr", "password", "confirmpassword"]);
+    const {pnr, password, confirmpassword} = _.pick(req.body, ["pnr", "password", "confirmpassword"]);
 
     //Form errors.
     const errors = validationResult(req)
@@ -103,16 +102,22 @@ router
       return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password')
     }
 
-    changePassword(pnr, password, confirmpassword)
-      .then(() => {
-        req.flash("success", "Password successfully updated!")
-        res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login');
-      })
-      .catch((error) => {
-        req.flash("form-error", error.message);
-        res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password');
-      })
+    //connectToDb
+    return db.transaction(t => {
+      return changePassword(pnr, password, confirmpassword)
+        .then(() => {
+          req.flash('success', 'Password changed successfully.')
+          return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
+        })
+        .catch(error => {
+          console.error('Transaction failed: ', error)
+          t.rollback()
+          req.flash('error', error)
+          return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password')
+        })
+    })
   })
+
 
 
   /*Register routes*/
