@@ -6,13 +6,13 @@ const { formErrorFormatter } = require("../util/errorFormatter");
 const { selectLanguage } = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
 const { registerUser, loginUser, changePassword } = require('../controller/person.controller')
-const { requestLogger, queryLogger } = require("../middleware/logger.middleware");
+const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger } = require("../middleware/logger.middleware");
 const {db} = require('../db'); 
 
 
 const router = Router()
 
-router.use(requestLogger, queryLogger, selectLanguage);
+router.use(requestLogger, queryLogger, errorLogger, selectLanguage, loginManyAttemptsLogger);
 
 router
 
@@ -27,10 +27,10 @@ router
 
   .post("/login", 
   [
-    check("usernameOrEmail", "Can't find a valid username")
-      .exists(),
+    check("usernameOrEmail", "Can't find a valid username or email")
+      .not().isEmpty(),
     check("password", "Password must be entered")
-      .exists()
+      .not().isEmpty()
   ],
   (req, res) => {
     const {usernameOrEmail, password} = _.pick(req.body, ["password", "usernameOrEmail"]);
@@ -80,10 +80,11 @@ router
       /^\d{8}-\d{4}$/,
     ),
     check("password", "Password must be entered")
-        .exists(),
+    .not().isEmpty(),
     check('confirmpassword', 'Password does not match')
       .trim()
       .exists()
+      .not().isEmpty()
       .custom((confirmpassword, { req }) => {
         return new Promise((resolve, reject) => {
           const password = req.body.password
@@ -140,10 +141,11 @@ router
         .exists()
         .isLength({ min: 3 }),
       check('email', 'Email is not valid').isEmail().normalizeEmail(),
-      check('password', 'Password must be entered').exists(),
+      check('password', 'Password must be entered').not().isEmpty(),
       check('confirmpassword', 'Password does not match')
         .trim()
         .exists()
+        .not().isEmpty()
         .custom(async (confirmpassword, { req }) => {
           const password = req.body.password
 
