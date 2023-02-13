@@ -3,11 +3,11 @@ const Sequelize = require('sequelize')
 const CompetenceProfile = require('../model/competence_profile.model')
 
 /**
- * To check the availability if the person have this time
- * @param {*} person_id
- * @param {*} from_date
- * @param {*} to_date
- * @returns
+ * Registers availability for a person.
+ * @param {number} person_id - The ID of the person.
+ * @param {Date} from_date - The start date of the availability.
+ * @param {Date} to_date - The end date of the availability. 
+ * @returns {Object} newAvailability - The newly created availability object. 
  */
 const registerAvailability = async (person_id, from_date, to_date) => {
   try {
@@ -31,11 +31,13 @@ const registerAvailability = async (person_id, from_date, to_date) => {
 }
 
 /**
+ * Registers a new competence profile.
  * 
- * @param {*} person_id 
- * @param {*} competence_id 
- * @param {*} years_of_experience 
- * @returns 
+ * @param {number} person_id The ID of the person to register the competence profile for.
+ * @param {number} competence_id The ID of the competence to register. 
+ * @param {number} years_of_experience The number of years of experience with the specified competence. 
+ * 
+ * @returns {Object} The newly created competence profile. 
  */
 const registerCompetence = async (
   person_id,
@@ -67,10 +69,10 @@ const registerCompetence = async (
 }
 
 /**
- * 
- * @param {*} start 
- * @param {*} end 
- * @returns 
+ * calculate() calculates the difference in years between two dates. 
+ * @param {Date} start - The start date. 
+ * @param {Date} end - The end date. 
+ * @returns {Number} The difference in years between two dates, rounded to one decimal place. 
  */
 const calculate = (start, end) => {
   start = new Date(start)
