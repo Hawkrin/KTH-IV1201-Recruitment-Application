@@ -26,5 +26,9 @@
     "APPLICATION_FORM_TICKET_SALES": "Biljettförsäljning",
     "APPLICATION_FORM_LOTTERIES": "Lotterier",
     "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Berg- och dalbane-operation",
-    "APPLICATION_FORM_SUBMIT_BUTTON": "Skicka"
+    "APPLICATION_FORM_SUBMIT_BUTTON": "Skicka",
+
+    "RESTORE_PASSWORD_TITLE": "Återställ glömt lösenord",
+    "RESTORE_PASSWORD_BUTTON":"Återställ",  
+    "GO_BACK_TO_LOGIN": "Gå tillbaks till login"
 }
