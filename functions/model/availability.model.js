@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const { db } = require('../db')
+const Person = require('./person.model')
 
 const Availability = db.define(
   'availability',
@@ -12,6 +13,16 @@ const Availability = db.define(
     person_id: {
       type: Sequelize.INTEGER,
       required: true,
+      validate: {
+        isValidPersonId: function (value) {
+          return Person.findOne({ where: { person_id: value } })
+            .then(person => {
+              if (!person) {
+                throw new Error("Invalid person_id");
+              }
+            });
+        }
+      },
     },
     from_date: {
       type: Sequelize.DATE,

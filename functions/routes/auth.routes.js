@@ -105,7 +105,6 @@ router
 
     changePassword(pnr, password, confirmpassword)
       .then(() => {
-        console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" + pnr, password, confirmpassword)
         req.flash("success", "Password successfully updated!")
         res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login');
       })
