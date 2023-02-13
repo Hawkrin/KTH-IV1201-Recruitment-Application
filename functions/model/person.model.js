@@ -6,7 +6,6 @@ const { db } = require('../db') // Connection to database
 const Role = require('./role.model') // Role model
 
 const Person = db.define("person", 
-
 { 
     person_id: {
         type: Sequelize.INTEGER,
@@ -16,32 +15,56 @@ const Person = db.define("person",
     name: {
         type: Sequelize.STRING,
         required: true,
+        validate: {
+            is: /^[a-zA-Z]+$/,
+            notEmpty: true,
+        }
     },
     surname: {
         type: Sequelize.STRING,
         required: true,
+        validate: {
+            is: /^[a-zA-Z]+$/,
+            notEmpty: true,
+        }
     },
     pnr: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         required: true,
         unique: true,
+        validate: {
+            is: /^\d{8}-\d{4}$/,
+        }
     },
     email: {
         type: Sequelize.STRING,
         required: true,
         unique: true,
         validate: {
-        isEmail: true,
-        isLowercase: true
+            isEmail: true,
+            isLowercase: true
         }
     },
     password: {
         type: Sequelize.STRING,
         required: true,
+        validate: {
+            is: /^[a-f0-9]+$/,
+        }
     },
     role_id: {
         type: Sequelize.INTEGER,
         required: true,
+        validate: {
+            isValidRoleId: function (value) {
+                return Role.findOne({ where: { role_id: value } })
+                    .then(role => {
+                        if (!role) {
+                            throw new Error("Invalid role_id");
+                        }
+                    });
+            }
+        }
     }, 
     username: {
         type: Sequelize.STRING,

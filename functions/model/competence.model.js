@@ -13,6 +13,19 @@ const Competence = db.define(
     name: {
       type: Sequelize.STRING,
       required: true,
+      validate: {
+        isInCompetenceTable: async function (value) {
+          const competences = await Competence.findAll({
+            attributes: ['name']
+          });
+          
+          const names = competences.map(competence => competence.name);
+
+          if (!names.includes(value)) {
+            throw new Error(`The name "${value}" is not in the competence table.`);
+          }
+        }
+      }
     },
   },
   {
