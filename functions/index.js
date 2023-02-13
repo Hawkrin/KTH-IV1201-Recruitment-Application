@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session"); // init session
 const flash = require("connect-flash"); // init flash
 const connectToDb = require('./middleware/dbConnect.middleware');
+const { requestLogger, queryLogger } = require('./middleware/logger.middleware');
 
 const app = express()
 
@@ -37,6 +38,13 @@ app.use('/application', require('./routes/application.routes'))
 
 app.use((req, res) => {
   res.status(404).render("404");
+});
+
+// Loggers
+app.use(requestLogger);
+app.use((req, res, next) => {
+  req.logQuery = queryLogger;
+  next();
 });
 
 exports.app = functions.https.onRequest(app);

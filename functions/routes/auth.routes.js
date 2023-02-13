@@ -5,77 +5,53 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
 const { selectLanguage } = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
-const english = require("../lang/english.lang");
-const swedish = require("../lang/swedish.lang");
-const { registerUser, loginUser } = require('../controller/person.controller')
+const { registerUser, loginUser, changePassword } = require('../controller/person.controller')
+const { requestLogger, queryLogger } = require("../middleware/logger.middleware");
+
 
 const router = Router()
-router.use(selectLanguage);
+
+router.use(requestLogger, queryLogger, selectLanguage);
 
 router
 
-    /*Login routes*/
-    .get("/login", (req, res, next) => {
+  /*Login routes*/
+  .get("/login", (req, res, next) => {
 
-        // let selectedLanguage = req.query.language || req.session.language  || 'english';
-
-        // // Select the language
-        // let language;
-        // if (selectedLanguage === 'english') {
-        //     language = english;
-        // } else if (selectedLanguage === 'swedish') {
-        //     language = swedish;
-        // } else {
-        //     // Default to English
-        //     language = english;
-        // }
-
-        // req.session.language = selectedLanguage;
-
-        res.render('login', {
-            error: req.flash("error"), 
-            form_error: req.flash("form-error"),
-            // language: language,
-            // selectedLanguage: selectedLanguage
-        });
-    })
+      res.render('login', {
+          error: req.flash("error"), 
+          form_error: req.flash("form-error"),
+      });
+  })
 
   .post("/login", 
-    
   [
-      check("username", "Doesn't recognize this username")
-          .exists(),
-      check("password", "Password must be entered")
-          .exists()
+    check("usernameOrEmail", "Username or email must be entered")
+      .exists(),
+    check("password", "Password must be entered")
+      .exists()
   ],
-
   (req, res) => {
-      const {username, password} = _.pick(req.body, ["password", "username"]);
-      
-
-      //Form errors.
-      const errors = validationResult(req)
-      if (errors.errors.length > 0) {
-        req.flash('form-error', formErrorFormatter(errors))
-        return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
-      }
-
-        loginUser(username, password)
-            .then((person) => {
-                const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
-
-          return res
-            .cookie('Authenticate', token)
-            .redirect(
-              '/iv1201-recruitmenapp/us-central1/app/application/application-form',
-            )
-        })
-        .catch((error) => {
-          req.flash('error', error)
-          return res.redirect(fullUrl(req))
-        })
-    },
-  )
+    const {usernameOrEmail, password} = _.pick(req.body, ["password", "usernameOrEmail"]);
+    const errors = validationResult(req);
+  
+    if (errors.errors.length > 0) {
+      req.flash("form-error", formErrorFormatter(errors));
+      return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/login");
+    }
+  
+    loginUser(usernameOrEmail, password)
+      .then((person) => {
+        const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
+        return res
+          .cookie("Authenticate", token)
+          .redirect("/iv1201-recruitmenapp/us-central1/app/application/application-form");
+      })
+      .catch((error) => {
+        req.flash("error", error);
+        return res.redirect(fullUrl(req));
+      });
+  })
 
   /*Logout routes*/
   .get('/logout', (req, res, next) => {
@@ -84,30 +60,68 @@ router
       .redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
   })
 
+  /*Forgotten password routes*/
+  .get("/forgotten-password", (req, res, next) => {
+
+    res.render('forgotten-password', {
+        error: req.flash("error"), 
+        form_error: req.flash("form-error"),
+    });
+  })
+
+  .post("/forgotten-password",
+  [
+    check('pnr', 'Enter a valid personal number (8 digits-4 digits)').matches(
+      /^\d{8}-\d{4}$/,
+    ),
+    check("password", "Password must be entered")
+        .exists(),
+    check('confirmpassword', 'Password does not match')
+      .trim()
+      .exists()
+      .custom((confirmpassword, { req }) => {
+        return new Promise((resolve, reject) => {
+          const password = req.body.password
+
+          if (password !== confirmpassword) {
+            reject(new Error('Password must be same.'))
+          } else {
+            resolve()
+          }
+        })
+      }),
+  ], 
+  
+  (req, res) => {
+
+      const {pnr, password, confirmpassword} = _.pick(req.body, ["pnr", "password", "confirmpassword"]);
+
+    //Form errors.
+    const errors = validationResult(req)
+    if (errors.errors.length > 0) {
+      req.flash('form-error', formErrorFormatter(errors))
+      return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password')
+    }
+
+    changePassword(pnr, password, confirmpassword)
+      .then(() => {
+        console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" + pnr, password, confirmpassword)
+        req.flash("success", "Password successfully updated!")
+        res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login');
+      })
+      .catch((error) => {
+        req.flash("form-error", error.message);
+        res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password');
+      })
+  })
+
+
   /*Register routes*/
   .get("/register", (req, res) => {
-
-    // let selectedLanguage = req.query.language || req.session.language  || 'english';
-
-    // // Select the language
-    // let language;
-    // if (selectedLanguage === 'english') {
-    //     language = english;
-    // } else if (selectedLanguage === 'swedish') {
-    //     language = swedish;
-    // } else {
-    //     // Default to English
-    //     language = english;
-    // }
-
-    // // Set the selected language in the session
-    // req.session.language = selectedLanguage;
 
     return res.render('register', {
       error: req.flash('error'),
       form_error: req.flash('form-error'),
-      // language: language,
-      // selectedLanguage: selectedLanguage
     });
   })
 
@@ -123,10 +137,10 @@ router
       check('confirmpassword', 'Password does not match')
         .trim()
         .exists()
-        .custom(async (confirmPassword, { req }) => {
+        .custom(async (confirmpassword, { req }) => {
           const password = req.body.password
 
-          if (password !== confirmPassword) {
+          if (password !== confirmpassword) {
             throw new Error('Password must be same.')
           }
         }),

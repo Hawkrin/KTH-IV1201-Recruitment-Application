@@ -1,4 +1,3 @@
-/* eslint-disable */
 const Person = require("../model/person.model"); // Connection to User model
 const bcrypt = require("bcrypt");
 const Sequelize = require('sequelize');
@@ -30,8 +29,12 @@ const getUser = async (id) => {
  * Reject if probles occured registering user. 
  * 
  * @param {String} username 
- * @param {String} password 
+ * @param {Integer} password 
+ * @param {String} name 
+ * @param {String} surname 
+ * @param {Integer} pnr 
  * @param {String} email 
+ * @param {Integer} role_id 
  * @returns {Promise}
  */
 const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
@@ -62,25 +65,35 @@ const registerUser = async (name, surname, pnr, email, password, confirmpassword
 
 
 /**
- * Login user by taking in email and password,
+ * Login user by taking in email/username and password,
  * checks if email exists and if it does we compare the password in the
  * database with the password provided and then log the user in with JWT
  *  
- * @param {String} username
+ * @param {String} usernameOrEmail
  * @param {String} password
  * @returns {Promise}
  */
-const loginUser = async (username, password) => {
+
+const loginUser = async (usernameOrEmail, password) => {
     try {
-        const user = await Person.findOne({
-            where: { username }
+        let user = await Person.findOne({
+            where: { username: usernameOrEmail }
         });
-        if (!user) { throw new Error("Username does not exist."); }
+        if (!user) {
+            user = await Person.findOne({
+                where: { email: usernameOrEmail }
+            });
+    
+            if (!user) {
+                throw new Error("Username or email does not exist.");
+            }
+        }
 
         const isMatch  = await bcrypt.compare(password, user.password);
 
-        if (!isMatch ) { throw new Error("Password does not match."); }
-
+        if (!isMatch) {
+            throw new Error("Password does not match.");
+        }
         return user;
     } catch (error) {
         throw error;
@@ -88,25 +101,27 @@ const loginUser = async (username, password) => {
 };
 
 /**
+ * A function that helps the users change their password. A user enters his pnr
+ * and the function checks if the user is in the db, if that's the case then the user
+ * can change his password by entering the new password twice.
  * 
+ * @param {Integer} pnr 
+ * @param {Integer} newPassword 
+ * @param {Integer} confirmPassword 
+ * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
-// const encryptPasswordsInDatabase = async () => {
-    
-//     const saltRounds = 10;
-//     const persons = await Person.findAll();
+const changePassword = async (pnr, password, confirmpassword) => {
 
-//     if (persons.length > 0) {
-//         for (const person of persons) {
-//             if (person.password && !person.password.startsWith('$2b$')) {
-//                 const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
-//                 await person.update({ password: encryptedPassword });
-//             }
-//         }
-//     } else {
-//         console.log("No persons found in the database");
-//     }
-// }
+    const person = await Person.findOne({ where: { pnr } })
+        if (!person) {
+            return Promise.reject(new Error("Person not found"))
+        }
+
+    // Generate encrypted password and update the password in the database
+    const salt = bcrypt.genSaltSync(10)
+    const encryptedPassword = bcrypt.hashSync(password, salt)
+    return person.update({ password: encryptedPassword })
+}
 
 
-
-module.exports = { registerUser, loginUser, getUser }
+module.exports = { registerUser, loginUser, getUser, changePassword }

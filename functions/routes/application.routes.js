@@ -5,6 +5,7 @@ const { formErrorFormatter } = require('../util/errorFormatter')
 const _ = require('lodash')
 const jwt = require('jsonwebtoken')
 const { Competence } = require('../model/competence.model')
+const {requestLogger, queryLogger } = require("../middleware/logger.middleware");
 
 const {
   registerAvailability,
@@ -16,7 +17,7 @@ const {
 
 
 const router = express.Router();
-router.use(authenticated, selectLanguage)
+router.use(authenticated, selectLanguage, requestLogger, queryLogger )
 
 router
 

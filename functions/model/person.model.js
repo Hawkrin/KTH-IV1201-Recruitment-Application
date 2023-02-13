@@ -94,6 +94,18 @@ Person.beforeCreate(async (person, options) => {
     
 });
 
+Person.beforeUpdate(async (person) => {
+
+    if (person.password !== confirmPassword) {
+        return next(new Error("Password and Confirm Password do not match"))
+    }
+
+    // Validate password
+    if (!validator.isLength(password, { min: 8, max: 16 })) {
+        return next(new Error('Password is not strong enough.'))
+    }
+});
+
 Person.afterCreate(async () => {
     
     const saltRounds = 10;

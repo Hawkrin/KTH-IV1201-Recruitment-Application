@@ -26,6 +26,10 @@
     "APPLICATION_FORM_TICKET_SALES": "Ticket Sales",
     "APPLICATION_FORM_LOTTERIES": "Lotteries",
     "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Roller Coaster Operation",
-    "APPLICATION_FORM_SUBMIT_BUTTON": "Submit"
+    "APPLICATION_FORM_SUBMIT_BUTTON": "Submit",
+
+    "RESTORE_PASSWORD_TITLE": "Restore Forgotten Password",
+    "RESTORE_PASSWORD_BUTTON":"Restore",  
+    "GO_BACK_TO_LOGIN": "Go Back to Log In"
 
 }
