@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session"); // init session
 const flash = require("connect-flash"); // init flash
 const connectToDb = require('./middleware/dbConnect.middleware');
-const { requestLogger, queryLogger } = require('./middleware/logger.middleware');
+const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger } = require('./middleware/logger.middleware');
 
 const app = express()
 
@@ -40,7 +40,9 @@ app.use((req, res) => {
 });
 
 // Loggers
+app.use(loginManyAttemptsLogger);
 app.use(requestLogger);
+app.use(errorLogger);
 app.use((req, res, next) => {
   req.logQuery = queryLogger;
   next();
