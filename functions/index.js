@@ -8,6 +8,7 @@ const session = require("express-session"); // init session
 const flash = require("connect-flash"); // init flash
 const connectToDb = require('./middleware/dbConnect.middleware');
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger } = require('./middleware/logger.middleware');
+const MemoryStore = require('memorystore')(session)
 
 const app = express()
 
@@ -19,13 +20,16 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.set('view engine', 'ejs') // framework for view files
-app.use(
-  session({
-    secret: 'keyboard cat',
-    saveUninitialized: true,
-    resave: true,
+
+app.use(session({
+  secret: 'your secret',
+  resave: false,
+  saveUninitialized: true,
+  store: new MemoryStore({
+    checkPeriod: 86400000 // 1 day
   }),
-)
+}));
+
 app.use(flash()) // used for "global" error messaging
 
 // CSS files

@@ -6,7 +6,7 @@
     height: 100vh;
     padding: 2em;
     border-radius: 10px;
-    padding-top: 100px;
+    padding-top: 200px;
   }
 
   h1 {
@@ -45,7 +45,6 @@
     color: #b0b0b0;
   }
 
-/* hhh */
   input[type="checkbox"] {
     height: 20px;
     padding: 5px;

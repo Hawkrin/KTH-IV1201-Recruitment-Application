@@ -30,6 +30,8 @@
 
     "RESTORE_PASSWORD_TITLE": "Restore Forgotten Password",
     "RESTORE_PASSWORD_BUTTON":"Restore",  
-    "GO_BACK_TO_LOGIN": "Go Back to Log In"
+    "GO_BACK_TO_LOGIN": "Go Back to Log In",
+    "VALIDATE_BUTTON": "Validate",
+    "RANDOM_CODE": "Enter the sent code"
 
 }
