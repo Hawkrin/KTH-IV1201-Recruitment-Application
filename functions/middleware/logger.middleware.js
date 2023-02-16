@@ -11,6 +11,7 @@ const logger = winston.createLogger({
         new winston.transports.File({ filename: "error.log", level: "error" }),
         new winston.transports.File({ filename: "warn.log", level: "warn" }),
         new winston.transports.File({ filename: "info.log", level: "info" }),
+        new winston.transports.File({ filename: "fake_email.log", level: "info"}),
         new winston.transports.File({ filename: "combined.log" })
     ],
 });
@@ -35,7 +36,7 @@ const requestLogger = (req, res, next) => {
  * @param {*} next 
  */
 const queryLogger = (req, res, next) => {
-    logger.info(`Executing query: ${req.query} with parameters: ${req.params}`);
+    logger.info(`Executing query: ${req.query} with parameters: ${req.params} at ${new Date().toString()}`);
     next();
 };
 
@@ -48,7 +49,7 @@ const queryLogger = (req, res, next) => {
  * @param {*} next 
  */
 const errorLogger = (err, req, res, next) => {
-    logger.error(`An error occurred: ${err}`);
+    logger.error(`An error occurred: ${err} at ${new Date().toString()}`);
     next(err);
 };
 
@@ -71,9 +72,23 @@ const loginManyAttemptsLogger = (req, res, next) => {
     loginAttempts[ip]++;
 
     if (loginAttempts[ip] > 10) {
-        logger.warn(`Too many login attempts from IP address ${ip}`);
+        logger.warn(`Too many login attempts from IP address ${ip} at ${new Date().toString()}`);
     }
     next();
 };
 
-module.exports = { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger };
+const fake_mailLogger = (randomCode, req, res, next) => {
+    logger.info(`
+        An email has been sent to your registered email address with further instructions to reset your password. 
+        Please check your inbox and follow the instructions. If you don't receive an email within a few minutes, 
+        please check your spam folder. Your one-time verification code is:  ${randomCode}. 
+        This code will expire in 10 minutes. Thank you for using our service.
+
+        Date: ${new Date().toString()}`
+    );
+    next();
+    
+    
+}
+
+module.exports = { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger };

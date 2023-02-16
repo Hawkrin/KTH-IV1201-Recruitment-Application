@@ -1,9 +1,11 @@
 const Availability = require('../model/availability.model')
 const Sequelize = require('sequelize')
 const CompetenceProfile = require('../model/competence_profile.model')
+const Competence = require('../model/competence.model')
 
 /**
  * Registers availability for a person.
+ * 
  * @param {number} person_id - The ID of the person.
  * @param {Date} from_date - The start date of the availability.
  * @param {Date} to_date - The end date of the availability. 
@@ -45,22 +47,28 @@ const registerCompetence = async (
   years_of_experience,
 ) => {
   try {
+
+
+    // Input validation
+    if (!person_id || !competence_id || !years_of_experience) {
+      throw new Error('Invalid input values')
+    }
+
+    
     const competenceProfileExists = await CompetenceProfile.findOne({
       where: {
-        [Sequelize.Op.and]: [
-          { person_id },
-          { competence_id },
-          { years_of_experience },
-        ],
+        person_id: person_id,
+        competence_id: competence_id,
+        years_of_experience: years_of_experience,
       },
     })
     if (competenceProfileExists) {
       throw new Error('Competence profile already exists')
     }
     const newCompetenceProfile = await CompetenceProfile.create({
-      person_id,
-      competence_id,
-      years_of_experience,
+      person_id: person_id,
+      competence_id: competence_id,
+      years_of_experience: years_of_experience,
     })
     return newCompetenceProfile
   } catch (error) {
@@ -69,7 +77,8 @@ const registerCompetence = async (
 }
 
 /**
- * calculate() calculates the difference in years between two dates. 
+ * calculates the difference in years between two dates. 
+ * 
  * @param {Date} start - The start date. 
  * @param {Date} end - The end date. 
  * @returns {Number} The difference in years between two dates, rounded to one decimal place. 
@@ -83,4 +92,18 @@ const calculate = (start, end) => {
   return diffYears.toFixed(1)
 }
 
-module.exports = { registerAvailability, registerCompetence, calculate }
+/**
+ * Retrieves all competences from the competence table in the database
+ * 
+ * @returns 
+ */
+const getAllCompetences = async () => {
+  const competences = await Competence.findAll({
+    attributes: ['name', 'competence_id'],
+  });
+
+  return competences;
+}
+
+
+module.exports = { registerAvailability, registerCompetence, calculate, getAllCompetences}

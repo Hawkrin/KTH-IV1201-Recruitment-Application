@@ -10,9 +10,9 @@
 </head>
 
 <body>
-  <div>
-    <%- include('./partials/navbar.ejs') %>
-  </div>
+      <div>
+        <%- include('./partials/navbar.ejs') %>
+      </div>
   <form id="application-form_body" method="post">
 
     <!-- Error for from_date -->
@@ -33,12 +33,10 @@
       <%= language['APPLICATION_FORM_PERSON_EMAIL'] %> <%=user.email %> <br>
       <%= language['APPLICATION_FORM_PERSON_PERSON_ID'] %> <%=user.person_id %> <br>
     </h2>
-
     <div>
       <label for="availability">
         <%= language['APPLICATION_FORM_AVAILABILITY_TITLE'] %>
       </label>
-
 
       <!-- Error for from_date -->
       <% if (form_error[0]) {%>
@@ -55,44 +53,24 @@
       <% } %>
       <input type="date" id="endDate" name="to_date">
     </div>
-    <div>
-      <label for="competences"><%= language['APPLICATION_FORM_COMPETENCE_TITLE'] %></label>
-      <div id="competencesContainer">
-        <div>
-          <input type="checkbox" name="competences1" value="1">
-          <!-- Error for from_date -->
-          <h2><%= language['APPLICATION_FORM_TICKET_SALES'] %></h2>
-          <!-- Error for from_date -->
-          <p>
-            <%= form_error1 %>
-          </p>
-          <input type="date" id="startDate1" name="competence_1_start_time">
-          <input type="date" id="endDate1" name="competence_1_end_time">
-        </div>
-        <div>
 
-          <input type="checkbox" name="competences2" value="2">
-          <h2><%= language['APPLICATION_FORM_LOTTERIES'] %></h2>
-          <!-- Error for from_date -->
-          <p>
-            <%= form_error1 %>
-          </p>
-          <input type="date" id="startDate2" name="competence_2_start_time">
-          <input type="date" id="endDate2" name="competence_2_end_time">
-        </div>
+    <div>
+    <label for="competences"><%= language['APPLICATION_FORM_COMPETENCE_TITLE'] %></label>
+    <div id="competencesContainer">
+      <% competences.forEach(function(competence, i) { %>
         <div>
-          <input type="checkbox" name="competences3" value="3">
-          <h2><%= language['APPLICATION_FORM_ROLLER_COASTER_OPERATION'] %></h2>
-          <!-- Error for from_date -->
+          <input type="checkbox" name="competences[]" value="<%= competence.competence_id %>" id="competence">
+          <h2><%= competence.name %></h2>
           <p>
             <%= form_error1 %>
           </p>
-          <input type="date" id="startDate3" name="competence_3_start_time">
-          <input type="date" id="endDate3" name="competence_3_end_time">
+          <input type="date" id="startDate" name="start_date_<%= competence.competence_id %>">
+          <input type="date" id="endDate" name="end_date_<%= competence.competence_id %>">
         </div>
-      </div>
+      <% }); %>
     </div>
-    <button id="submitButton" type="submit"><%= language['APPLICATION_FORM_SUBMIT_BUTTON'] %></button>
+  </div>
+  <button id="submitButton" type="submit"><%= language['APPLICATION_FORM_SUBMIT_BUTTON'] %></button>
   </form>
 </body>
 

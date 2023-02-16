@@ -37,7 +37,7 @@ const getUser = async (id) => {
  * @param {Integer} role_id 
  * @returns {Promise}
  */
-const registerUser = async (name, surname, pnr, email, password, role_id, username) => {
+const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
     
     try {
         const userExists = await Person.findOne({
@@ -47,12 +47,14 @@ const registerUser = async (name, surname, pnr, email, password, role_id, userna
         });
         if (userExists) { throw new Error("User Already exists"); }
 
+
         const newPerson = Person.create({
             name,
             surname,
             pnr,
             email,
             password,
+            confirmpassword,
             role_id,
             username
         });
@@ -103,26 +105,67 @@ const loginUser = async (usernameOrEmail, password) => {
 /**
  * A function that helps the users change their password. A user enters his pnr
  * and the function checks if the user is in the db, if that's the case then the user
- * can change his password by entering the new password twice.
+ * can change his password by entering the new password twice. And a special check is being
+ * done by validating the user with a code being sent.
  * 
  * @param {Integer} pnr 
  * @param {Integer} newPassword 
+ * @param {Integer} code 
  * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
-const changePassword = async (pnr, password) => {
-    try {
-        const person = await Person.findOne({ where: { pnr } });
-        if (!person) {
-            throw new Error(`Person with pnr: ${pnr} not found`);
+const changePassword = (pnr, password, code) => {
+    return new Promise((resolve, reject) => {
+
+        if (req.session.code !== code) {
+            reject(new Error("Invalid code"));
+            return;
         }
-        
-        await person.update({ password });
-        return { status: 'success', message: 'Password successfully changed' };
-    } catch (error) {
-        console.error(error);
-        return { status: 'error', message: error.message };
-    }
+        Person.update({password: bcrypt.hashSync(password, 10),},
+            {
+                where: {pnr},
+            })
+            .then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
 };
 
+/**
+ * Checks if there's a user in the database with the given personal number.
+ * If yes, then it returns the person, if no an error is thrown
+ * 
+ * @param {Integer} pnr 
+ * @returns 
+ */
+const checkIfPnrExists = async (pnr) => {
+    return Person.findOne({ where: { pnr } })
+        .then(person => {
+            if (person) {
+            return person;
+            } else {
+            throw new Error('Invalid personal number');
+            }
+        });
+}
 
-module.exports = { registerUser, loginUser, getUser, changePassword }
+/**
+ * A function that generates a random number and returns the result.
+ * 
+ * @param {Integer} length 
+ * @returns 
+ */
+const generateRandomCode = async (length) => {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+
+module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExists }
