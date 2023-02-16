@@ -266,7 +266,7 @@ router
         )
       }
 
-      // return db.transaction(t => {
+      return db.transaction(t => {
         registerUser(
           name,
           surname,
@@ -285,19 +285,19 @@ router
               )
               return res
                 .cookie('Authenticate', token)
-                .redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
+                .redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
             }
           })
           .catch((error) => {
             console.error('Transaction failed: ', error)
-            // t.rollback()
+            t.rollback()
             req.flash('error', error)
             return res.redirect(
               '/iv1201-recruitmenapp/us-central1/app/auth/register',
             )
           })
-      // })
-     },
+      })
+    },
   )
 
 module.exports = router

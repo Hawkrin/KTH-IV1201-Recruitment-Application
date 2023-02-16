@@ -37,7 +37,7 @@ const getUser = async (id) => {
  * @param {Integer} role_id 
  * @returns {Promise}
  */
-const registerUser = async (name, surname, pnr, email, password, role_id, username) => {
+const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
     
     try {
         const userExists = await Person.findOne({
@@ -47,12 +47,14 @@ const registerUser = async (name, surname, pnr, email, password, role_id, userna
         });
         if (userExists) { throw new Error("User Already exists"); }
 
+
         const newPerson = Person.create({
             name,
             surname,
             pnr,
             email,
             password,
+            confirmpassword,
             role_id,
             username
         });

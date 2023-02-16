@@ -10,7 +10,6 @@ const Competence = db.define('competence',
     },
     name: {
       type: Sequelize.STRING,
-      required: true,
       validate: {
         isInCompetenceTable: async function (value) {
           const competences = await Competence.findAll({

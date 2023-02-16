@@ -5,6 +5,7 @@ const swedish = require('../lang/swedish.lang');
 const Translation = require('../model/translation.model');
 const Competence = require('../model/competence.model');
 const { db } = require('../db');
+const Sequelize = require('sequelize')
 
 /**
  * Function used for authorizing users, verifies JWTs
@@ -41,49 +42,16 @@ const authenticated = function (req, res, next) {
   })
 }
 
-// const changeLanguage = async (selectedLanguage, newLanguage) => {
-//   try {
-//     // Find all translations with the selected language
-//     const translations = await Translation.findAll({
-//       where: { language: selectedLanguage }
-//     });
-
-//     console.log(`Found ${translations.length} translations with language ${selectedLanguage}`);
-
-
-//     console.log("Updated translations woooo:", translations);
-
-//     // Update the language field for each translation to the new language
-//     await Promise.all(translations.map(async (translation) => {
-//       translation.language = newLanguage;
-//       await translation.save();
-//       console.log(`Updated translation ${translation.translation_id} from ${selectedLanguage} to ${newLanguage}`);
-//     }));
-
-//     console.log(`Successfully updated ${translations.length} translations from ${selectedLanguage} to ${newLanguage}`);
-//   } catch (error) {
-//     console.error(`Error updating translations: ${error}`);
-//   }
-// };
-
-async function updateCompetenceNames(language) {
-  const translations = await Translation.findAll({
-    where: {
-      language,
-    },
-    include: Competence,
-  });
-
-  const updates = translations.map((translation) => ({
-    name: translation.name,
-  }));
-
-
-  await Competence.bulkCreate(updates, {
-    updateOnDuplicate: ['name'],
-  });
-
-  
+/**
+ * Swaps the values in the Competence table depending on which langugage is choose. Used for internationalization.
+ * 
+ * @param {String} language 
+ */
+const updateCompetenceNames = async (language) => {
+  await Competence.update(
+    { name: Sequelize.literal(`(SELECT ${language} FROM translation WHERE translation.competence_id = competence.competence_id )`) },
+    { where: {} }
+  );
 }
 
 
@@ -116,8 +84,6 @@ const selectLanguage = async (req, res, next) => {
     language = english;
     await updateCompetenceNames('english');
   }
-
-  // Change the language
 
   // Restore the code property to the session object
   if (code) {

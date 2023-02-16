@@ -16,11 +16,11 @@ const Translation = db.define('translation',
                 key: 'competence_id'
             }
         },
-        language: {
+        swedish: {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        name: {
+        english: {
             type: Sequelize.STRING,
             allowNull: false,
         },
