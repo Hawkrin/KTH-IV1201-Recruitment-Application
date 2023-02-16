@@ -266,7 +266,7 @@ router
         )
       }
 
-      return db.transaction(t => {
+      // return db.transaction(t => {
         registerUser(
           name,
           surname,
@@ -290,14 +290,14 @@ router
           })
           .catch((error) => {
             console.error('Transaction failed: ', error)
-            t.rollback()
+            // t.rollback()
             req.flash('error', error)
             return res.redirect(
               '/iv1201-recruitmenapp/us-central1/app/auth/register',
             )
           })
-      })
-    },
+      // })
+     },
   )
 
 module.exports = router
