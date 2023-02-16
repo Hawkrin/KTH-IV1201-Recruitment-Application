@@ -1,4 +1,5 @@
 const Person = require("../model/person.model"); // Connection to User model
+const Code_Vault = require("../model/code_vault.model"); // Connection to Code_vault model
 const bcrypt = require("bcrypt");
 const Sequelize = require('sequelize');
 
@@ -134,22 +135,36 @@ const changePassword = (pnr, password, code) => {
 };
 
 /**
- * Checks if there's a user in the database with the given personal number.
- * If yes, then it returns the person, if no an error is thrown
+ * Checks if there's a user in the database with the given personal number if so
+ * then the function stores the generated code together with the persons person_id
+ * for 10 minutes and then it's deleted
  * 
  * @param {Integer} pnr 
  * @returns 
  */
-const checkIfPnrExists = async (pnr) => {
-    return Person.findOne({ where: { pnr } })
-        .then(person => {
-            if (person) {
-            return person;
-            } else {
+const checkIfPnrExistsAndStoreCodeVault = async (pnr) => {
+    try {
+        const person = await Person.findOne({ where: { pnr } });
+        
+        if (person) {
+            const randomNum = generateRandomCode(8);
+            const codeVault = await Code_Vault.create({
+                person_id: person.person_id,
+                code: randomNum     
+            });
+
+            // setTimeout(async () => {
+            //     await codeVault.destroy();
+            // }, 10 * 60 * 1000);
+
+            return codeVault;
+        } else {
             throw new Error('Invalid personal number');
-            }
-        });
-}
+        }
+        } catch (error) {
+        throw new Error(error.message);
+        }
+};
 
 /**
  * A function that generates a random number and returns the result.
@@ -158,7 +173,7 @@ const checkIfPnrExists = async (pnr) => {
  * @returns 
  */
 const generateRandomCode = async (length) => {
-    let result = '';
+    let result = "";
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
@@ -168,4 +183,4 @@ const generateRandomCode = async (length) => {
 }
 
 
-module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExists }
+module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault }

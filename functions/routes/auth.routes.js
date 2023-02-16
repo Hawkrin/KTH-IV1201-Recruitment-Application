@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
 const { selectLanguage, setCodeToSession } = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
-const { registerUser, loginUser, changePassword, generateRandomCode, checkIfPnrExists } = require('../controller/person.controller')
+const { registerUser, loginUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault } = require('../controller/person.controller')
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger } = require("../middleware/logger.middleware");
 const {db} = require('../db'); 
 
@@ -83,7 +83,9 @@ router
   ],
   
   (req, res) => {
+
     const { pnr } = _.pick(req.body, ["pnr"]);
+    
 
     //Form errors.
     const errors = validationResult(req)
@@ -92,19 +94,9 @@ router
       return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1')
     }
 
-    checkIfPnrExists(pnr)
-      .then(async person => {
-        
-        const randomCode = await generateRandomCode(6);
-
-        req.session.code = randomCode; //saving the random code to the session
-        console.log('FORGOTTEN PASSWORD 1 :     DDDDDDDDDDDDDDDDDDDDDDDDDreq.session after setting code:', req.session.code);
-
-        fake_mailLogger(randomCode, req, res, () => {
-          console.log('FORGOTTEN PASSWORD 2 :     DDDDDDDDDDDDDDDDDDDDDDDDDreq.session after setting code:', req.session.code);
-          res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2');
-        });
-        console.log('FORGOTTEN PASSWORD 3 :     DDDDDDDDDDDDDDDDDDDDDDDDDreq.session after setting code:', req.session.code);
+    checkIfPnrExistsAndStoreCodeVault(pnr)
+      .then(person => {
+        res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2');
       })
       .catch(error => {
         req.flash('error', error)
@@ -114,8 +106,6 @@ router
 
   .get("/forgotten-password-part2", (req, res, next) => {
 
-    console.log('FORGOTTEN PASSWORD 4 :     DDDDDDDDDDDDDDDDDDDDDDDDDreq.session after setting code:', req.session.code);
-
     res.render('forgotten-password-part2', {
         error: req.flash("error"), 
         form_error: req.flash("form-error"),
@@ -124,9 +114,7 @@ router
 
   .post("/forgotten-password-part2", 
   
-
   [
-
     check('code', 'Enter a valid code')
       .exists()
       .not().isEmpty()
@@ -160,8 +148,6 @@ router
   
   (req, res) => {
 
-    console.log('FORGOTTEN PASSWORD 7 :     DDDDDDDDDDDDDDDDDDDDDDDDDreq.session after setting code:', req.session.code);
-
     const { code, password, confirmpassword, pnr} = _.pick(req.body, [
       "code",
       "password",
@@ -185,6 +171,7 @@ router
               "Password changed successfully. Please login with your new password."
             );
             return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/login");
+
           })
           .catch((error) => {
             console.error("Transaction failed: ", error);
@@ -285,7 +272,7 @@ router
               )
               return res
                 .cookie('Authenticate', token)
-                .redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
+                .redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
             }
           })
           .catch((error) => {

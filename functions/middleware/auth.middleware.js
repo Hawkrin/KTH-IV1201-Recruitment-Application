@@ -54,7 +54,6 @@ const updateCompetenceNames = async (language) => {
   );
 }
 
-
 /**
  * Swaps between languages, and saves them to the current session.
  * 

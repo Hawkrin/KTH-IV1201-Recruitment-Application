@@ -15,7 +15,7 @@ const Person = db.define("person",
         type: Sequelize.STRING,
         required: true,
         validate: {
-            is: /^[a-zA-Z]+$/,
+            is: /^[a-öA-Ö]+$/,
             notEmpty: true,
         }
     },
@@ -23,7 +23,7 @@ const Person = db.define("person",
         type: Sequelize.STRING,
         required: true,
         validate: {
-            is: /^[a-zA-Z]+$/,
+            is: /^[a-öA-Ö]+$/,
             notEmpty: true,
         }
     },
@@ -129,22 +129,22 @@ Person.beforeUpdate(async (person) => {
     person.password = encryptedPassword
 });
 
-Person.afterCreate(async () => {
+// Person.afterCreate(async () => {
     
-    const saltRounds = 10;
-    const persons = await Person.findAll();
+//     const saltRounds = 10;
+//     const persons = await Person.findAll();
 
-    if (persons.length > 0) {
-        for (const person of persons) {
-            if (person.password && !person.password.startsWith('$2b$')) {
-                const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
-                await person.update({ password: encryptedPassword });
-            }
-        }
-    } else {
-        console.log("No persons found in the database");
-    }
-})
+//     if (persons.length > 0) {
+//         for (const person of persons) {
+//             if (person.password && !person.password.startsWith('$2b$')) {
+//                 const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
+//                 await person.update({ password: encryptedPassword });
+//             }
+//         }
+//     } else {
+//         return next(new Error('Error updating database.'))
+//     }
+// })
 
 
 // Synchronize the model with the database
