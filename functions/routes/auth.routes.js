@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
 const { selectLanguage, setCodeToSession } = require("../middleware/auth.middleware");
 const jwt = require("jsonwebtoken")
-const { registerUser, loginUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault } = require('../controller/person.controller')
+const { registerUser, loginUser, changePassword } = require('../controller/person.controller')
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger } = require("../middleware/logger.middleware");
 const {db} = require('../db'); 
 
@@ -75,7 +75,6 @@ router
   })
 
   .post('/forgotten-password-part1', 
-
   [
     check('pnr', 'Enter a valid personal number (8 digits-4 digits)').matches(
       /^\d{8}-\d{4}$/,
@@ -85,24 +84,24 @@ router
   (req, res) => {
 
     const { pnr } = _.pick(req.body, ["pnr"]);
-    
+      
+      //Form errors.
+      const errors = validationResult(req)
+      if (errors.errors.length > 0) {
+        req.flash('form-error', formErrorFormatter(errors));
+        return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
+      }
 
-    //Form errors.
-    const errors = validationResult(req)
-    if (errors.errors.length > 0) {
-      req.flash('form-error', formErrorFormatter(errors))
-      return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1')
-    }
-
-    checkIfPnrExistsAndStoreCodeVault(pnr)
-      .then(person => {
-        res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2');
-      })
-      .catch(error => {
-        req.flash('error', error)
-        return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1') 
-      });
-  })
+  //     checkIfPnrExistsAndStoreCodeVault(pnr)
+  //       .then((codeVault) => {
+  //         res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2');
+  //       })
+  //       .catch((error) => {
+  //         req.flash('error', error);
+  //         return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
+  //       });
+  }
+   ) 
 
   .get("/forgotten-password-part2", (req, res, next) => {
 
