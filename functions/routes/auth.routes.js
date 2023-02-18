@@ -72,6 +72,7 @@ router
 
     res.render('forgotten-password-part1', {
         error: req.flash("error"), 
+        success: req.flash('success'),
         form_error: req.flash("form-error"),
     });
   })
@@ -95,6 +96,7 @@ router
       .then((codeVault) => {
         if (codeVault) {
           console.log('Promise resolved');
+          req.flash('success, A code has been sent to your email.');
           res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2');
         } else {
           throw new Error('Code Vault not created');
@@ -102,7 +104,7 @@ router
       })
       .catch((error) => {
         console.log('Promise rejected');
-        req.flash('Problem communicating with the database');
+        req.flash('error, Problem communicating with the database');
         return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
       });
 
@@ -112,6 +114,7 @@ router
 
     res.render('forgotten-password-part2', {
         error: req.flash("error"), 
+        success: req.flash('success'),
         form_error: req.flash("form-error"),
     });
   })
@@ -121,7 +124,14 @@ router
   [
     check('code', 'Enter a valid code')
       .exists()
-      .not().isEmpty(),
+      .not().isEmpty()
+      .custom(async (code, { req }) => {
+        // Replace `Code_Vault` with the name of your Sequelize model
+        const codeExists = await db.Code_Vault.findOne({ where: { code } });
+        if (!codeExists) {
+          throw new Error('Code does not exist in Code_Vault table');
+        }
+      }),
     check("password", "Password must be entered").not().isEmpty(),
     check('confirmpassword', 'Password does not match')
       .trim()
@@ -158,17 +168,14 @@ router
     await db.transaction((t) => {
         return changePassword(code, password)
           .then(() => {
-            req.flash(
-              "success",
-              "Password changed successfully. Please login with your new password."
-            );
+            req.flash("success, Password changed successfully. Please login with your new password.");
             return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/login");
 
           })
           .catch((error) => {
             console.error("Transaction failed: ", error);
             t.rollback();
-            req.flash('Problem communicatiing with the database')
+            req.flash('error, Problem communicating with the database')
             return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2");
           });
       })
