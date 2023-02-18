@@ -121,17 +121,7 @@ router
   [
     check('code', 'Enter a valid code')
       .exists()
-      .not().isEmpty()
-      .custom((code, { req }) => {
-        return new Promise((resolve, reject) => {
-          const storedCode = req.session.code;
-          if (code !== storedCode) {
-            reject(new Error('Code is not valid'));
-          } else {
-            resolve();
-          }
-        });
-      }),
+      .not().isEmpty(),
     check("password", "Password must be entered").not().isEmpty(),
     check('confirmpassword', 'Password does not match')
       .trim()
@@ -152,11 +142,10 @@ router
   
   async (req, res) => {
 
-    const { code, password, confirmpassword, pnr} = _.pick(req.body, [
+    const { code, password, confirmpassword} = _.pick(req.body, [
       "code",
       "password",
       "confirmpassword",
-      "pnr"
     ]);
 
     // Form errors.
@@ -167,7 +156,7 @@ router
     }
 
     await db.transaction((t) => {
-        return changePassword(pnr, password, code)
+        return changePassword(code, password)
           .then(() => {
             req.flash(
               "success",

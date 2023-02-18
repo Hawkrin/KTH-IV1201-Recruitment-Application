@@ -88,7 +88,7 @@ router
             const startDate = req.body[`start_date_${competenceId}`];
             const endDate = req.body[`end_date_${competenceId}`];
             const yearsOfExperience = calculate(startDate, endDate);
-            
+
             await registerCompetence(person_id, competenceId, yearsOfExperience);
           }
         }
@@ -97,7 +97,7 @@ router
       // Register new availability
       await db.transaction((t) => {
         registerAvailability(person_id, from_date, to_date)
-          .then((newAvailability) => {
+          .then(() => {
             req.flash('success', 'Your application was sent successfully')
             res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
           })

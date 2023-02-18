@@ -7,7 +7,6 @@ const Code_Vault = db.define("code_vault",
         code_vault_id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true
         },
         person_id: {
             type: Sequelize.INTEGER,

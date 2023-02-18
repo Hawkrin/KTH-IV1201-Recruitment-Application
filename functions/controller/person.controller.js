@@ -72,7 +72,7 @@ const registerUser = async (name, surname, pnr, email, password, confirmpassword
  * checks if email exists and if it does we compare the password in the
  * database with the password provided and then log the user in with JWT
  *  
- * @param {String} usernameOrEmail
+ * @param {String} usernameOrEmail Both username and email are valid 
  * @param {String} password
  * @returns {Promise}
  */
@@ -110,20 +110,25 @@ const loginUser = async (usernameOrEmail, password) => {
  * done by validating the user with a code being sent.
  * 
  * @param {Integer} pnr 
- * @param {Integer} newPassword 
- * @param {Integer} code 
+ * @param {Integer} password 
+ * @param {Integer} code temporary code used for validation
  * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
-const changePassword = (pnr, password, code) => {
-    return new Promise((resolve, reject) => {
+const changePassword = (code, password) => {
+    return new Promise(async (resolve, reject) => {
 
-        if (req.session.code !== code) {
+        const code_vault = await Code_Vault.findOne({ where: { code } });
+
+        if (!code_vault) {
             reject(new Error("Invalid code"));
             return;
         }
+
+        const person_id = code_vault.person_id;
+
         Person.update({password: bcrypt.hashSync(password, 10),},
             {
-                where: {pnr},
+                where: {person_id},
             })
             .then(() => {
                 resolve();
@@ -149,15 +154,28 @@ const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
         const person = await Person.findOne({ where: { pnr } });
 
         if (person) {
+            let codeVaultId = 1;
+            let codeVaultExists = true;
+
+            while (codeVaultExists) {
+                const existingCodeVault = await Code_Vault.findOne({ where: { code_vault_id: codeVaultId } });
+                if (existingCodeVault) {
+                    codeVaultId++;
+                } else {
+                    codeVaultExists = false;
+                }
+            }
+
             const code = await generateRandomCode(6);
             const codeVault = await Code_Vault.create({
+                code_vault_id: codeVaultId,
                 person_id: person.person_id,
                 code
             });
 
-            // setTimeout(async () => {
-            //     await codeVault.destroy();
-            // }, 10 * 60 * 1000);
+            setTimeout(async () => {
+                await codeVault.destroy();
+            }, 10 * 60 * 1000);
 
             resolve(codeVault);
         } else {
