@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize'); // ORM for connection with postgres
 const {db} = require('../db'); // Connection to database
+const Person = require('./person.model'); //Connection to Person table
 
 const Code_Vault = db.define("code_vault", 
     {
@@ -10,9 +11,21 @@ const Code_Vault = db.define("code_vault",
         },
         person_id: {
             type: Sequelize.INTEGER,
+            required: true,
+            validate: {
+                isValidPersonId: function (value) {
+                    return Person.findOne({ where: { person_id: value } })
+                    .then(person => {
+                        if (!person) {
+                        throw new Error("Invalid person_id");
+                        }
+                    });
+                }
+            },
         },
         code: {
             type: Sequelize.STRING,
+            required: true,
         },
     },
     {
@@ -20,6 +33,8 @@ const Code_Vault = db.define("code_vault",
         timestamps: false
     }
 );
+
+Code_Vault.belongsTo(Person, { foreignKey: 'person_id' });
 
 // Synchronize the model with the database
 db.sync({ force: false })

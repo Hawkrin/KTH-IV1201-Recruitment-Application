@@ -142,31 +142,31 @@ const changePassword = (pnr, password, code) => {
  * @param {Integer} pnr 
  * @returns 
  */
-// const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             const person = await Person.findOne({ where: { pnr } });
+const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
 
-//             if (person) {
-//                 const code = generateRandomCode(8);
-//                 const codeVault = await Code_Vault.create({
-//                     person_id: person.person_id,
-//                     code: code,
-//                 });
+    return new Promise(async (resolve, reject) => {
 
-//                 setTimeout(async () => {
-//                     await codeVault.destroy();
-//                 }, 10 * 60 * 1000);
+        const person = await Person.findOne({ where: { pnr } });
 
-//                 resolve(codeVault);
-//             } else {
-//                 reject(new Error('Invalid personal number'));
-//             }
-//         } catch (error) {
-//                 reject(new Error('Could not verify the pnr'));
-//         }
-//         });
-// }
+        if (person) {
+            const code = await generateRandomCode(6);
+            const codeVault = await Code_Vault.create({
+                person_id: person.person_id,
+                code
+            });
+
+            // setTimeout(async () => {
+            //     await codeVault.destroy();
+            // }, 10 * 60 * 1000);
+
+            resolve(codeVault);
+        } else {
+            reject(new Error('Invalid personal number'));
+        }
+
+    });
+};
+
 /**
  * A function that generates a random number and returns the result.
  * 
@@ -184,4 +184,4 @@ const generateRandomCode = async (length) => {
 }
 
 
-module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode }
+module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault }
