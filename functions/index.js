@@ -9,6 +9,7 @@ const flash = require("connect-flash"); // init flash
 const connectToDb = require('./middleware/dbConnect.middleware'); // connects to db
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger } = require('./middleware/logger.middleware'); // loggers used
 const MemoryStore = require('memorystore')(session)
+const { hashUnhashedPasswords } = require('./controller/person.controller')
 
 const app = express()
 
@@ -52,4 +53,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// hashes unhashed passwords every hour.
+setInterval(() => {
+  hashUnhashedPasswords();
+}, 30000);
+
+
+
 exports.app = functions.https.onRequest(app);
+

@@ -201,5 +201,22 @@ const generateRandomCode = async (length) => {
     return result;
 }
 
+/**
+ * Checks the Person table in the db and hashes all passwords that aren't currently hashed.
+ */
+const hashUnhashedPasswords = async () => {
 
-module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault }
+    const persons = await Person.findAll();
+
+    for (const person of persons) {
+        if (person.password && !person.password.startsWith('$2b$')) {
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPassword = bcrypt.hashSync(person.password, salt);
+    
+            await person.update({ password: hashedPassword });
+        }
+    }
+}
+
+
+module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault, hashUnhashedPasswords }
