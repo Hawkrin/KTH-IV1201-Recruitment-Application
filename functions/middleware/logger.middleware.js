@@ -37,6 +37,12 @@ logger.query = function(message) {
     logger.log({ level: 'query', message });
 };
 
+
+logger.query = function(message) {
+    logger.log({ level: 'fake_email', message });
+};
+
+
 // Logs all requests being done
 const requestLogger = (req, res, next) => {
     logger.request(`${req.method} request made to ${req.url} at ${new Date()}`);
