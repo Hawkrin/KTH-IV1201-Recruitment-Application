@@ -3,6 +3,7 @@ const Sequelize = require('sequelize')
 const CompetenceProfile = require('../model/competence_profile.model')
 const Competence = require('../model/competence.model')
 
+
 /**
  * Registers availability for a person.
  * 
@@ -54,7 +55,7 @@ const registerCompetence = async (
       throw new Error('Invalid input values')
     }
 
-    
+
     const competenceProfileExists = await CompetenceProfile.findOne({
       where: {
         person_id: person_id,
@@ -106,4 +107,14 @@ const getAllCompetences = async () => {
 }
 
 
-module.exports = { registerAvailability, registerCompetence, calculate, getAllCompetences}
+
+const getAllAvailability = async () => {
+  const availability = await Availability.findAll({
+    attributes: ['availability_id', 'person_id', 'from_date', 'to_date'],
+  });
+
+  return availability;
+}
+
+
+module.exports = { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability }

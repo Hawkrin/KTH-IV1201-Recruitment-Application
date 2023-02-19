@@ -33,6 +33,10 @@
 
     "APPLICATIONS_TITLE": "Ansökningar",
     "APPLICATIONS_RECRUITER": "Rekryterare",
+    "APPLICATIONS_APPLICATION_ID": "Ansöknings-ID",
+    "APPLICATIONS_AVAILABILITY": "Tillgänglighet",
+    "APPLICATIONS_FROM": "Från",
+    "APPLICATIONS_TO": "Till",
 
     "Show_Application": "Visa applikation",
    
