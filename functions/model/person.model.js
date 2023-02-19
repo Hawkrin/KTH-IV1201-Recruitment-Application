@@ -47,9 +47,6 @@ const Person = db.define("person",
     password: {
         type: Sequelize.STRING,
         required: true,
-        validate: {
-            is: /^[a-f0-9]+$/,
-        }
     },
     role_id: {
         type: Sequelize.INTEGER,
