@@ -21,7 +21,15 @@ const Code_Vault = db.define("code_vault",
                     });
                 }
             },
-        },
+                isUniquePersonId: function (value) {
+                    return Code_Vault.findOne({ where: { person_id: value } })
+                    .then(codeVault => {
+                        if (codeVault) {
+                            throw new Error("person_id already exists in code_vault table");
+                        }
+                    });
+            }
+            },
         code: {
             type: Sequelize.STRING,
             required: true,

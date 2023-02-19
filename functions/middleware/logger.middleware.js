@@ -1,42 +1,53 @@
 const winston = require("winston");
 
+
 /**
  * Creates a logger which outputs the logs to the files combined.log and error.log
  */
 const logger = winston.createLogger({
-    level: "info",
+    level: 'info',
     format: winston.format.json(),
-    defaultMeta: { service: "user-service" },
+    defaultMeta: { service: 'user-service' },
     transports: [
-        new winston.transports.File({ filename: "error.log", level: "error" }),
-        new winston.transports.File({ filename: "warn.log", level: "warn" }),
-        new winston.transports.File({ filename: "info.log", level: "info" }),
-        new winston.transports.File({ filename: "fake_email.log", level: "info"}),
-        new winston.transports.File({ filename: "combined.log" })
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'warn.log', level: 'warn' }),
+        new winston.transports.File({ filename: 'info.log', level: 'info' }),
+        new winston.transports.File({ filename: 'fake_email.log', level: 'fake_email'}),
+        new winston.transports.File({ filename: 'requests.log', level: 'request'}),
+        new winston.transports.File({ filename: 'queries.log', level: 'query'}),
+        new winston.transports.File({ filename: 'combined.log' })
     ],
+    levels: {
+        error: 0,
+        warn: 1,
+        info: 2,
+        fake_email: 3,
+        request: 4,
+        query: 5
+    }
 });
 
-/**
- * Logs all requests being done
- * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- */
+winston.addColors(customLevels.colors);
+
+// Create a new level for requests and log only requests
+logger.request = function(message) {
+    logger.log({ level: 'request', message });
+};
+
+// Create a new level for queries and log only queries
+logger.query = function(message) {
+    logger.log({ level: 'query', message });
+};
+
+// Logs all requests being done
 const requestLogger = (req, res, next) => {
-    logger.info(`${req.method} request made to ${req.url} at ${new Date()}`);
+    logger.request(`${req.method} request made to ${req.url} at ${new Date()}`);
     next();
 };
 
-/**
- * Logs all the queries being done
- * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- */
+// Logs all the queries being done
 const queryLogger = (req, res, next) => {
-    logger.info(`Executing query: ${req.query} with parameters: ${req.params} at ${new Date().toString()}`);
+    logger.query(`Executing query: ${req.query} with parameters: ${req.params} at ${new Date().toString()}`);
     next();
 };
 
@@ -77,6 +88,14 @@ const loginManyAttemptsLogger = (req, res, next) => {
     next();
 };
 
+/**
+ * Dummy mail function, imitates an email being sent
+ * 
+ * @param {String} randomCode 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 const fake_mailLogger = (randomCode, req, res, next) => {
     logger.info(`
         An email has been sent to your registered email address with further instructions to reset your password. 
@@ -86,9 +105,7 @@ const fake_mailLogger = (randomCode, req, res, next) => {
 
         Date: ${new Date().toString()}`
     );
-    next();
-    
-    
+    next();  
 }
 
 module.exports = { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger };
