@@ -27,8 +27,6 @@ const logger = winston.createLogger({
     }
 });
 
-winston.addColors(customLevels.colors);
-
 // Create a new level for requests and log only requests
 logger.request = function(message) {
     logger.log({ level: 'request', message });
