@@ -14,29 +14,35 @@
     <%- include('./partials/navbar.ejs') %>
   </div>
   <form id="search-form" method="get">
-    <h1><%= language['APPLICATIONS_MANAGEMENT_TITLE'] %></h1>
+    <h1><%= language['APPLICATIONS_TITLE'] %></h1>
 
-    <h2><%= language['APPLICATIONS_MANAGEMENT_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br></h2>
+    <h2><%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br></h2>
 
-    <label for="competence">Search by Competence:</label>
+    <!-- <label for="competence">Search by Competence:</label>
     <input type="text" name="competence" id="competence">
-    <button type="submit">Search</button>
+    <button type="submit"><%= language['APPLICATIONS_SEARCH'] %></button> -->
+
   </form>
   <table>
     <thead>
       <tr>
-        <h3>Applications</h3><br>
 
-        person.email<br>
-        availability.from_date<br>
-        availability.to_date<br>
-        competence.name<br>
+
+        The full name of the applicant (person 1)<br>
+        The application’s status (accepted,rejected,unhandled)<br>
+        <form id="ShowApplicationButtonBox" action="/iv1201-recruitmenapp/us-central1/app/application/show-application">
+          <button id="ShowApplicationButton" type="submit"><%= language['Show_Application'] %></button>
+        </form>
         <br>
-        person.email<br>
-        availability.from_date<br>
-        availability.to_date<br>
-        competence.name<br>
-        <br>
+        The full name of the applicant (person 2)<br>
+        The application’s status (accepted,rejected,unhandled)<br>
+        <form id="ShowApplicationButtonBox" action="/iv1201-recruitmenapp/us-central1/app/application/show-application">
+          <button id="ShowApplicationButton" type="submit"><%= language['Show_Application'] %></button>
+        </form>
+
+
+
+
       </tr>
     </thead>
     <tbody>

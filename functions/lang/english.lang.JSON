@@ -32,8 +32,11 @@
     "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Roller Coaster Operation",
     "APPLICATION_FORM_SUBMIT_BUTTON": "Submit",
 
-    "APPLICATIONS_MANAGEMENT_TITLE": "Applications management",
-    "APPLICATIONS_MANAGEMENT_RECRUITER": "Recruiter",
+    "APPLICATIONS_TITLE": "Applications",
+    "APPLICATIONS_RECRUITER": "Recruiter",
+
+    "Show_Application": "Show Application",
+    
 
     "RESTORE_PASSWORD_TITLE": "Restore Forgotten Password",
     "RESTORE_PASSWORD_BUTTON":"Restore",  

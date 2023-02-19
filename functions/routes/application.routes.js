@@ -11,6 +11,12 @@ router.use(authenticated, selectLanguage, requestLogger, queryLogger, errorLogge
 
 router
 
+  /*Show Application*/
+  .get('/show-application', async (req, res) => {
+    res.render('show-application', {
+      user: req.user,
+    })
+  })
 
   /*Application List*/
   .get('/applications', async (req, res) => {

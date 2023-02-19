@@ -31,8 +31,11 @@
     "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Berg- och dalbane-operation",
     "APPLICATION_FORM_SUBMIT_BUTTON": "Skicka",
 
-    "APPLICATIONS_MANAGEMENT_TITLE": "Applikationshantering",
-    "APPLICATIONS_MANAGEMENT_RECRUITER": "Rekryterare",
+    "APPLICATIONS_TITLE": "Ansökningar",
+    "APPLICATIONS_RECRUITER": "Rekryterare",
+
+    "Show_Application": "Visa applikation",
+   
 
     "RESTORE_PASSWORD_TITLE": "Återställ glömt lösenord",
     "RESTORE_PASSWORD_BUTTON":"Återställ",  
