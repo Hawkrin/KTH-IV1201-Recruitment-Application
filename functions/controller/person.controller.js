@@ -39,7 +39,7 @@ const getUser = async (id) => {
  * @returns {Promise}
  */
 const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
-    
+
     try {
         const userExists = await Person.findOne({
             where: {
@@ -82,22 +82,33 @@ const loginUser = async (usernameOrEmail, password) => {
         let user = await Person.findOne({
             where: { username: usernameOrEmail }
         });
+
         if (!user) {
             user = await Person.findOne({
                 where: { email: usernameOrEmail }
             });
-    
+
             if (!user) {
                 throw new Error("Username or email does not exist.");
             }
         }
 
-        const isMatch  = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            throw new Error("Password does not match.");
+        if (user.role_id == "1") {
+            const isMatch = await Person.findOne({ where: { password: user.password } });
+            if (!isMatch) {
+                throw new Error("Password does not match.");
+            }
         }
+
+        if (user.role_id == "2") {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                throw new Error("Password does not match.");
+            }
+        }
+
         return user;
+
     } catch (error) {
         throw error;
     }
@@ -121,9 +132,9 @@ const changePassword = (pnr, password, code) => {
             reject(new Error("Invalid code"));
             return;
         }
-        Person.update({password: bcrypt.hashSync(password, 10),},
+        Person.update({ password: bcrypt.hashSync(password, 10), },
             {
-                where: {pnr},
+                where: { pnr },
             })
             .then(() => {
                 resolve();
@@ -145,12 +156,12 @@ const changePassword = (pnr, password, code) => {
 const checkIfPnrExistsAndStoreCodeVault = async (pnr) => {
     try {
         const person = await Person.findOne({ where: { pnr } });
-        
+
         if (person) {
             const randomNum = generateRandomCode(8);
             const codeVault = await Code_Vault.create({
                 person_id: person.person_id,
-                code: randomNum     
+                code: randomNum
             });
 
             // setTimeout(async () => {
@@ -161,9 +172,9 @@ const checkIfPnrExistsAndStoreCodeVault = async (pnr) => {
         } else {
             throw new Error('Invalid personal number');
         }
-        } catch (error) {
+    } catch (error) {
         throw new Error(error.message);
-        }
+    }
 };
 
 /**
@@ -177,7 +188,7 @@ const generateRandomCode = async (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
 }

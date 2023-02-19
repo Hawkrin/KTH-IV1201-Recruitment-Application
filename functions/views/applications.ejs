@@ -1,15 +1,51 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../assets/applications.css" rel="stylesheet" type="text/css">
+  <title>Applications</title>
 </head>
 
 <body>
+  <div>
     <%- include('./partials/navbar.ejs') %>
-    HELLO
+  </div>
+  <form id="search-form" method="get">
+    <h1><%= language['APPLICATIONS_MANAGEMENT_TITLE'] %></h1>
+
+    <h2><%= language['APPLICATIONS_MANAGEMENT_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br></h2>
+
+    <label for="competence">Search by Competence:</label>
+    <input type="text" name="competence" id="competence">
+    <button type="submit">Search</button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <h3>Applications</h3><br>
+
+        person.email<br>
+        availability.from_date<br>
+        availability.to_date<br>
+        competence.name<br>
+        <br>
+        person.email<br>
+        availability.from_date<br>
+        availability.to_date<br>
+        competence.name<br>
+        <br>
+      </tr>
+    </thead>
+    <tbody>
+      <%  %>
+      <tr>
+      </tr>
+      <%  %>
+    </tbody>
+  </table>
 </body>
 
 </html>
