@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator')
 const { formErrorFormatter } = require('../util/errorFormatter')
 const _ = require('lodash')
 const { requestLogger, queryLogger, errorLogger } = require("../middleware/logger.middleware");
-const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability } = require('../controller/application.controller')
+const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant } = require('../controller/application.controller')
 
 const router = express.Router();
 router.use(authenticated, selectLanguage, requestLogger, queryLogger, errorLogger)
@@ -22,18 +22,20 @@ router
   .get('/applications', async (req, res) => {
     const availability = await getAllAvailability();
 
+    const applicant = await getAllApplicant();
+
+
     res.render('applications', {
       user: req.user,
       availability: availability,
+      applicant: applicant,
     })
   })
-
   .post('/applications',
-    [
-
-    ],
+    [],
     async (req, res) => {
       const availability = req.body.availability || []
+      const applicant = req.body.applicant || []
       return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/applications');
     }
   )
