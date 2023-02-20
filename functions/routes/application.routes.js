@@ -17,6 +17,7 @@ router
   .get('/show-application', async (req, res) => {
     res.render('show-application', {
       user: req.user,
+      cookie: req.session.cookie,
     })
   })
 
@@ -29,6 +30,7 @@ router
       user: req.user,
       availability: availability,
       applicant: applicant,
+      cookie: req.session.cookie,
     })
   })
   .post('/applications',
