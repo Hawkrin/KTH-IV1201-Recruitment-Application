@@ -115,11 +115,6 @@ Person.beforeCreate(async (person) => {
 
 Person.beforeUpdate(async (person) => {
 
-    // Validate password
-    // if (!validator.isLength(person.password, { min: 8, max: 16 })) {
-    //     return next(new Error('Password is not strong enough.'))
-    // }
-
     // Generate encrypted password and setting password to the hash.
     const salt = bcrypt.genSaltSync(10)
     const encryptedPassword = bcrypt.hashSync(person.password, salt)

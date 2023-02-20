@@ -1,6 +1,5 @@
 
 const { db } = require('../db');
-const flash = require('connect-flash');
 
 const connectToDb = (req, res, next) => {
     db.authenticate()
