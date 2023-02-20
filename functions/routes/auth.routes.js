@@ -61,11 +61,23 @@ router
   
     await db.transaction(t => {
       loginUser(usernameOrEmail, password)
-        .then((person) => {
-          const token = jwt.sign(person.person_id, process.env.JWT_TOKEN);
-          return res
-            .cookie("Authenticate", token)
-            .redirect("/iv1201-recruitmenapp/us-central1/app/application/application-form");
+        .then((user) => {
+
+          if (user.role_id == "1") {
+            const token = jwt.sign(user.person_id, process.env.JWT_TOKEN);
+            return res
+              .status(200)
+              .cookie("Authenticate", token)
+              .redirect("/iv1201-recruitmenapp/us-central1/app/application/applications");
+          }
+          if (user.role_id == "2") {
+            const token = jwt.sign(user.person_id, process.env.JWT_TOKEN);
+            return res
+              .status(200)
+              .cookie("Authenticate", token)
+              .redirect("/iv1201-recruitmenapp/us-central1/app/application/application-form");
+          }
+          
         })
         .catch((error) => {
           req.flash('error', 'Login Failed, check your login credentials')
