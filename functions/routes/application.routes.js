@@ -72,21 +72,14 @@ router
             const yearsOfExperience = calculate(startDate, endDate);
 
             if(!startDate || !endDate ) {
-              competenceErrors.push("If a competence is chosen, then also set the years of experience");
-              req.flash('error', "Fill out the form correctly")
+              req.flash('competence_error', "Enter experience")
             }
-            
-            if (competenceErrors.length > 0) {
-              competenceErrorArray.push(competenceErrors);
-              req.flash('error', "Fill out the form correctly")
-            }
-
+  
             await registerCompetence(person_id, competenceId, yearsOfExperience);
           }
         }
       })
-  
-      // Register new availability
+      
       await db.transaction((t) => {
         registerAvailability(person_id, from_date, to_date)
           .then(() => {})
@@ -101,6 +94,7 @@ router
         console.log(error.message)
         return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
     }
+
   })
   
 module.exports = router
