@@ -105,7 +105,7 @@ const loginManyAttemptsLogger = (req, res, next) => {
  * @param {*} next 
  */
 const fake_mailLogger = (randomCode, req, res, next) => {
-    logger.info(`
+    logger.fake_email(`
         An email has been sent to your registered email address with further instructions to reset your password. 
         Please check your inbox and follow the instructions. If you don't receive an email within a few minutes, 
         please check your spam folder. Your one-time verification code is:  ${randomCode}. 
