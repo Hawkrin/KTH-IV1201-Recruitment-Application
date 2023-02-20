@@ -9,7 +9,8 @@
     <body>
         <%- include('./partials/navbar.ejs') %>
         <form id="signInBox" method="post">
-            <p style="font-size: xx-small; color: red;" ><%= error %></p>
+            <p style="font-size: large; color: red; display: flex; justify-content: center;" ><%= error %></p>
+            <p style="font-size: large; color: green; display: flex; justify-content: center;" ><%= success %></p>
             <div id="signin">
                 <h2><%= language['SIGN_UP_TITLE'] %></h2>
                 <!-- Error for username -->

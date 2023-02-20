@@ -47,9 +47,6 @@ const Person = db.define("person",
     password: {
         type: Sequelize.STRING,
         required: true,
-        validate: {
-            is: /^[a-f0-9]+$/,
-        }
     },
     role_id: {
         type: Sequelize.INTEGER,
@@ -119,32 +116,15 @@ Person.beforeCreate(async (person) => {
 Person.beforeUpdate(async (person) => {
 
     // Validate password
-    if (!validator.isLength(person.password, { min: 8, max: 16 })) {
-        return next(new Error('Password is not strong enough.'))
-    }
+    // if (!validator.isLength(person.password, { min: 8, max: 16 })) {
+    //     return next(new Error('Password is not strong enough.'))
+    // }
 
     // Generate encrypted password and setting password to the hash.
     const salt = bcrypt.genSaltSync(10)
     const encryptedPassword = bcrypt.hashSync(person.password, salt)
     person.password = encryptedPassword
 });
-
-// Person.afterCreate(async () => {
-    
-//     const saltRounds = 10;
-//     const persons = await Person.findAll();
-
-//     if (persons.length > 0) {
-//         for (const person of persons) {
-//             if (person.password && !person.password.startsWith('$2b$')) {
-//                 const encryptedPassword = await bcrypt.hash(person.password, saltRounds);
-//                 await person.update({ password: encryptedPassword });
-//             }
-//         }
-//     } else {
-//         return next(new Error('Error updating database.'))
-//     }
-// })
 
 
 // Synchronize the model with the database

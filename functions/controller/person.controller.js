@@ -72,7 +72,7 @@ const registerUser = async (name, surname, pnr, email, password, confirmpassword
  * checks if email exists and if it does we compare the password in the
  * database with the password provided and then log the user in with JWT
  *  
- * @param {String} usernameOrEmail
+ * @param {String} usernameOrEmail Both username and email are valid 
  * @param {String} password
  * @returns {Promise}
  */
@@ -121,61 +121,89 @@ const loginUser = async (usernameOrEmail, password) => {
  * done by validating the user with a code being sent.
  * 
  * @param {Integer} pnr 
- * @param {Integer} newPassword 
- * @param {Integer} code 
+ * @param {Integer} password 
+ * @param {Integer} code temporary code used for validation
  * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
-const changePassword = (pnr, password, code) => {
-    return new Promise((resolve, reject) => {
+const changePassword = (code, password) => {
+    return new Promise(async (resolve, reject) => {
 
-        if (req.session.code !== code) {
+        const code_vault = await Code_Vault.findOne({ where: { code } });
+
+        if (!code_vault) {
             reject(new Error("Invalid code"));
             return;
         }
         Person.update({ password: bcrypt.hashSync(password, 10), },
             {
                 where: { pnr },
-            })
-            .then(() => {
-                resolve();
-            })
-            .catch((error) => {
-                reject(error);
+
+                const person_id = code_vault.person_id;
+
+                Person.update({ password: bcrypt.hashSync(password, 10), },
+                    {
+                        where: { person_id },
+                    })
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
             });
-    });
-};
+    };
 
-/**
- * Checks if there's a user in the database with the given personal number if so
- * then the function stores the generated code together with the persons person_id
- * for 10 minutes and then it's deleted
- * 
- * @param {Integer} pnr 
- * @returns 
- */
-const checkIfPnrExistsAndStoreCodeVault = async (pnr) => {
-    try {
-        const person = await Person.findOne({ where: { pnr } });
+    /**
+     * Checks if there's a user in the database with the given personal number if so
+     * then the function stores the generated code together with the persons person_id
+     * for 10 minutes and then it's deleted
+     * 
+     * @param {Integer} pnr 
+     * @returns 
+     */
+    const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
 
-        if (person) {
-            const randomNum = generateRandomCode(8);
-            const codeVault = await Code_Vault.create({
-                person_id: person.person_id,
-                code: randomNum
-            });
+        return new Promise(async (resolve, reject) => {
 
-            // setTimeout(async () => {
-            //     await codeVault.destroy();
-            // }, 10 * 60 * 1000);
+            const person = await Person.findOne({ where: { pnr } });
 
-            return codeVault;
-        } else {
-            throw new Error('Invalid personal number');
+            if (person) {
+                let codeVaultId = 1;
+                let codeVaultExists = true;
+
+                while (codeVaultExists) {
+                    const existingCodeVault = await Code_Vault.findOne({ where: { code_vault_id: codeVaultId } });
+                    if (existingCodeVault) {
+                        codeVaultId++;
+                    } else {
+                        codeVaultExists = false;
+                    }
+                }
+
+                const code = await generateRandomCode(6);
+                const codeVault = await Code_Vault.create({
+                    code_vault_id: codeVaultId,
+                    person_id: person.person_id,
+                    code: randomNum
+                code
+                });
+
+                setTimeout(async () => {
+                    await codeVault.destroy();
+                }, 10 * 60 * 1000);
+
+                resolve(codeVault);
+            } else {
+                throw new Error('Invalid personal number');
+            }
+        } catch (error) {
+            throw new Error(error.message);
         }
-    } catch (error) {
-        throw new Error(error.message);
+        reject(new Error('Invalid personal number'));
     }
-};
+
+});
+    };
 
 /**
  * A function that generates a random number and returns the result.
@@ -193,5 +221,22 @@ const generateRandomCode = async (length) => {
     return result;
 }
 
+/**
+ * Checks the Person table in the db and hashes all passwords that aren't currently hashed.
+ */
+const hashUnhashedPasswords = async () => {
 
-module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault }
+    const persons = await Person.findAll();
+
+    for (const person of persons) {
+        if (person.password && !person.password.startsWith('$2b$')) {
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPassword = bcrypt.hashSync(person.password, salt);
+
+            await person.update({ password: hashedPassword });
+        }
+    }
+}
+
+
+module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault, hashUnhashedPasswords }
