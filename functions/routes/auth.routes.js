@@ -133,10 +133,11 @@ router
         }
       });
     } catch (error) {
-      console.log('Promise rejected');
-      req.flash('error', 'The entered personal number cant be found');
-      return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
-    }
+        errorLogger(error, req, res, () => {
+          req.flash('error', 'The entered personal number cant be found');
+          return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
+        });
+      }
   })
 
   .get("/forgotten-password-part2", (req, res, next) => {
@@ -206,9 +207,10 @@ router
 
           })
           .catch((error) => {
-            console.error("Transaction failed: ", error);
-            req.flash('error', 'Make sure that you have entered the right code')
-            return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2");
+            errorLogger(error, req, res, () => {
+              req.flash('error', 'Make sure that you have entered the right code')
+              return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2");
+            });
           });
       })
   })
@@ -268,10 +270,11 @@ router
         }
       });
     } catch (error) {
-      console.log('Promise rejected');
-      req.flash('error', 'The entered username cant be found');
-      return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-admin');
-    }
+        errorLogger(error, req, res, () => {
+          req.flash('error', 'The entered username cant be found');
+          return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-admin');
+        });
+      }
   })
 
   /*Register routes*/
@@ -380,15 +383,15 @@ router
         )
           .then((person) => {
             if (person) {
-              // const token = jwt.sign(person.person_id.toString(), process.env.JWT_TOKEN)
               req.flash('success', 'Your account has been created, please login');
               return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
             }
           })
           .catch((error) => {
-            console.error('Transaction failed: ', error)
-            req.flash('error', "There're problems registering your account at this moment, please try again.")
-            return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/register')
+            errorLogger(error, req, res, () => {
+              req.flash('error', "There're problems registering your account at this moment, please try again.")
+              return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/register')
+            })
           })
       })
     },

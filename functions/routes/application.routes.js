@@ -90,9 +90,10 @@ router
       res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
 
     } catch (error) {
+      errorLogger(error, req, res, () => {
         req.flash('error', "Fill out the form correctly")
-        console.log(error.message)
         return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
+      })
     }
 
   })
