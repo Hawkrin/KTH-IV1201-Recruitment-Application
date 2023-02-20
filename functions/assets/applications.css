@@ -1,0 +1,24 @@
+.availability-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .availability-item {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .availability-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .show-application-button {
+    margin-top: 10px;
+  }
+  #ShowApplicationButtonBox{
+    margin-top: 0px;
+  }

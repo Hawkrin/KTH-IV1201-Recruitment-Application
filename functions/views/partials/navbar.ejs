@@ -1,20 +1,21 @@
 <link href="../assets/navbar.css" rel="stylesheet" type="text/css">
 <div id="navContainer">
-    <div id="leftHeaderContainer">
-        <form id="leftHeaderContainerContent" method="get">
-            <select name="language">
-                <option value="english" <%= language === 'english' ? 'selected' : '' %>>English</option>
-                <option value="swedish" <%= language === 'swedish' ? 'selected' : '' %>>Swedish</option>
-            </select>
-            <input id="langButton" type="submit" value="Submit">
-        </form>
-    </div>
-    <div id="middleHeaderContainer">
-        <span id="headerTitle">Recruitment Application</span>
-    </div>
-    <div id="leftHeaderContainer">
-        <form id="logoutButtonBox" action="/iv1201-recruitmenapp/us-central1/app/auth/logout">
-            <button id="logoutButton" type="submit">Sign Out</button>
-        </form>
-    </div>
+  <div id="leftHeaderContainer">
+    <form id="leftHeaderContainerContent" method="get">
+      <select name="language">
+        <option value="english" <%= language === 'english' ? 'selected' : '' %>>English</option>
+        <option value="swedish" <%= language === 'swedish' ? 'selected' : '' %>>Swedish</option>
+      </select>
+      <input id="langButton" type="submit" value="Submit">
+    </form>
+  </div>
+  <div id="middleHeaderContainer">
+    <span id="headerTitle"><%= language['RECRUITMENT_APPLICATION_NAVBAR'] %></span>
+
+  </div>
+  <div id="leftHeaderContainer">
+    <form id="logoutButtonBox" action="/iv1201-recruitmenapp/us-central1/app/auth/logout">
+      <button id="logoutButton" type="submit"><%= language['SIGN_OUT_NAVBAR'] %></button>
+    </form>
+  </div>
 </div>

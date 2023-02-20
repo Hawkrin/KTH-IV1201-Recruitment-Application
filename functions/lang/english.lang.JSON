@@ -1,4 +1,8 @@
 {
+    "RECRUITMENT_APPLICATION_NAVBAR": "Recruitment Application",
+    "SIGN_OUT_NAVBAR": "Sign Out",
+
+
     "SIGN_IN_TITLE": "Sign in",
     "SIGN_IN_BUTTON": "Sign in",
     "NOT_A_MEMBER": "Not a member yet? Register now",
@@ -27,6 +31,16 @@
     "APPLICATION_FORM_LOTTERIES": "Lotteries",
     "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Roller Coaster Operation",
     "APPLICATION_FORM_SUBMIT_BUTTON": "Submit",
+
+    "APPLICATIONS_TITLE": "Applications",
+    "APPLICATIONS_RECRUITER": "Recruiter",
+    "APPLICATIONS_APPLICATION_ID": "Application ID",
+    "APPLICATIONS_AVAILABILITY": "Availability",
+    "APPLICATIONS_FROM": "From",
+    "APPLICATIONS_TO": "To",
+
+    "Show_Application": "Show Application",
+    
 
     "RESTORE_PASSWORD_TITLE": "Restore Forgotten Password",
     "RESTORE_PASSWORD_BUTTON":"Restore",  
