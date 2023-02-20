@@ -113,6 +113,7 @@ const getAllCompetences = async () => {
 const getAllAvailability = async () => {
   const availability = await Availability.findAll({
     attributes: ['availability_id', 'person_id', 'from_date', 'to_date'],
+    order: [['availability_id', 'DESC']],
   });
   return availability;
 }
@@ -125,7 +126,8 @@ const getAllAvailability = async () => {
 const getAllApplicant = async () => {
   const applicant = await Applicant.findAll({
     attributes: ['person_id', 'name', 'surname', 'pnr', 'email', 'password', 'role_id', 'username'],
-    where: { role_id: "2" }
+    where: { role_id: "2" },
+    order: [['person_id','DESC']]
   })
   return applicant;
 }
