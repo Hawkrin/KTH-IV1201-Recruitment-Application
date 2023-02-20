@@ -185,6 +185,52 @@ const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
 };
 
 /**
+ * Checks if there's a user in the database with the given username if so
+ * then the function stores the generated code together with the persons person_id
+ * for 10 minutes and then it's deleted
+ * 
+ * @param {Integer} pnr the personal number of the person
+ * @returns success if the pnr is correct and the new passwords match. Otherwise reject
+ */
+const checkIfUsernameExistsAndStoreCodeVault = (username) => {
+
+    return new Promise(async (resolve, reject) => {
+
+        const person = await Person.findOne({ where: { username } });
+
+        if (person && person.role_id == '1') {
+            let codeVaultId = 1;
+            let codeVaultExists = true;
+
+            while (codeVaultExists) {
+                const existingCodeVault = await Code_Vault.findOne({ where: { code_vault_id: codeVaultId } });
+                if (existingCodeVault) {
+                    codeVaultId++;
+                } else {
+                    codeVaultExists = false;
+                }
+            }
+
+            const code = await generateRandomCode(6);
+            const codeVault = await Code_Vault.create({
+                code_vault_id: codeVaultId,
+                person_id: person.person_id,
+                code
+            });
+
+            setTimeout(async () => {
+                await codeVault.destroy();
+            }, 10 * 60 * 1000);
+
+            resolve(codeVault);
+        } else {
+            reject(new Error('Invalid username'));
+        }
+
+    });
+};
+
+/**
  * A function that generates a random number and returns the result.
  * 
  * @param {Integer} length the length of the code
@@ -218,4 +264,4 @@ const hashUnhashedPasswords = async () => {
 }
 
 
-module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault, hashUnhashedPasswords }
+module.exports = { registerUser, loginUser, getUser, changePassword, generateRandomCode, checkIfPnrExistsAndStoreCodeVault, hashUnhashedPasswords, checkIfUsernameExistsAndStoreCodeVault }

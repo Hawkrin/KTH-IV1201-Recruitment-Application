@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
 const selectLanguage  = require('../middleware/languageChanger.middleware')
 const jwt = require("jsonwebtoken")
-const { registerUser, loginUser, changePassword, checkIfPnrExistsAndStoreCodeVault } = require('../controller/person.controller')
+const { registerUser, loginUser, changePassword, checkIfPnrExistsAndStoreCodeVault, checkIfUsernameExistsAndStoreCodeVault } = require('../controller/person.controller')
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger } = require("../middleware/logger.middleware");
 const {db} = require('../db'); 
 const Person = require('../model/person.model');
@@ -211,6 +211,66 @@ router
             return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2");
           });
       })
+  })
+
+  .get("/forgotten-password-admin", (req, res, next) => {
+
+    res.render('forgotten-password-admin', {
+        error: req.flash("error"), 
+        success: req.flash('success'),
+        form_error: req.flash("form-error"),
+        cookie: null
+
+    });
+  })
+
+  .post('/forgotten-password-admin', 
+
+  [
+    check('pnr', 'Enter a valid username')
+      .exists()
+      .isLength({ min: 3 })
+      .custom(async (username) => {
+        const user = await Person.findOne({ where: { username: username } });
+        if (!user) {
+          throw new Error('User does not exist');
+        } else if (user.role_id !== 1) {
+          throw new Error('User is not an admin');
+        }
+      })
+  ],
+
+  async (req, res) => {
+    const { username } = _.pick(req.body, ['username'])
+
+    
+  
+    //Form errors.
+    const errors = validationResult(req);
+    if (errors.errors.length > 0) {
+      req.flash('form-error', formErrorFormatter(errors));
+      return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-admin');
+    }
+
+    try {
+      await db.transaction(async (t) => {
+        const codeVault = await checkIfUsernameExistsAndStoreCodeVault(username);
+        if (codeVault) {
+          console.log('Promise resolved');
+          const randomCode = codeVault.code;
+          req.flash('success', 'A code has been sent to your email.');
+          fake_mailLogger(randomCode, req, res, () => {
+            res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2');
+          });
+        } else {
+          throw new Error('Code Vault not created');
+        }
+      });
+    } catch (error) {
+      console.log('Promise rejected');
+      req.flash('error', 'The entered username cant be found');
+      return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-admin');
+    }
   })
 
   /*Register routes*/

@@ -34,7 +34,7 @@ router
       form_error: req.flash('form-error'),
       competence_error: req.flash('competence_error'),
       competences: competences,
-      cookie: req.session.cookie
+      cookie: req.session.cookie,
     });
   })
 
