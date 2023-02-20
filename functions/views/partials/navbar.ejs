@@ -11,12 +11,11 @@
   </div>
   <div id="middleHeaderContainer">
     <span id="headerTitle"><%= language['RECRUITMENT_APPLICATION_NAVBAR'] %></span>
+
   </div>
   <div id="leftHeaderContainer">
-    <%if(cookie !== null) { %>
     <form id="logoutButtonBox" action="/iv1201-recruitmenapp/us-central1/app/auth/logout">
       <button id="logoutButton" type="submit"><%= language['SIGN_OUT_NAVBAR'] %></button>
     </form>
-    <% } %>
   </div>
 </div>

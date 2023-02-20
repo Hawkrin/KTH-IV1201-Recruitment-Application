@@ -13,11 +13,15 @@
     <%- include('./partials/navbar.ejs') %>
   </div>
   <form id="search-form" method="get">
+
     <h1><%= language['APPLICATIONS_TITLE'] %></h1>
     <!-- <div> <% applicant.forEach(function(applicant) { %>
       <%= applicant.person_id %>
       <% }); %> </div> -->
+
+
     <h2><%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br></h2>
+
     <% if (availability && availability.length) { %>
     <div class="availability-container">
       <% availability.forEach(function(item) { %>
