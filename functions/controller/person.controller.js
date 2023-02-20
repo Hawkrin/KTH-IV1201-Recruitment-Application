@@ -39,7 +39,7 @@ const getUser = async (id) => {
  * @returns {Promise}
  */
 const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
-    
+
     try {
         const userExists = await Person.findOne({
             where: {
@@ -86,17 +86,26 @@ const loginUser = async (usernameOrEmail, password) => {
             user = await Person.findOne({
                 where: { email: usernameOrEmail }
             });
-    
+
             if (!user) {
                 throw new Error("Username or email does not exist.");
             }
         }
-
-        const isMatch  = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            throw new Error("Password does not match.");
+        /****************************************************************** */
+        if (user.role_id == "1") {
+            const isMatch = await Person.findOne({ where: { password: user.password } });
+            if (!isMatch) {
+                throw new Error("Password does not match.");
+            }
         }
+        if (user.role_id == "2") {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                throw new Error("Password does not match.");
+            }
+        }
+        /****************************************************************** */
+
         return user;
     } catch (error) {
         throw error;
@@ -126,9 +135,9 @@ const changePassword = (code, password) => {
 
         const person_id = code_vault.person_id;
 
-        Person.update({password: bcrypt.hashSync(password, 10),},
+        Person.update({ password: bcrypt.hashSync(password, 10), },
             {
-                where: {person_id},
+                where: { person_id },
             })
             .then(() => {
                 resolve();
@@ -196,7 +205,7 @@ const generateRandomCode = async (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
 }
@@ -212,7 +221,7 @@ const hashUnhashedPasswords = async () => {
         if (person.password && !person.password.startsWith('$2b$')) {
             const salt = bcrypt.genSaltSync(10);
             const hashedPassword = bcrypt.hashSync(person.password, salt);
-    
+
             await person.update({ password: hashedPassword });
         }
     }

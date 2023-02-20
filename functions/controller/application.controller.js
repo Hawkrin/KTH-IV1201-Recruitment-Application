@@ -2,6 +2,7 @@ const Availability = require('../model/availability.model')
 const Sequelize = require('sequelize')
 const CompetenceProfile = require('../model/competence_profile.model')
 const Competence = require('../model/competence.model')
+const Applicant = require("../model/person.model")
 
 /**
  * Registers availability for a person.
@@ -54,7 +55,7 @@ const registerCompetence = async (
       throw new Error('Invalid input values')
     }
 
-    
+
     const competenceProfileExists = await CompetenceProfile.findOne({
       where: {
         person_id: person_id,
@@ -104,6 +105,28 @@ const getAllCompetences = async () => {
 
   return competences;
 }
+/****************************************************************** */
+
+/**
+ * Get all availability records from the database
+ * @returns {Array<Object>} - An array of availability objects
+ *  */
+const getAllAvailability = async () => {
+  const availability = await Availability.findAll({
+    attributes: ['availability_id', 'person_id', 'from_date', 'to_date'],
+  });
+  return availability;
+}
+
+//javadoc comments
+const getAllApplicant = async () => {
+  const applicant = await Applicant.findAll({
+    attributes: ['person_id', 'name', 'surname', 'pnr', 'email', 'password', 'role_id', 'username'],
+    where: { role_id: "2" }
+  })
+  return applicant;
+}
+/****************************************************************** */
 
 
-module.exports = { registerAvailability, registerCompetence, calculate, getAllCompetences}
+module.exports = { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant }
