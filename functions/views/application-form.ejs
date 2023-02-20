@@ -55,20 +55,22 @@
     </div>
 
     <div>
-    <label for="competences"><%= language['APPLICATION_FORM_COMPETENCE_TITLE'] %></label>
-    <div id="competencesContainer">
-      <% competences.forEach(function(competence, i) { %>
-        <div>
-          <input type="checkbox" name="competences[]" value="<%= competence.competence_id %>" id="competence">
-          <h2><%= competence.name %></h2>
-          <p>
-            <%= form_error1 %>
-          </p>
-          <input type="date" id="startDate" name="start_date_<%= competence.competence_id %>">
-          <input type="date" id="endDate" name="end_date_<%= competence.competence_id %>">
-        </div>
-      <% }); %>
-    </div>
+      <label for="competences"><%= language['APPLICATION_FORM_COMPETENCE_TITLE'] %></label>
+      <div id="competencesContainer">
+        <% competences.forEach(function(competence, i) { %>
+          <div>
+            <input type="checkbox" name="competences[]" value="<%= competence.competence_id %>" id="competence">
+            <h2><%= competence.name %></h2>
+            <% if (competence_error[i]) { %>
+              <% competence_error[i].forEach(function(error) { %>
+                <p><%= error %></p>
+              <% }); %>
+            <% } %>
+            <input type="date" id="startDate" name="start_date_<%= competence.competence_id %>">
+            <input type="date" id="endDate" name="end_date_<%= competence.competence_id %>">
+          </div>
+        <% }); %>
+      </div>
   </div>
   <button id="submitButton" type="submit"><%= language['APPLICATION_FORM_SUBMIT_BUTTON'] %></button>
   </form>

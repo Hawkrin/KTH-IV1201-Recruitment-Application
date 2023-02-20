@@ -3,6 +3,7 @@
     "SIGN_IN_BUTTON": "Logga in",
     "NOT_A_MEMBER": "Är du inte medlem ännu? Registrera dig nu",
     "HAVE_YOU_FORGOTTEN_YOUR_PASSWORD": "Har du glömt ditt lösenord?",
+    "ARE_YOU_AN_ADMIN": "Är du en admin",
 
     "SIGN_UP_BUTTON": "Registrera dig",
     "SIGN_UP_TITLE": "Registrera dig",
@@ -23,9 +24,6 @@
     "APPLICATION_FORM_PERSON_PERSON_ID": "Person ID: ",
     "APPLICATION_FORM_AVAILABILITY_TITLE": "Tillgänglighet",
     "APPLICATION_FORM_COMPETENCE_TITLE": "Kompetenser",
-    "APPLICATION_FORM_TICKET_SALES": "Biljettförsäljning",
-    "APPLICATION_FORM_LOTTERIES": "Lotterier",
-    "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Berg- och dalbane-operation",
     "APPLICATION_FORM_SUBMIT_BUTTON": "Skicka",
 
     "RESTORE_PASSWORD_TITLE": "Återställ glömt lösenord",

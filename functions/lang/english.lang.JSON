@@ -3,6 +3,7 @@
     "SIGN_IN_BUTTON": "Sign in",
     "NOT_A_MEMBER": "Not a member yet? Register now",
     "HAVE_YOU_FORGOTTEN_YOUR_PASSWORD": "Have you forgotten your password",
+    "ARE_YOU_AN_ADMIN": "Are you an admin",
 
     "SIGN_UP_TITLE": "Sign up",
     "SIGN_UP_BUTTON": "Sign up",
@@ -23,9 +24,6 @@
     "APPLICATION_FORM_PERSON_PERSON_ID": "Person ID: ",
     "APPLICATION_FORM_AVAILABILITY_TITLE": "Availability",
     "APPLICATION_FORM_COMPETENCE_TITLE": "Competences",
-    "APPLICATION_FORM_TICKET_SALES": "Ticket Sales",
-    "APPLICATION_FORM_LOTTERIES": "Lotteries",
-    "APPLICATION_FORM_ROLLER_COASTER_OPERATION": "Roller Coaster Operation",
     "APPLICATION_FORM_SUBMIT_BUTTON": "Submit",
 
     "RESTORE_PASSWORD_TITLE": "Restore Forgotten Password",
