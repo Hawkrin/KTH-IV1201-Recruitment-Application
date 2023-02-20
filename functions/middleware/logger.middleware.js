@@ -1,6 +1,5 @@
 const winston = require("winston");
 
-
 /**
  * Creates a logger which outputs the logs to the files combined.log and error.log
  */
@@ -37,9 +36,14 @@ logger.query = function(message) {
     logger.log({ level: 'query', message });
 };
 
-
-logger.query = function(message) {
+// Create a new level for fake_mail logs
+logger.fake_email = function(message) {
     logger.log({ level: 'fake_email', message });
+};
+
+// Create a new level for warning such as login attempts.
+logger.warn = function(message) {
+    logger.log({ level: 'warn', message });
 };
 
 

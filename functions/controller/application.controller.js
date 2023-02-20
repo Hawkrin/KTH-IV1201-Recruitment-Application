@@ -95,7 +95,7 @@ const calculate = (start, end) => {
 /**
  * Retrieves all competences from the competence table in the database
  * 
- * @returns 
+ * @returns all competences in the table
  */
 const getAllCompetences = async () => {
   const competences = await Competence.findAll({
@@ -104,6 +104,5 @@ const getAllCompetences = async () => {
 
   return competences;
 }
-
 
 module.exports = { registerAvailability, registerCompetence, calculate, getAllCompetences}

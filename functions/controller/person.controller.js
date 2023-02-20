@@ -3,13 +3,12 @@ const Code_Vault = require("../model/code_vault.model"); // Connection to Code_v
 const bcrypt = require("bcrypt");
 const Sequelize = require('sequelize');
 
-
 /**
  * Looks up a user via the user_id and then returns the user.
  * The promise gets rejected if no user can be found.
  * 
- * @param {Integer} _id 
- * @returns {Promise}
+ * @param {Integer} id retrieves the person_id of a person
+ * @returns {Promise} the person "object"
  */
 const getUser = async (id) => {
     try {
@@ -29,14 +28,14 @@ const getUser = async (id) => {
  * Returning a promise, resolve if successfully register user.
  * Reject if probles occured registering user. 
  * 
- * @param {String} username 
- * @param {Integer} password 
- * @param {String} name 
- * @param {String} surname 
- * @param {Integer} pnr 
- * @param {String} email 
- * @param {Integer} role_id 
- * @returns {Promise}
+ * @param {String} username the username of the user
+ * @param {Integer} password the password of the user
+ * @param {String} name the name of the user
+ * @param {String} surname the surname of the user
+ * @param {Integer} pnr the personal number of the user
+ * @param {String} email the email of the user
+ * @param {Integer} role_id the users role_id
+ * @returns {Promise} the new person as an object
  */
 const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
     
@@ -73,8 +72,8 @@ const registerUser = async (name, surname, pnr, email, password, confirmpassword
  * database with the password provided and then log the user in with JWT
  *  
  * @param {String} usernameOrEmail Both username and email are valid 
- * @param {String} password
- * @returns {Promise}
+ * @param {String} password the password of the user
+ * @returns {Promise} returns the person as an object
  */
 
 const loginUser = async (usernameOrEmail, password) => {
@@ -109,8 +108,8 @@ const loginUser = async (usernameOrEmail, password) => {
  * can change his password by entering the new password twice. And a special check is being
  * done by validating the user with a code being sent.
  * 
- * @param {Integer} pnr 
- * @param {Integer} password 
+ * @param {Integer} pnr the personal number of the user
+ * @param {Integer} password the password of the user
  * @param {Integer} code temporary code used for validation
  * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
@@ -144,8 +143,8 @@ const changePassword = (code, password) => {
  * then the function stores the generated code together with the persons person_id
  * for 10 minutes and then it's deleted
  * 
- * @param {Integer} pnr 
- * @returns 
+ * @param {Integer} pnr the personal number of the person
+ * @returns success if the pnr is correct and the new passwords match. Otherwise reject
  */
 const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
 
@@ -188,8 +187,8 @@ const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
 /**
  * A function that generates a random number and returns the result.
  * 
- * @param {Integer} length 
- * @returns 
+ * @param {Integer} length the length of the code
+ * @returns the code.
  */
 const generateRandomCode = async (length) => {
     let result = "";

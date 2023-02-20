@@ -13,8 +13,10 @@
         <span id="headerTitle">Recruitment Application</span>
     </div>
     <div id="leftHeaderContainer">
-        <form id="logoutButtonBox" action="/iv1201-recruitmenapp/us-central1/app/auth/logout">
-            <button id="logoutButton" type="submit">Sign Out</button>
-        </form>
+        <%if(cookie !== null) { %>
+            <form id="logoutButtonBox" action="/iv1201-recruitmenapp/us-central1/app/auth/logout">
+                <button id="logoutButton" type="submit">Sign Out</button>
+            </form>
+        <% } %>
     </div>
 </div>

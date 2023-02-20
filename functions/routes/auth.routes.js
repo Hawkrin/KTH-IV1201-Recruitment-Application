@@ -3,11 +3,14 @@ const _ = require("lodash");
 const { fullUrl, originalURL } = require("../util/url");
 const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
-const { selectLanguage, setCodeToSession } = require("../middleware/auth.middleware");
+const selectLanguage  = require('../middleware/languageChanger.middleware')
 const jwt = require("jsonwebtoken")
 const { registerUser, loginUser, changePassword, checkIfPnrExistsAndStoreCodeVault } = require('../controller/person.controller')
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger } = require("../middleware/logger.middleware");
 const {db} = require('../db'); 
+const Person = require('../model/person.model');
+const Code_Vault = require('../model/code_vault.model');
+const Sequelize = require('sequelize');
 
 const router = Router()
 
@@ -21,6 +24,8 @@ router
       res.render('login', {
           error: req.flash("error"), 
           form_error: req.flash("form-error"),
+          success: req.flash('success'),
+          cookie: null
       });
   })
 
@@ -28,9 +33,21 @@ router
 
   [
     check("usernameOrEmail", "Can't find a valid username or email")
-      .not().isEmpty(),
+      .not()
+      .isEmpty()
+      .custom(async (usernameOrEmail) => {
+        const user = await Person.findOne({
+          where: {
+            [Sequelize.Op.or]: [{ email: usernameOrEmail }, { username: usernameOrEmail }]
+          }
+        });
+        if (!user) {
+          throw new Error('The email or username doesnt exist');
+        }
+      }),
     check("password", "Password must be entered")
-      .not().isEmpty()
+      .not()
+      .isEmpty()
   ],
   
   async (req, res) => {
@@ -51,11 +68,12 @@ router
             .redirect("/iv1201-recruitmenapp/us-central1/app/application/application-form");
         })
         .catch((error) => {
-          console.error('Transaction failed: ', error)
-          t.rollback()
-          req.flash('Problem communicatiing with the database')
-          return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login');
+          req.flash('error', 'Login Failed, check your login credentials')
+          errorLogger(error, req, res, () => {
+            return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login');
+          });
         });
+          
     });
   })
 
@@ -73,12 +91,21 @@ router
         error: req.flash("error"), 
         success: req.flash('success'),
         form_error: req.flash("form-error"),
+        cookie: null
+
     });
   })
 
   .post('/forgotten-password-part1', 
   [
-    check('pnr', 'Enter a valid personal number (8 digits-4 digits)').matches(/^\d{8}-\d{4}$/),
+    check('pnr', 'Enter a valid personal number (8 digits-4 digits)')
+      .matches(/^\d{8}-\d{4}$/)
+      .custom(async (pnr) => {
+        const user = await Person.findOne({ where: { pnr: pnr } });
+        if (!user) {
+          throw new Error('Personal number is not registered');
+        }
+      })
   ],
   
   async (req, res) => {
@@ -90,9 +117,10 @@ router
       req.flash('form-error', formErrorFormatter(errors));
       return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
     }
-  
-    checkIfPnrExistsAndStoreCodeVault(pnr)
-      .then((codeVault) => {
+
+    try {
+      await db.transaction(async (t) => {
+        const codeVault = await checkIfPnrExistsAndStoreCodeVault(pnr);
         if (codeVault) {
           console.log('Promise resolved');
           const randomCode = codeVault.code;
@@ -103,13 +131,12 @@ router
         } else {
           throw new Error('Code Vault not created');
         }
-      })
-      .catch((error) => {
-        console.log('Promise rejected');
-        req.flash('error', 'Problem communicating with the database');
-        return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
       });
-
+    } catch (error) {
+      console.log('Promise rejected');
+      req.flash('error', 'The entered personal number cant be found');
+      return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part1');
+    }
   })
 
   .get("/forgotten-password-part2", (req, res, next) => {
@@ -118,6 +145,8 @@ router
         error: req.flash("error"), 
         success: req.flash('success'),
         form_error: req.flash("form-error"),
+        cookie: null
+
     });
   })
 
@@ -126,8 +155,17 @@ router
   [
     check('code', 'Enter a valid code')
       .exists()
-      .not().isEmpty(),
-    check("password", "Password must be entered").not().isEmpty(),
+      .not()
+      .isEmpty()
+      .custom(async (code) => {
+        const codeVault = await Code_Vault.findOne({ where: { code: code } });
+        if (!codeVault) {
+          throw new Error('Code is not valid');
+        }
+      }),
+    check("password", "Password must be entered")
+      .not()
+      .isEmpty(),
     check('confirmpassword', 'Password does not match')
       .trim()
       .exists()
@@ -169,8 +207,7 @@ router
           })
           .catch((error) => {
             console.error("Transaction failed: ", error);
-            t.rollback();
-            req.flash('error', 'Problem communicating with the database')
+            req.flash('error', 'Make sure that you have entered the right code')
             return res.redirect("/iv1201-recruitmenapp/us-central1/app/auth/forgotten-password-part2");
           });
       })
@@ -182,6 +219,9 @@ router
     return res.render('register', {
       error: req.flash('error'),
       form_error: req.flash('form-error'),
+      success: req.flash('success'),
+      cookie: null
+
     });
   })
 
@@ -191,9 +231,26 @@ router
     [
       check('username', 'Username has to be 3+ characters long')
         .exists()
-        .isLength({ min: 3 }),
-      check('email', 'Email is not valid').isEmail().normalizeEmail(),
-      check('password', 'Password must be entered').not().isEmpty(),
+        .isLength({ min: 3 })
+        .custom(async (username) => {
+          const user = await Person.findOne({ where: { username } })
+          if (user) {
+            throw new Error('Username is already taken')
+          }
+        }),
+      check('email')
+        .exists().withMessage('Email is required')
+        .isEmail().withMessage('Email is not valid')
+        .normalizeEmail()
+        .custom(async (email) => {
+          const user = await Person.findOne({ where: { email } })
+          if (user) {
+            throw new Error('Email is already registered')
+          }
+        }),
+      check('password', 'Password must be entered')
+        .not() 
+        .isEmpty(),
       check('confirmpassword', 'Password does not match')
         .trim()
         .exists()
@@ -205,11 +262,20 @@ router
             throw new Error('Password must be same.')
           }
         }),
-      check('pnr', 'Enter a valid personal number (8 digits-4 digits)').matches(
-        /^\d{8}-\d{4}$/,
-      ),
-      check('name', 'Enter your first name').exists().isAlpha(),
-      check('surname', 'Enter your last name').exists().isAlpha(),
+      check('pnr', 'Enter a valid personal number (8 digits-4 digits)')
+        .matches(/^\d{8}-\d{4}$/)
+        .custom(async (pnr) => {
+          const user = await Person.findOne({ where: { pnr } })
+          if (user) {
+            throw new Error('Personal number is already registered')
+          }
+        }),
+      check('name', 'Enter your first name')
+        .exists()
+        .isAlpha(),
+      check('surname', 'Enter your last name')
+        .exists()
+        .isAlpha(),
     ],
 
     async (req, res) => {
@@ -253,16 +319,14 @@ router
         )
           .then((person) => {
             if (person) {
-              const token = jwt.sign(person.person_id.toString(), process.env.JWT_TOKEN)
-              return res
-                .cookie('Authenticate', token)
-                .redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
+              // const token = jwt.sign(person.person_id.toString(), process.env.JWT_TOKEN)
+              req.flash('success', 'Your account has been created, please login');
+              return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
             }
           })
           .catch((error) => {
             console.error('Transaction failed: ', error)
-            t.rollback()
-            req.flash('error', 'Problem communicating with the database')
+            req.flash('error', "There're problems registering your account at this moment, please try again.")
             return res.redirect('/iv1201-recruitmenapp/us-central1/app/auth/register')
           })
       })
