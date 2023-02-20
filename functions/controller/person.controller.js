@@ -91,11 +91,19 @@ const loginUser = async (usernameOrEmail, password) => {
             }
         }
 
-        const isMatch  = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            throw new Error("Password does not match.");
+        if (user.role_id == "1") {
+            const isMatch = await Person.findOne({ where: { password: user.password } });
+            if (!isMatch) {
+                throw new Error("Password does not match.");
+            }
         }
+        if (user.role_id == "2") {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                throw new Error("Password does not match.");
+            }
+        }
+
         return user;
     } catch (error) {
         throw error;

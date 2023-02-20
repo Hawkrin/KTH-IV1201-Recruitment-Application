@@ -5,7 +5,7 @@ const _ = require('lodash');
 const { requestLogger, queryLogger, errorLogger } = require('../middleware/logger.middleware');
 const authenticated = require('../middleware/auth.middleware');
 const  selectLanguage  = require('../middleware/languageChanger.middleware');
-const { registerAvailability, registerCompetence, calculate, getAllCompetences } = require('../controller/application.controller');
+const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant } = require('../controller/application.controller');
 const {db} = require('../db');
 
 const router = express.Router();
@@ -13,15 +13,33 @@ const router = express.Router();
 router.use(authenticated, selectLanguage, requestLogger, queryLogger, errorLogger);
 
 router
+  /*Show-Application*/
+  .get('/show-application', async (req, res) => {
+    res.render('show-application', {
+      user: req.user,
+      cookie: req.session.cookie,
+    })
+  })
+
   /*Application List*/
-  .get('/applications', (req, res) => {
+  .get('/applications', async (req, res, next) => {
+    const availability = await getAllAvailability();
+    const applicant = await getAllApplicant();
+
     res.render('applications', {
       user: req.user,
-      error: req.flash('error'),
-      form_error: req.flash('form-error'),
-      cookie: req.session.cookie
-    });
+      availability: availability,
+      applicant: applicant,
+      cookie: req.session.cookie,
+    })
   })
+  .post('/applications',
+    [],
+    async (req, res) => {
+      const availability = req.body.availability || []
+      const applicant = req.body.applicant || []
+      return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/applications');
+    })
 
   /*Application-form*/
   .get('/application-form', async (req, res, next) => {
