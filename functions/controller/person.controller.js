@@ -39,7 +39,7 @@ const getUser = async (id) => {
  * @returns {Promise}
  */
 const registerUser = async (name, surname, pnr, email, password, confirmpassword, role_id, username) => {
-
+    
     try {
         const userExists = await Person.findOne({
             where: {
@@ -82,33 +82,22 @@ const loginUser = async (usernameOrEmail, password) => {
         let user = await Person.findOne({
             where: { username: usernameOrEmail }
         });
-
         if (!user) {
             user = await Person.findOne({
                 where: { email: usernameOrEmail }
             });
-
+    
             if (!user) {
                 throw new Error("Username or email does not exist.");
             }
         }
 
-        if (user.role_id == "1") {
-            const isMatch = await Person.findOne({ where: { password: user.password } });
-            if (!isMatch) {
-                throw new Error("Password does not match.");
-            }
-        }
+        const isMatch  = await bcrypt.compare(password, user.password);
 
-        if (user.role_id == "2") {
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) {
-                throw new Error("Password does not match.");
-            }
+        if (!isMatch) {
+            throw new Error("Password does not match.");
         }
-
         return user;
-
     } catch (error) {
         throw error;
     }
@@ -134,76 +123,67 @@ const changePassword = (code, password) => {
             reject(new Error("Invalid code"));
             return;
         }
-        Person.update({ password: bcrypt.hashSync(password, 10), },
+
+        const person_id = code_vault.person_id;
+
+        Person.update({password: bcrypt.hashSync(password, 10),},
             {
-                where: { pnr },
-
-                const person_id = code_vault.person_id;
-
-                Person.update({ password: bcrypt.hashSync(password, 10), },
-                    {
-                        where: { person_id },
-                    })
-                    .then(() => {
-                        resolve();
-                    })
-                    .catch((error) => {
-                        reject(error);
-                    });
+                where: {person_id},
+            })
+            .then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
             });
-    };
+    });
+};
 
-    /**
-     * Checks if there's a user in the database with the given personal number if so
-     * then the function stores the generated code together with the persons person_id
-     * for 10 minutes and then it's deleted
-     * 
-     * @param {Integer} pnr 
-     * @returns 
-     */
-    const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
+/**
+ * Checks if there's a user in the database with the given personal number if so
+ * then the function stores the generated code together with the persons person_id
+ * for 10 minutes and then it's deleted
+ * 
+ * @param {Integer} pnr 
+ * @returns 
+ */
+const checkIfPnrExistsAndStoreCodeVault = (pnr) => {
 
-        return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
 
-            const person = await Person.findOne({ where: { pnr } });
+        const person = await Person.findOne({ where: { pnr } });
 
-            if (person) {
-                let codeVaultId = 1;
-                let codeVaultExists = true;
+        if (person) {
+            let codeVaultId = 1;
+            let codeVaultExists = true;
 
-                while (codeVaultExists) {
-                    const existingCodeVault = await Code_Vault.findOne({ where: { code_vault_id: codeVaultId } });
-                    if (existingCodeVault) {
-                        codeVaultId++;
-                    } else {
-                        codeVaultExists = false;
-                    }
+            while (codeVaultExists) {
+                const existingCodeVault = await Code_Vault.findOne({ where: { code_vault_id: codeVaultId } });
+                if (existingCodeVault) {
+                    codeVaultId++;
+                } else {
+                    codeVaultExists = false;
                 }
-
-                const code = await generateRandomCode(6);
-                const codeVault = await Code_Vault.create({
-                    code_vault_id: codeVaultId,
-                    person_id: person.person_id,
-                    code: randomNum
-                code
-                });
-
-                setTimeout(async () => {
-                    await codeVault.destroy();
-                }, 10 * 60 * 1000);
-
-                resolve(codeVault);
-            } else {
-                throw new Error('Invalid personal number');
             }
-        } catch (error) {
-            throw new Error(error.message);
-        }
-        reject(new Error('Invalid personal number'));
-    }
 
-});
-    };
+            const code = await generateRandomCode(6);
+            const codeVault = await Code_Vault.create({
+                code_vault_id: codeVaultId,
+                person_id: person.person_id,
+                code
+            });
+
+            setTimeout(async () => {
+                await codeVault.destroy();
+            }, 10 * 60 * 1000);
+
+            resolve(codeVault);
+        } else {
+            reject(new Error('Invalid personal number'));
+        }
+
+    });
+};
 
 /**
  * A function that generates a random number and returns the result.
@@ -216,7 +196,7 @@ const generateRandomCode = async (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
 }
@@ -232,7 +212,7 @@ const hashUnhashedPasswords = async () => {
         if (person.password && !person.password.startsWith('$2b$')) {
             const salt = bcrypt.genSaltSync(10);
             const hashedPassword = bcrypt.hashSync(person.password, salt);
-
+    
             await person.update({ password: hashedPassword });
         }
     }
