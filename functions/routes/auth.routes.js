@@ -227,17 +227,17 @@ router
   .post('/forgotten-password-admin', 
 
   [
-    check('pnr', 'Enter a valid username')
+    check('username', 'Enter a valid username')
       .exists()
       .isLength({ min: 3 })
-      .custom(async (username) => {
-        const user = await Person.findOne({ where: { username: username } });
-        if (!user) {
-          throw new Error('User does not exist');
-        } else if (user.role_id !== 1) {
-          throw new Error('User is not an admin');
-        }
-      })
+      // .custom(async (username) => {
+      //   const user = await Person.findOne({ where: { username: username } });
+      //   if (!user) {
+      //     throw new Error('User does not exist');
+      //   } else if (user.role_id !== 1) {
+      //     throw new Error('User is not an admin');
+      //   }
+      // })
   ],
 
   async (req, res) => {
