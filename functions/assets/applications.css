@@ -1,24 +1,22 @@
-.availability-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .availability-item {
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-  
-  .availability-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .show-application-button {
-    margin-top: 5px;
-  }
-  #ShowApplicationButtonBox{
-    margin-top: 0px;
-  }
+.application-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.application-table th,
+.application-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.application-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: center;
+}
+
+.show-application-button {
+  display: block;
+  margin: auto;
+}

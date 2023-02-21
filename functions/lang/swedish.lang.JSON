@@ -35,7 +35,9 @@
     "APPLICATIONS_AVAILABILITY": "Tillgänglighet",
     "APPLICATIONS_FROM": "Från",
     "APPLICATIONS_TO": "Till",
-    "Show_Application": "Visa applikation",
+    "APPLICATIONS_STATUS": "Ansökningsstatus:",
+    "SHOW_APPLICATION": "Visa applikation",
+   
 
     "RESTORE_PASSWORD_TITLE": "Återställ glömt lösenord",
     "RESTORE_PASSWORD_BUTTON":"Återställ",  
