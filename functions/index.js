@@ -1,7 +1,7 @@
 require('dotenv').config() // init dotenv
 
 const _= require("lodash"); // init lodash
-const functions = require("firebase-functions"); // init firebase functions
+// const functions = require("firebase-functions"); // init firebase functions
 const express = require("express"); // init express
 const cookieParser = require("cookie-parser");
 const session = require("express-session"); // init session
