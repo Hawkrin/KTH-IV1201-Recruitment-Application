@@ -4,9 +4,9 @@ const { formErrorFormatter } = require('../util/errorFormatter');
 const _ = require('lodash');
 const { requestLogger, queryLogger, errorLogger } = require('../middleware/logger.middleware');
 const authenticated = require('../middleware/auth.middleware');
-const  selectLanguage  = require('../middleware/languageChanger.middleware');
-const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant } = require('../controller/application.controller');
-const {db} = require('../db');
+const selectLanguage = require('../middleware/languageChanger.middleware');
+const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant, getAllApplicationsStatus } = require('../controller/application.controller');
+const { db } = require('../db');
 
 const router = express.Router();
 
@@ -25,11 +25,13 @@ router
   .get('/applications', async (req, res, next) => {
     const availability = await getAllAvailability();
     const applicant = await getAllApplicant();
+    const applicationsStatus = await getAllApplicationsStatus();
 
     res.render('applications', {
       user: req.user,
       availability: availability,
       applicant: applicant,
+      applicationsStatus: applicationsStatus,
       cookie: req.session.cookie,
     })
   })
@@ -38,6 +40,7 @@ router
     async (req, res) => {
       const availability = req.body.availability || []
       const applicant = req.body.applicant || []
+      const applicationsStatus = req.body.applicationsStatus || []
       return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/applications');
     })
 
@@ -56,64 +59,64 @@ router
     });
   })
 
-  .post('/application-form', 
-  [
-    check('from_date', 'You have to enter the start date of your availability period')
-      .isDate(),
-    check('to_date','You have to enter the end date of your availability period',)
-      .isDate(),
+  .post('/application-form',
+    [
+      check('from_date', 'You have to enter the start date of your availability period')
+        .isDate(),
+      check('to_date', 'You have to enter the end date of your availability period',)
+        .isDate(),
 
-  ], 
-  
-  async (req, res) => {
-    const { person_id } = _.pick(req.user, ['person_id'])
-    const { from_date, to_date } = _.pick(req.body, ['from_date', 'to_date'])
-    const competences = req.body.competences || []
+    ],
 
-    // Form errors
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      req.flash('form-error', formErrorFormatter(errors))
-      return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
-    }
-  
-    try {
+    async (req, res) => {
+      const { person_id } = _.pick(req.user, ['person_id'])
+      const { from_date, to_date } = _.pick(req.body, ['from_date', 'to_date'])
+      const competences = req.body.competences || []
 
-      await db.transaction(async (t) => { 
-
-        for (const competenceId of competences) {
-          const isChecked = req.body.competences.includes(competenceId);
-
-          if (isChecked) {
-            const startDate = req.body[`start_date_${competenceId}`];
-            const endDate = req.body[`end_date_${competenceId}`];
-            const yearsOfExperience = calculate(startDate, endDate);
-
-            if(!startDate || !endDate ) {
-              req.flash('competence_error', "Enter experience")
-            }
-  
-            await registerCompetence(person_id, competenceId, yearsOfExperience);
-          }
-        }
-      })
-      
-      await db.transaction((t) => {
-        registerAvailability(person_id, from_date, to_date)
-          .then(() => {})
-          .catch(() => {})
-      })
-
-      req.flash('success', 'Your application was sent successfully')
-      res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
-
-    } catch (error) {
-      errorLogger(error, req, res, () => {
-        req.flash('error', "Fill out the form correctly")
+      // Form errors
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        req.flash('form-error', formErrorFormatter(errors))
         return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
-      })
-    }
+      }
 
-  })
-  
+      try {
+
+        await db.transaction(async (t) => {
+
+          for (const competenceId of competences) {
+            const isChecked = req.body.competences.includes(competenceId);
+
+            if (isChecked) {
+              const startDate = req.body[`start_date_${competenceId}`];
+              const endDate = req.body[`end_date_${competenceId}`];
+              const yearsOfExperience = calculate(startDate, endDate);
+
+              if (!startDate || !endDate) {
+                req.flash('competence_error', "Enter experience")
+              }
+
+              await registerCompetence(person_id, competenceId, yearsOfExperience);
+            }
+          }
+        })
+
+        await db.transaction((t) => {
+          registerAvailability(person_id, from_date, to_date)
+            .then(() => { })
+            .catch(() => { })
+        })
+
+        req.flash('success', 'Your application was sent successfully')
+        res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
+
+      } catch (error) {
+        errorLogger(error, req, res, () => {
+          req.flash('error', "Fill out the form correctly")
+          return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/application-form')
+        })
+      }
+
+    })
+
 module.exports = router

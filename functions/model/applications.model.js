@@ -3,7 +3,7 @@ const { db } = require('../db')
 const Availability = require('./availability.model')
 const Person = require('./person.model')
 
-const Applications = db.define(
+const ApplicationsStatus = db.define(
     'applications',
     {
         applications_id: {
@@ -56,4 +56,4 @@ const Applications = db.define(
 
 db.sync({ force: false })
 
-module.exports = Applications
+module.exports = ApplicationsStatus
