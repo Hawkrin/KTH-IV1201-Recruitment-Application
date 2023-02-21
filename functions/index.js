@@ -61,7 +61,7 @@ setInterval(() => {
 }, 30000);
 
 
-app.listen(3000, () => console.log("App is listening on port 3000"))
+app.listen(3000, () => console.log("App is listening on port 3000" ))
 
 exports.app = functions.https.onRequest(app);
 
