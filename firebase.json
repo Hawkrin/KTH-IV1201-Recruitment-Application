@@ -3,6 +3,12 @@
     {
       "source": "functions",
       "codebase": "default",
+      "hosting": {
+        "rewrites": [{
+          "source": "**",
+          "function": "app"
+          }]
+      },
       "ignore": [
         "node_modules",
         ".git",

@@ -1,7 +1,9 @@
 const { dataBaseConnectionString } = require("./util/url");
 const { Sequelize } = require('sequelize');
 
-const db = new Sequelize(dataBaseConnectionString);
+const db = new Sequelize(dataBaseConnectionString, {
+  logging: false // disable logging for all queries
+});
 
 db.sync()
     .then(() => {
@@ -12,4 +14,3 @@ db.sync()
     });
 
 module.exports = { db };
-
