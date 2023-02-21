@@ -14,34 +14,37 @@
     <h1><%= language['APPLICATIONS_TITLE'] %></h1>
 
     <h2>
-      <%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%=
-        user.surname %><br />
+      <%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br />
     </h2>
 
     <% if (availability && availability.length) { %>
-    <div class="availability-container">
-      <% availability.forEach(function(availability) { %> <%
-        applicant.forEach(function(applicant) { %> <%
-        applicationsStatus.forEach(function(applicationsStatus) { %> <% if
-        (availability.availability_id === applicationsStatus.availability_id) {
-        %> <% if ((applicationsStatus.person_id===applicant.person_id)) { %>
-      <div class="availability-item">
-        <span class="availability-label">
-          <%= language['APPLICATION_FORM_PERSON_NAME'] %> </span><%= applicant.name %><%= applicant.surname %>
-        <span class="availability-label">
-          <%= language['APPLICATIONS_APPLICATION_ID'] %> </span><%= availability.availability_id %>
-        <span class="availability-label">
-          Status: </span><%= applicationsStatus.status %>
-        <form id="ShowApplicationButtonBox" action="/iv1201-recruitmenapp/us-central1/app/application/show-application">
-          <button id="ShowApplicationButtonBox" type="submit">
-            <%= language['Show_Application'] %>
-          </button>
-        </form>
-      </div>
-      <% } %> <% } %> <% }); %> <% }); %> <% }); %>
-    </div>
-    <% } else { %>
-    <p>No availability data found.</p>
+    <table class="application-table">
+      <thead>
+        <tr>
+          <th><%= language['APPLICATION_FORM_PERSON_NAME'] %></th>
+          <th><%= language['APPLICATIONS_APPLICATION_ID'] %></th>
+          <th><%= language['APPLICATIONS_STATUS'] %></th>
+          <th><%= language['SHOW_APPLICATION'] %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% availability.forEach(function(availability) { %> <%
+          applicant.forEach(function(applicant) { %> <%
+            applicationsStatus.forEach(function(applicationsStatus) { %> <% if (availability.availability_id === applicationsStatus.availability_id && (applicationsStatus.person_id===applicant.person_id)) { %>
+        <tr>
+          <td><%= applicant.name %> <%= applicant.surname %></td>
+          <td><%= availability.availability_id %></td>
+          <td><%= applicationsStatus.status %></td>
+          <td>
+            <form></form>
+            <form class="show-application-form" action="/iv1201-recruitmenapp/us-central1/app/application/show-application" method="get">
+              <button type="submit" class="show-application-button"><%= language['SHOW_APPLICATION'] %></button>
+            </form>
+          </td>
+        </tr>
+        <% } %> <% }); %> <% }); %> <% }); %>
+      </tbody>
+    </table>
     <% } %>
   </form>
 </body>

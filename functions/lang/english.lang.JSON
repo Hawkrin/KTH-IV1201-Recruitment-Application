@@ -35,7 +35,8 @@
     "APPLICATIONS_AVAILABILITY": "Availability",
     "APPLICATIONS_FROM": "From",
     "APPLICATIONS_TO": "To",
-    "Show_Application": "Show Application",
+    "APPLICATIONS_STATUS": "Applications Status:",
+    "SHOW_APPLICATION": "Show Application",
 
     "RESTORE_PASSWORD_TITLE": "Restore Forgotten Password",
     "RESTORE_PASSWORD_BUTTON":"Restore",  
