@@ -1,45 +1,44 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="../assets/applications.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="../assets/applications.css" rel="stylesheet" type="text/css" />
   <title>Applications</title>
 </head>
 
 <body>
-  <div>
-    <%- include('./partials/navbar.ejs') %>
-  </div>
+  <div><%- include('./partials/navbar.ejs') %></div>
   <form id="search-form" method="get">
-
     <h1><%= language['APPLICATIONS_TITLE'] %></h1>
-    <!-- <div> <% applicant.forEach(function(applicant) { %>
-      <%= applicant.person_id %>
-      <% }); %> </div> -->
 
-
-    <h2><%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br></h2>
+    <h2>
+      <%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%=
+        user.surname %><br />
+    </h2>
 
     <% if (availability && availability.length) { %>
     <div class="availability-container">
-      <% availability.forEach(function(item) { %>
+      <% availability.forEach(function(availability) { %> <%
+        applicant.forEach(function(applicant) { %> <%
+        applicationsStatus.forEach(function(applicationsStatus) { %> <% if
+        (availability.availability_id === applicationsStatus.availability_id) {
+        %> <% if ((applicationsStatus.person_id===applicant.person_id)) { %>
       <div class="availability-item">
-        <span class="availability-label"><%= language['APPLICATIONS_APPLICATION_ID'] %>:</span> <%= item.availability_id %>
-        <span class="availability-label"><%= language['APPLICATIONS_AVAILABILITY'] %>:</span>
-        <span class="availability-label"><%= language['APPLICATIONS_FROM'] %>:</span> <%= item.from_date %>
-        <span class="availability-label"><%= language['APPLICATIONS_TO'] %>:</span> <%= item.to_date %>
-        <span class="availability-label">Person ID :</span><%= item.person_id %>
-        <span class="availability-label">Status :</span>
-        <tr> Accepted</tr>
-        <tr>
-          <form id="ShowApplicationButtonBox" action="/iv1201-recruitmenapp/us-central1/app/application/show-application">
-            <button id="ShowApplicationButtonBox" type="submit"><%= language['Show_Application'] %></button>
-          </form>
-        </tr>
+        <span class="availability-label">
+          <%= language['APPLICATION_FORM_PERSON_NAME'] %> </span><%= applicant.name %><%= applicant.surname %>
+        <span class="availability-label">
+          <%= language['APPLICATIONS_APPLICATION_ID'] %> </span><%= availability.availability_id %>
+        <span class="availability-label">
+          Status: </span><%= applicationsStatus.status %>
+        <form id="ShowApplicationButtonBox" action="/iv1201-recruitmenapp/us-central1/app/application/show-application">
+          <button id="ShowApplicationButtonBox" type="submit">
+            <%= language['Show_Application'] %>
+          </button>
+        </form>
       </div>
-      <% }); %>
+      <% } %> <% } %> <% }); %> <% }); %> <% }); %>
     </div>
     <% } else { %>
     <p>No availability data found.</p>
