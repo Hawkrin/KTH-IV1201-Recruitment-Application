@@ -28,11 +28,22 @@ const registerAvailability = async (person_id, from_date, to_date) => {
       from_date,
       to_date,
     })
+
+    const newApplication = await ApplicationsStatus.create({
+      availability_id: newAvailability.availability_id,
+      person_id: newAvailability.person_id,
+      open_application_status: false,
+      status: 'Unhandled',
+    });
+
+
     return newAvailability
   } catch (error) {
     throw error
   }
 }
+
+
 
 /**
  * Registers a new competence profile.
