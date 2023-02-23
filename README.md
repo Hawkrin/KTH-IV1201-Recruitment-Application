@@ -24,12 +24,11 @@ npm install
 npm run serve
 ```
 4. All pages are active, you can find them by going to the end point for example : `/auth/register` or `/auth/login` 
-<br>
 ```bash
-`http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/login`
+http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/login
 ```
 ```bash
-  `http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/register`
+http://127.0.0.1:5001/iv1201-recruitment-application/us-central1/app/auth/register
 ```
   
      
