@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../model/person.model');
 
 /**
- * Function used for authorizing users, verifies JWTs
+ * Function used for authorizing users, verifies JWTs which are given when login.
  *
  * @param {*} req
  * @param {*} res
@@ -37,13 +37,12 @@ const authenticated = function (req, res, next) {
 }
 
 /**
- *  implements role-based access control (RBAC) - so only admins can access some routes.
+ *  Implements role-based access control (RBAC) - so only admins can access some routes.
  * @param {Integer} roleId the role_id of the user
  * @returns 
  */
 function adminAccess(roleId) {
   return function(req, res, next) {
-    console.log(req.user.role_id)
     if (req.user.role_id !== roleId) {
       return res.status(403)
       .cookie('Authenticate', null)
