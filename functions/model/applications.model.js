@@ -3,6 +3,9 @@ const { db } = require('../db')
 const Availability = require('./availability.model')
 const Person = require('./person.model')
 
+/**
+ * Applications table in the database, stores info about applications.
+ */
 const ApplicationsStatus = db.define(
     'applications',
     {

@@ -2,6 +2,9 @@ const Sequelize = require('sequelize')
 const { db } = require('../db')
 const Person = require('./person.model')
 
+/**
+ * Availability table in the database, used to store peoples availabilities.
+ */
 const Availability = db.define(
   'availability',
   {

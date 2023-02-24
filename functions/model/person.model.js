@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt') // Library for encrypting data
 const { db } = require('../db') // Connection to database
 const Role = require('./role.model') // Role model
 
+/**
+ * Person table in the database.
+ */
 const Person = db.define("person", 
 { 
     person_id: {

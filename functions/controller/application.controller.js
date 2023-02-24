@@ -130,7 +130,6 @@ const getAllAvailability = async () => {
   return availability;
 }
 
-//javadoc comments
 /**
  * Retrieves all applicants from the database.
  * @returns applicant - An array of Applicant objects.

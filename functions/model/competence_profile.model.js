@@ -1,9 +1,12 @@
-/* eslint-disable */
 const Sequelize = require('sequelize') // ORM for connection with postgres
 const { db } = require('../db') // Connection to database
 const Person = require('./person.model') // Person table connection
 const Competence = require('./competence.model') // Competence table connection
 
+/**
+ * Competence_profile table in the database, consists of 
+ * persons comeptences.
+ */
 const CompetenceProfile = db.define(
   'competence_profile',
   {

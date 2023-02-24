@@ -1,5 +1,4 @@
 require('dotenv').config() // init dotenv
-
 const _= require("lodash"); // init lodash
 const functions = require("firebase-functions"); // init firebase functions
 const express = require("express"); // init express
@@ -10,13 +9,11 @@ const connectToDb = require('./middleware/dbConnect.middleware'); // connects to
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger } = require('./middleware/logger.middleware'); // loggers used
 const MemoryStore = require('memorystore')(session)
 const { hashUnhashedPasswords } = require('./controller/person.controller')
-const cors = require("cors");
 
 const app = express()
 
 // Connection to db
 app.use(connectToDb);
-app.use(cors());
 
 // App configuration
 app.use(express.json())

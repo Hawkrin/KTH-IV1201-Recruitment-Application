@@ -1,6 +1,9 @@
 const Sequelize = require('sequelize') // ORM for connection with postgres
 const { db } = require('../db') // Connection to database
 
+/**
+ * Competence table in the database
+ */
 const Competence = db.define('competence',
   {
     competence_id: {

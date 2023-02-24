@@ -1,5 +1,5 @@
-const Person = require('../../model/person.model');
-const { dataBaseConnectionString } = require("../../util/url");
+const Person = require('../../functions/model/person.model');
+const { dataBaseConnectionString } = require("../../functions/util/url");
 const { Sequelize } = require('sequelize');
 
 

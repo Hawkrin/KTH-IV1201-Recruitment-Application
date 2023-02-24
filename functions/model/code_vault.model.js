@@ -2,6 +2,10 @@ const Sequelize = require('sequelize'); // ORM for connection with postgres
 const {db} = require('../db'); // Connection to database
 const Person = require('./person.model'); //Connection to Person table
 
+/**
+ * code_vault table in the database consists of the codes used
+ * for reseting passwords.
+ */
 const Code_Vault = db.define("code_vault", 
     {
         code_vault_id: {
