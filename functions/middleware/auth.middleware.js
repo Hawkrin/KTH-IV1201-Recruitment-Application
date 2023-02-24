@@ -36,5 +36,24 @@ const authenticated = function (req, res, next) {
   })
 }
 
+/**
+ *  implements role-based access control (RBAC) - so only admins can access some routes.
+ * @param {Integer} roleId the role_id of the user
+ * @returns 
+ */
+function adminAccess(roleId) {
+  return function(req, res, next) {
+    console.log(req.user.role_id)
+    if (req.user.role_id !== roleId) {
+      return res.status(403)
+      .cookie('Authenticate', null)
+      .redirect('/iv1201-recruitmenapp/us-central1/app/auth/login')
+      
+    }
+    next();
+  }
+}
 
-module.exports =  authenticated;
+
+module.exports =  { authenticated, adminAccess };
+

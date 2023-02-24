@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require('../util/errorFormatter');
 const _ = require('lodash');
 const { requestLogger, queryLogger, errorLogger } = require('../middleware/logger.middleware');
-const authenticated = require('../middleware/auth.middleware');
+const { authenticated, adminAccess} = require('../middleware/auth.middleware');
 const selectLanguage = require('../middleware/languageChanger.middleware');
 const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant, getAllApplicationsStatus } = require('../controller/application.controller');
 const { db } = require('../db');
@@ -12,9 +12,11 @@ const router = express.Router();
 
 router.use(authenticated, selectLanguage, requestLogger, queryLogger, errorLogger);
 
+const requireRole1 = adminAccess(1);
+
 router
   /*Show-Application*/
-  .get('/show-application', async (req, res) => {
+  .get('/show-application', requireRole1, async (req, res) => {
     res.render('show-application', {
       user: req.user,
       cookie: req.session.cookie,
@@ -22,7 +24,7 @@ router
   })
 
   /*Application List*/
-  .get('/applications', async (req, res, next) => {
+  .get('/applications', requireRole1, async (req, res, next) => {
     const availability = await getAllAvailability();
     const applicant = await getAllApplicant();
     const applicationsStatus = await getAllApplicationsStatus();
@@ -35,7 +37,8 @@ router
       cookie: req.session.cookie,
     })
   })
-  .post('/applications',
+
+  .post('/applications', requireRole1,
     [],
     async (req, res) => {
       const availability = req.body.availability || []
