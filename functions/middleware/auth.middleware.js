@@ -9,7 +9,7 @@ const User = require('../model/person.model');
  * @param {*} next
  * @returns
  */
-const authenticated = function (req, res, next) {
+const authenticated = (req, res, next) => {
   const token = req.cookies.Authenticate
 
   if (token == null) {
@@ -41,7 +41,7 @@ const authenticated = function (req, res, next) {
  * @param {Integer} roleId the role_id of the user
  * @returns 
  */
-function adminAccess(roleId) {
+const adminAccess = (roleId) => {
   return function(req, res, next) {
     if (req.user.role_id !== roleId) {
       return res.status(403)
