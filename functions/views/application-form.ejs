@@ -1,77 +1,17 @@
-<!DOCTYPE html lang="en">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../assets/application-form.css" rel="stylesheet" type="text/css">
+    <title>Job Application Form</title>
+  </head>
+  <body>
+    <%- include('./partials/navbar.ejs') %>
+    
+    <p style="font-size: large; color: red; display: flex; justify-content: center;" ><%= error %></p>
+    <p style="font-size: large; color: green; display: flex; justify-content: center;" ><%= success %></p>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="../assets/application-form.css" rel="stylesheet" type="text/css">
-  <title>Job Application Form</title>
-
-</head>
-
-<body>
-      <div>
-        <%- include('./partials/navbar.ejs') %>
-      </div>
-  <form id="application-form_body" method="post">
-
-    <!-- Error for from_date -->
-    <span>
-      <%= error %>
-    </span>
-
-    <h3>
-      <%= success %>
-    </h3>
-
-    <h1><%= language['APPLICATION_FORM_TITLE'] %></h1>
-
-    <h2>
-      <%= language['APPLICATION_FORM_PERSON_NAME'] %> <%=user.name %><br>
-      <%= language['APPLICATION_FORM_PERSON_SURNAME'] %> <%=user.surname %> <br>
-      <%= language['APPLICATION_FORM_PERSON_PERSONNUMMER'] %> <%=user.pnr %> <br>
-      <%= language['APPLICATION_FORM_PERSON_EMAIL'] %> <%=user.email %> <br>
-      <%= language['APPLICATION_FORM_PERSON_PERSON_ID'] %> <%=user.person_id %> <br>
-    </h2>
-    <div>
-      <label for="availability">
-        <%= language['APPLICATION_FORM_AVAILABILITY_TITLE'] %>
-      </label>
-
-      <!-- Error for from_date -->
-      <% if (form_error[0]) {%>
-      <p>
-        <%= form_error[0].from_date %>
-      </p>
-      <% } %>
-      <input type="date" id="startDate" name="from_date">
-      <!-- Error for from_date -->
-      <% if (form_error[0]) {%>
-      <p>
-        <%= form_error[0].to_date %>
-      </p>
-      <% } %>
-      <input type="date" id="endDate" name="to_date">
-    </div>
-
-    <div>
-      <label for="competences"><%= language['APPLICATION_FORM_COMPETENCE_TITLE'] %></label>
-      <div id="competencesContainer">
-        <% competences.forEach(function(competence, i) { %>
-          <div>
-            <input type="checkbox" name="competences[]" value="<%= competence.competence_id %>" id="competence">
-            <h2><%= competence.name %></h2>
-      
-              <p><%= competence_error %></p>
-
-            <input type="date" id="startDate" name="start_date_<%= competence.competence_id %>">
-            <input type="date" id="endDate" name="end_date_<%= competence.competence_id %>">
-          </div>
-        <% }); %>
-      </div>
-  </div>
-  <button id="submitButton" type="submit"><%= language['APPLICATION_FORM_SUBMIT_BUTTON'] %></button>
-  </form>
-</body>
-
+    <%- include('./partials/application-form.body.ejs') %>
+  </body>
 </html>
