@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require('../util/errorFormatter');
 const _ = require('lodash');
 const { requestLogger, queryLogger, errorLogger } = require('../middleware/logger.middleware');
-const { authenticated, adminAccess} = require('../middleware/auth.middleware');
+const { authenticated, adminAccess } = require('../middleware/auth.middleware');
 const selectLanguage = require('../middleware/languageChanger.middleware');
 const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant, getAllApplicationsStatus } = require('../controller/application.controller');
 const { db } = require('../db');
@@ -29,11 +29,18 @@ router
     const applicant = await getAllApplicant();
     const applicationsStatus = await getAllApplicationsStatus();
 
+    const applicationsData = availability
+      .flatMap(avail => {
+        const applicantData = applicant.find(a => a.person_id === avail.person_id);
+        const statusData = applicationsStatus.find(s => s.availability_id === avail.availability_id && s.person_id === avail.person_id);
+        return applicantData && statusData ? [{ applicant: applicantData, availability: avail, applicationsStatus: statusData }] : [];
+      });
+
     res.render('applications', {
       user: req.user,
       availability: availability,
-      applicant: applicant,
-      applicationsStatus: applicationsStatus,
+
+      applicationsData: applicationsData,
       cookie: req.session.cookie,
     })
   })
@@ -41,9 +48,7 @@ router
   .post('/applications', requireRole1,
     [],
     async (req, res) => {
-      const availability = req.body.availability || []
-      const applicant = req.body.applicant || []
-      const applicationsStatus = req.body.applicationsStatus || []
+
       return res.redirect('/iv1201-recruitmenapp/us-central1/app/application/applications');
     })
 
