@@ -1,52 +1,15 @@
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../assets/applications.css" rel="stylesheet" type="text/css" />
+    <title>Applications</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="../assets/applications.css" rel="stylesheet" type="text/css" />
-  <title>Applications</title>
-</head>
+  <body>
+    <%- include('./partials/navbar.ejs') %>
 
-<body>
-  <div><%- include('./partials/navbar.ejs') %></div>
-  <form id="search-form" method="get">
-    <h1><%= language['APPLICATIONS_TITLE'] %></h1>
-
-    <h2>
-      <%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br />
-    </h2>
-
-    <% if (availability && availability.length) { %>
-    <table class="application-table">
-      <thead>
-        <tr>
-          <th><%= language['APPLICATION_FORM_PERSON_NAME'] %></th>
-          <th><%= language['APPLICATIONS_APPLICATION_ID'] %></th>
-          <th><%= language['APPLICATIONS_STATUS'] %></th>
-          <th><%= language['SHOW_APPLICATION'] %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% availability.forEach(function(availability) { %> <%
-          applicant.forEach(function(applicant) { %> <%
-            applicationsStatus.forEach(function(applicationsStatus) { %> <% if (availability.availability_id === applicationsStatus.availability_id && (applicationsStatus.person_id===applicant.person_id)) { %>
-        <tr>
-          <td><%= applicant.name %> <%= applicant.surname %></td>
-          <td><%= availability.availability_id %></td>
-          <td><%= applicationsStatus.status %></td>
-          <td>
-            <form></form>
-            <form class="show-application-form" action="/iv1201-recruitmenapp/us-central1/app/application/show-application" method="get">
-              <button type="submit" class="show-application-button"><%= language['SHOW_APPLICATION'] %></button>
-            </form>
-          </td>
-        </tr>
-        <% } %> <% }); %> <% }); %> <% }); %>
-      </tbody>
-    </table>
-    <% } %>
-  </form>
-</body>
-
+    <%- include('./partials/applications.body.ejs') %>
+  </body>
 </html>
