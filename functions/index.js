@@ -30,7 +30,7 @@ app.use(session({
   }),
 }));
 
-app.use(flash()) // used for "global" error messaging
+app.use(flash())
 
 // CSS files
 app.use('/assets', express.static('assets'))
