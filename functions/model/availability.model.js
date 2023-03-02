@@ -29,7 +29,7 @@ const Availability = db.define("availability", {
 
 // Adds a beforeCreate hook to hash the password
 // Availability.beforeCreate(async (availability, options) => {
-
+console.log("Hello")
    
 // });
 
