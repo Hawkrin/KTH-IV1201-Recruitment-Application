@@ -1,5 +1,5 @@
-const english = require('../lang/english');
-const swedish = require('../lang/swedish');
+const { english } = require('../lang/english');
+const { swedish } = require('../lang/swedish');
 const Competence = require('../model/competence.model');
 const Sequelize = require('sequelize')
 
@@ -32,7 +32,7 @@ const selectLanguage = async (req, res, next) => {
     let newLanguage;
     if (selectedLanguage === 'english') {
         await updateCompetenceNames('english');
-        language = english;
+        language = english
         newLanguage = 'swedish';
     } else if (selectedLanguage === 'swedish') {
         language = swedish;

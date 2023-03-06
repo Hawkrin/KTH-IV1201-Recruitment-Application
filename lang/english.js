@@ -1,3 +1,5 @@
+const english = 
+
 {
     "RECRUITMENT_APPLICATION_NAVBAR" : "Recruitment Application",
     "SIGN_OUT_NAVBAR": "Sign Out",
@@ -39,3 +41,5 @@
     "VALIDATE_BUTTON": "Validate",
     "RANDOM_CODE": "Enter the sent code"
 }
+
+module.exports = { english } 

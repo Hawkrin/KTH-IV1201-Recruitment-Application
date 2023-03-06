@@ -1,4 +1,6 @@
 
+const swedish =
+
 {
     "RECRUITMENT_APPLICATION_NAVBAR": "Rekryteringsansökan",
     "SIGN_OUT_NAVBAR": "Logga Out",
@@ -40,3 +42,5 @@
     "VALIDATE_BUTTON": "Validera",
     "RANDOM_CODE": "Skriv in den skickade koden "
 }
+
+module.exports = { swedish } 
