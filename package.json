@@ -8,7 +8,7 @@
   "engines": {
     "node": "16"
   },
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "connect-flash": "^0.1.1",
