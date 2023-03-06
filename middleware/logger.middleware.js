@@ -8,13 +8,13 @@ const logger = winston.createLogger({
     format: winston.format.json(),
     defaultMeta: { service: 'user-service' },
     transports: [
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'warn.log', level: 'warn' }),
-        new winston.transports.File({ filename: 'info.log', level: 'info' }),
-        new winston.transports.File({ filename: 'fake_email.log', level: 'fake_email'}),
-        new winston.transports.File({ filename: 'requests.log', level: 'request'}),
-        new winston.transports.File({ filename: 'queries.log', level: 'query'}),
-        new winston.transports.File({ filename: 'combined.log' })
+        new winston.transports.File({ filename: '../logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: '../logs/warn.log', level: 'warn' }),
+        new winston.transports.File({ filename: '../logs/info.log', level: 'info' }),
+        new winston.transports.File({ filename: '../logs/fake_email.log', level: 'fake_email'}),
+        new winston.transports.File({ filename: '../logs/requests.log', level: 'request'}),
+        new winston.transports.File({ filename: '../logs/queries.log', level: 'query'}),
+        new winston.transports.File({ filename: '../logs/combined.log' })
     ],
     levels: {
         error: 0,
