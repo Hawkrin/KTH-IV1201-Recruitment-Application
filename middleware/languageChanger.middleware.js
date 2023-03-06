@@ -25,8 +25,6 @@ const updateCompetenceNames = async (language) => {
  */
 const selectLanguage = async (req, res, next) => {
 
-    console.log("test");
-
     // Perform the language selection logic
     const selectedLanguage = req.query.language || req.session.language || 'english';
 
