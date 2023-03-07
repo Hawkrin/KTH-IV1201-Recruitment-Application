@@ -21,16 +21,13 @@ npm install
 
 4. Run the server.
 ```bash
-npm run serve
+npm run devStart
 ```
-4. All pages are active, you can find them by going to the end point for example : `/auth/register` or `/auth/login` 
+4. All pages are active, you can find them by going to the web page:
 ```bash
-https://recruitment-application.herokuapp.com/auth/login
+https://recruitment-application.herokuapp.com
 ```
-```bash
-https://recruitment-application.herokuapp.com/auth/register
-```
-  
+
      
  ## Contributing
 <div>
