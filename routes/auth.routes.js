@@ -152,9 +152,8 @@ router
           if (codeVault) {
             console.log('Promise resolved');
             const randomCode = codeVault.code;
-            // req.flash('success', 'A code has been sent to your email.');
+            req.flash('success', 'A code has been sent to your email.');
 
-            // res.render('./views/forgotten-password-part2.', { success: req.flash('success') });
 
             fake_mailLogger(randomCode, req, res, () => {
 
