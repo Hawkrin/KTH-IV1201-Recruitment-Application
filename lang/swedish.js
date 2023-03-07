@@ -40,7 +40,10 @@ const swedish =
     "RESTORE_PASSWORD_BUTTON": "Återställ",  
     "GO_BACK_TO_LOGIN": "Gå tillbaks till login",
     "VALIDATE_BUTTON": "Validera",
-    "RANDOM_CODE": "Skriv in den skickade koden "
+    "RANDOM_CODE": "Skriv in den skickade koden ",
+    "APPLICATION_SENT_THANK_YOU": "Din applikation har blivit skickad, tack så mycket",
+    "LOGOUT_BUTTON": "Logga ut",
+    "GO_BACK_TO_APPLICATION_FORM_BUTTON": "Gå tillbaks"
 }
 
 module.exports = { swedish } 

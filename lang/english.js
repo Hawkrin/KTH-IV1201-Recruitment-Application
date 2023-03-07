@@ -1,7 +1,6 @@
-const english = 
-
+const english =
 {
-    "RECRUITMENT_APPLICATION_NAVBAR" : "Recruitment Application",
+    "RECRUITMENT_APPLICATION_NAVBAR": "Recruitment Application",
     "SIGN_OUT_NAVBAR": "Sign Out",
     "SIGN_IN_TITLE": "Sign in",
     "SIGN_IN_BUTTON": "Sign in",
@@ -36,10 +35,13 @@ const english =
     "APPLICATIONS_STATUS": "Applications Status:",
     "SHOW_APPLICATION": "Show Application",
     "RESTORE_PASSWORD_TITLE": "Restore Forgotten Password",
-    "RESTORE_PASSWORD_BUTTON": "Restore",  
+    "RESTORE_PASSWORD_BUTTON": "Restore",
     "GO_BACK_TO_LOGIN": "Go Back to Log In",
     "VALIDATE_BUTTON": "Validate",
-    "RANDOM_CODE": "Enter the sent code"
+    "RANDOM_CODE": "Enter the sent code",
+    "APPLICATION_SENT_THANK_YOU": "Your application has been sent, thank you",
+    "LOGOUT_BUTTON": "LOGOUT",
+    "GO_BACK_TO_APPLICATION_FORM_BUTTON": "Go back"
 }
 
 module.exports = { english } 

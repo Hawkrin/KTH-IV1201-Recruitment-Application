@@ -1,5 +1,5 @@
 require('dotenv').config() // init dotenv
-const _= require("lodash"); // init lodash
+const _ = require("lodash"); // init lodash
 const express = require("express"); // init express
 const cookieParser = require("cookie-parser");
 const session = require("express-session"); // init session
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 // framework for view files
-app.set('view engine', 'ejs') 
+app.set('view engine', 'ejs')
 
 app.use(session({
   secret: 'your secret',
@@ -44,8 +44,8 @@ app.use((req, res, next) => {
 // CSS files
 app.use('/assets', express.static('assets'))
 
-// App Routes
-app.get('/', (req, res) => {res.redirect("/auth/login")})
+// // App Routes
+app.get('/', (req, res) => { res.redirect("/auth/login") })
 app.use('/auth', require('./routes/auth.routes'))
 app.use('/application', require('./routes/application.routes'))
 app.use((req, res) => { res.status(404).render("404") });
@@ -66,8 +66,9 @@ setInterval(() => {
 
 
 
-const server = http.createServer(app)
+const server = http.createServer(app);
+
 
 server.listen(PORT, () => {
-  console.log("Server is running on port: " + PORT);
+  console.log("\n *** Server is running on " + PORT + "\n http://localhost:3000");
 });

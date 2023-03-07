@@ -1,0 +1,8 @@
+{"level":"request","message":"GET request made to /forgotten-password-part2 at Tue Mar 07 2023 13:42:07 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /forgotten-password-part2 at Tue Mar 07 2023 13:42:08 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /login at Tue Mar 07 2023 13:42:10 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /login at Tue Mar 07 2023 13:42:11 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /forgotten-password-part1?language=english at Tue Mar 07 2023 13:42:14 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /forgotten-password-part1?language=english at Tue Mar 07 2023 13:42:22 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"fake_email","message":"\n        An email has been sent to your registered email address with further instructions to reset your password. \n        Please check your inbox and follow the instructions. If you don't receive an email within a few minutes, \n        please check your spam folder. Your one-time verification code is:  sZcPMx. \n        This code will expire in 10 minutes. Thank you for using our service.\n\n        Date: Tue Mar 07 2023 13:42:22 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /forgotten-password-part2 at Tue Mar 07 2023 13:42:22 GMT+0100 (Central European Standard Time)","service":"user-service"}

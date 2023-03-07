@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize'); // ORM for connection with postgres
-const {db} = require('../db'); // Connection to database
+const {db} = require('../dbconfig'); // Connection to database
 
 /**
  * Role table in the database, consists of different types of roles.

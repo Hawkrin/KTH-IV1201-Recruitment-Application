@@ -6,8 +6,8 @@ const { requestLogger, queryLogger, errorLogger } = require('../middleware/logge
 const { authenticated, adminAccess } = require('../middleware/auth.middleware');
 const selectLanguage = require('../middleware/languageChanger.middleware');
 const { registerAvailability, registerCompetence, calculate, getAllCompetences, getAllAvailability, getAllApplicant, getAllApplicationsStatus } = require('../controller/application.controller');
-const { db } = require('../db');
-const { application_APPLICATION_FORM, application_APPLICATIONS } = require("../util/url");
+const { db } = require('../dbconfig');
+const { application_APPLICATION_FORM, application_APPLICATIONS, application_SENT_APPLICATION } = require("../util/url");
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ router.use(authenticated, selectLanguage, requestLogger, queryLogger, errorLogge
 const requireRole1 = adminAccess(1);
 
 router
+
   /*Show-Application*/
   .get('/show-application', requireRole1, async (req, res) => {
     res.render('show-application', {
@@ -49,7 +50,6 @@ router
   .post('/applications', requireRole1,
 
     async (req, res) => {
-
       return res.redirect(application_APPLICATIONS);
     })
 
@@ -66,6 +66,7 @@ router
       competences: competences,
       cookie: req.session.cookie,
     });
+
   })
 
   .post('/application-form',
@@ -90,7 +91,6 @@ router
       }
 
       try {
-
         await db.transaction(async (t) => {
 
           for (const competenceId of competences) {
@@ -101,23 +101,20 @@ router
               const endDate = req.body[`end_date_${competenceId}`];
               const yearsOfExperience = calculate(startDate, endDate);
 
-              if (!startDate || !endDate) {
+              if (!startDate && !endDate) {
                 req.flash('competence_error', "Enter experience")
               }
-
               await registerCompetence(person_id, competenceId, yearsOfExperience);
             }
           }
         })
-
         await db.transaction((t) => {
           registerAvailability(person_id, from_date, to_date)
             .then(() => { })
             .catch(() => { })
         })
 
-        req.flash('success', 'Your application was sent successfully')
-        res.redirect(application_APPLICATION_FORM)
+        res.redirect(application_SENT_APPLICATION);
 
       } catch (error) {
         errorLogger(error, req, res, () => {
@@ -127,5 +124,13 @@ router
       }
 
     })
+
+  /*Show-Application*/
+  .get('/application-sent', async (req, res) => {
+    res.render('application-sent', {
+      user: req.user,
+      cookie: req.session.cookie,
+    })
+  })
 
 module.exports = router

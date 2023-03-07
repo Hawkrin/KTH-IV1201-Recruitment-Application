@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const { db } = require('../db')
+const { db } = require('../dbconfig')
 const Availability = require('./availability.model')
 const Person = require('./person.model')
 

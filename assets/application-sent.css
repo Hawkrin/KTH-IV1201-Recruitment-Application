@@ -1,0 +1,10 @@
+#application-sent-container {
+    display: flex;
+    justify-content: center;
+   
+}
+
+#application-sent-button-container {
+    display: flex;
+    flex-direction: column;
+}

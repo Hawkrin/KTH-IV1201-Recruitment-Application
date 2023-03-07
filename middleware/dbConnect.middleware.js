@@ -1,5 +1,5 @@
 
-const { db } = require('../db');
+const { db } = require('../dbconfig');
 
 /**
  * Authenticates a connection to the db

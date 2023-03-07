@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize') // ORM for connection with postgres
-const { db } = require('../db') // Connection to database
+const { db } = require('../dbconfig') // Connection to database
 const Competence = require('./competence.model'); //Connection to Competence table
 
 /**
  * Translation table in the database, used for translating the competences
  * in the competence table.
  */
-const Translation = db.define('translation', 
+const Translation = db.define('translation',
     {
         translation_id: {
             type: Sequelize.INTEGER,
@@ -28,10 +28,10 @@ const Translation = db.define('translation',
             type: Sequelize.STRING,
             allowNull: false,
         },
-    },{
-        tableName: 'translation',
-        timestamps: false,
-    }
+    }, {
+    tableName: 'translation',
+    timestamps: false,
+}
 );
 
 // Used for database internationalization

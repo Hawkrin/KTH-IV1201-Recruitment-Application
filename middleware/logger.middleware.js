@@ -8,13 +8,13 @@ const logger = winston.createLogger({
     format: winston.format.json(),
     defaultMeta: { service: 'user-service' },
     transports: [
-        new winston.transports.File({ filename: '../logs/error.log', level: 'error' }),
-        new winston.transports.File({ filename: '../logs/warn.log', level: 'warn' }),
-        new winston.transports.File({ filename: '../logs/info.log', level: 'info' }),
-        new winston.transports.File({ filename: '../logs/fake_email.log', level: 'fake_email'}),
-        new winston.transports.File({ filename: '../logs/requests.log', level: 'request'}),
-        new winston.transports.File({ filename: '../logs/queries.log', level: 'query'}),
-        new winston.transports.File({ filename: '../logs/combined.log' })
+        new winston.transports.File({ filename: './logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: './logs/warn.log', level: 'warn' }),
+        new winston.transports.File({ filename: './logs/info.log', level: 'info' }),
+        new winston.transports.File({ filename: './logs/fake_email.log', level: 'fake_email' }),
+        new winston.transports.File({ filename: './logs/requests.log', level: 'request' }),
+        new winston.transports.File({ filename: './logs/queries.log', level: 'query' }),
+        new winston.transports.File({ filename: './logs/combined.log' })
     ],
     levels: {
         error: 0,
@@ -27,22 +27,22 @@ const logger = winston.createLogger({
 });
 
 // Create a new level for requests and log only requests
-logger.request = function(message) {
+logger.request = function (message) {
     logger.log({ level: 'request', message });
 };
 
 // Create a new level for queries and log only queries
-logger.query = function(message) {
+logger.query = function (message) {
     logger.log({ level: 'query', message });
 };
 
 // Create a new level for fake_mail logs
-logger.fake_email = function(message) {
+logger.fake_email = function (message) {
     logger.log({ level: 'fake_email', message });
 };
 
 // Create a new level for warning such as login attempts.
-logger.warn = function(message) {
+logger.warn = function (message) {
     logger.log({ level: 'warn', message });
 };
 
@@ -113,7 +113,7 @@ const fake_mailLogger = (randomCode, req, res, next) => {
 
         Date: ${new Date().toString()}`
     );
-    next();  
+    next();
 }
 
 module.exports = { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger };

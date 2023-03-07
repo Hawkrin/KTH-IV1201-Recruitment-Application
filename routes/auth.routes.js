@@ -2,15 +2,15 @@ const { Router } = require("express");
 const _ = require("lodash");
 const { check, validationResult } = require('express-validator');
 const { formErrorFormatter } = require("../util/errorFormatter");
-const selectLanguage  = require('../middleware/languageChanger.middleware')
+const selectLanguage = require('../middleware/languageChanger.middleware')
 const jwt = require("jsonwebtoken")
 const { registerUser, loginUser, changePassword, checkIfPnrExistsAndStoreCodeVault, checkIfUsernameExistsAndStoreCodeVault } = require('../controller/person.controller')
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger, fake_mailLogger } = require("../middleware/logger.middleware");
-const {db} = require('../db'); 
+const { db } = require('../dbconfig');
 const Person = require('../model/person.model');
 const Code_Vault = require('../model/code_vault.model');
 const Sequelize = require('sequelize');
-const { 
+const {
   auth_LOGIN,
   auth_REGISTER,
   auth_FORGET_PASSWORD_1,
@@ -29,22 +29,22 @@ router
   /*Login routes*/
   .get("/login", (req, res, next) => {
 
-      res.render('login', {
-          error: req.flash("error"), 
-          form_error: req.flash("form-error"),
-          success: req.flash('success'),
-          cookie: null
-      });
+    res.render('login', {
+      error: req.flash("error"),
+      form_error: req.flash("form-error"),
+      success: req.flash('success'),
+      cookie: null
+    });
   })
 
   .get("/", (req, res, next) => {
 
     res.redirect(auth_LOGIN);
-    
+
   })
 
 
-  .post("/login", 
+  .post("/login",
 
     [
       check("usernameOrEmail", "Can't find a valid username or email")
@@ -64,16 +64,16 @@ router
         .not()
         .isEmpty()
     ],
-  
+
     async (req, res) => {
-      const {usernameOrEmail, password} = _.pick(req.body, ["password", "usernameOrEmail"]);
+      const { usernameOrEmail, password } = _.pick(req.body, ["password", "usernameOrEmail"]);
       const errors = validationResult(req);
 
       if (errors.errors.length > 0) {
         req.flash("form-error", formErrorFormatter(errors));
         return res.redirect(auth_LOGIN);
       }
-    
+
       await db.transaction(t => {
         loginUser(usernameOrEmail, password)
           .then((user) => {
@@ -92,7 +92,7 @@ router
                 .cookie("Authenticate", token)
                 .redirect(application_APPLICATION_FORM);
             }
-            
+
           })
           .catch((error) => {
             req.flash('error', 'Login Failed, check your login credentials')
@@ -100,9 +100,9 @@ router
               return res.redirect(auth_LOGIN);
             });
           });
-            
+
       });
-  })
+    })
 
   /*Logout routes*/
   .get('/logout', (req, res, next) => {
@@ -115,15 +115,15 @@ router
   .get("/forgotten-password-part1", (req, res, next) => {
 
     res.render("forgotten-password-part1", {
-        error: req.flash("error"), 
-        success: req.flash('success'),
-        form_error: req.flash("form-error"),
-        cookie: null
+      error: req.flash("error"),
+      success: req.flash('success'),
+      form_error: req.flash("form-error"),
+      cookie: null
 
     });
   })
 
-  .post('/forgotten-password-part1', 
+  .post('/forgotten-password-part1',
 
     [
       check('pnr', 'Enter a valid personal number (8 digits-4 digits)')
@@ -135,10 +135,10 @@ router
           }
         })
     ],
-    
+
     async (req, res) => {
       const { pnr } = _.pick(req.body, ['pnr']);
-    
+
       //Form errors.
       const errors = validationResult(req);
       if (errors.errors.length > 0) {
@@ -161,26 +161,26 @@ router
           }
         });
       } catch (error) {
-          errorLogger(error, req, res, () => {
-            req.flash('error', 'The entered personal number cant be found');
-            return res.redirect(auth_FORGET_PASSWORD_1);
-          });
-        }
-  })
+        errorLogger(error, req, res, () => {
+          req.flash('error', 'The entered personal number cant be found');
+          return res.redirect(auth_FORGET_PASSWORD_1);
+        });
+      }
+    })
 
   .get("/forgotten-password-part2", (req, res, next) => {
 
-    res.render(forgotten-password-part2, {
-        error: req.flash("error"), 
-        success: req.flash('success'),
-        form_error: req.flash("form-error"),
-        cookie: null
+    res.render("forgotten-password-part2", {
+      error: req.flash("error"),
+      success: req.flash('success'),
+      form_error: req.flash("form-error"),
+      cookie: null
 
     });
   })
 
-  .post("/forgotten-password-part2", 
-    
+  .post("/forgotten-password-part2",
+
     [
       check('code', 'Enter a valid code')
         .exists()
@@ -210,11 +210,11 @@ router
             }
           });
         }),
-    ], 
-    
+    ],
+
     async (req, res) => {
 
-      const { code, password, confirmpassword} = _.pick(req.body, [
+      const { code, password, confirmpassword } = _.pick(req.body, [
         "code",
         "password",
         "confirmpassword",
@@ -228,33 +228,33 @@ router
       }
 
       await db.transaction((t) => {
-          return changePassword(code, password)
-            .then(() => {
-              req.flash('success', 'Password changed successfully. Please login with your new password.');
-              return res.redirect(auth_LOGIN);
+        return changePassword(code, password)
+          .then(() => {
+            req.flash('success', 'Password changed successfully. Please login with your new password.');
+            return res.redirect(auth_LOGIN);
 
-            })
-            .catch((error) => {
-              errorLogger(error, req, res, () => {
-                req.flash('error', 'Make sure that you have entered the right code')
-                return res.redirect(auth_FORGET_PASSWORD_2);
-              });
+          })
+          .catch((error) => {
+            errorLogger(error, req, res, () => {
+              req.flash('error', 'Make sure that you have entered the right code')
+              return res.redirect(auth_FORGET_PASSWORD_2);
             });
-        })
-  })
+          });
+      })
+    })
 
   .get("/forgotten-password-admin", (req, res, next) => {
 
     res.render("forgotten-password-admin", {
-        error: req.flash("error"), 
-        success: req.flash('success'),
-        form_error: req.flash("form-error"),
-        cookie: null
+      error: req.flash("error"),
+      success: req.flash('success'),
+      form_error: req.flash("form-error"),
+      cookie: null
 
     });
   })
 
-  .post('/forgotten-password-admin', 
+  .post('/forgotten-password-admin',
 
     [
       check('username', 'Enter a valid username')
@@ -274,8 +274,8 @@ router
     async (req, res) => {
       const { username } = _.pick(req.body, ['username'])
 
-      
-    
+
+
       //Form errors.
       const errors = validationResult(req);
       if (errors.errors.length > 0) {
@@ -298,12 +298,12 @@ router
           }
         });
       } catch (error) {
-          errorLogger(error, req, res, () => {
-            req.flash('error', 'The entered username cant be found');
-            return res.redirect(auth_FORGET_PASSWORD_ADMIN);
-          });
-        }
-  })
+        errorLogger(error, req, res, () => {
+          req.flash('error', 'The entered username cant be found');
+          return res.redirect(auth_FORGET_PASSWORD_ADMIN);
+        });
+      }
+    })
 
   /*Register routes*/
   .get("/register", (req, res) => {
@@ -340,7 +340,7 @@ router
           }
         }),
       check('password', 'Password must be entered')
-        .not() 
+        .not()
         .isEmpty(),
       check('confirmpassword', 'Password does not match')
         .trim()

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize') // ORM for connection with postgres
-const { db } = require('../db') // Connection to database
+const { db } = require('../dbconfig') // Connection to database
 
 /**
  * Competence table in the database
@@ -18,7 +18,7 @@ const Competence = db.define('competence',
           const competences = await Competence.findAll({
             attributes: ['name']
           });
-          
+
           const names = competences.map(competence => competence.name);
 
           if (!names.includes(value)) {
@@ -27,10 +27,10 @@ const Competence = db.define('competence',
         }
       }
     },
-  },{
-    tableName: 'competence',
-    timestamps: false,
-  }
+  }, {
+  tableName: 'competence',
+  timestamps: false,
+}
 );
 
 db.sync({ force: false })

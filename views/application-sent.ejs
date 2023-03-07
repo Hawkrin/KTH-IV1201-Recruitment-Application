@@ -1,0 +1,17 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../assets/application-sent.css" rel="stylesheet" type="text/css">
+    <title>Job Application Form</title>
+  </head>
+  <body>
+    <%- include('./partials/navbar.header.ejs') %>
+    
+    <p style="font-size: large; color: red; display: flex; justify-content: center;" ><%= error %></p>
+    <p style="font-size: large; color: green; display: flex; justify-content: center;" ><%= success %></p>
+
+    <%- include('./partials/application-sent.body.ejs') %>
+  </body>
+</html>
