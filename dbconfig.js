@@ -15,7 +15,7 @@ const sequelizeOptions = {
 
 const db = new Sequelize(URI, sequelizeOptions);
 // db.close();
-db
+    db
     .authenticate()
     .then(() => {
         console.log("Database connection has been established successfully.\n");
