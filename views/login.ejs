@@ -6,11 +6,46 @@
         <link href="../assets/login.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <%- include('./partials/navbar.header.ejs',  { cookie: cookie }) %>
-        <% if (typeof error !== 'undefined' && error.length > 0) { %>
-            <p style="font-size: large; color: red; display: flex; justify-content: center;" ><%= error %></p>
-            <p style="font-size: large; color: green; display: flex; justify-content: center;" ><%= success %></p>
-        <% } %>
-        <%- include('./partials/login.body.ejs') %>
+        <%- include('./partials/navbar.ejs',  { cookie: cookie }) %>
+  
+        <p style="font-size: large; color: red; display: flex; justify-content: center;" ><%= error %></p>
+        <p style="font-size: large; color: green; display: flex; justify-content: center;" ><%= success %></p>
+
+    
+        <form id="signInBox" method="post">
+            <div id="signin">
+                <h2><%= language['SIGN_IN_TITLE'] %></h2>
+                <!-- Error for username -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].usernameOrEmail %></p>
+                <% } %> 
+                <label id="username">
+                    <input 
+                        type="text"
+                        placeholder="<%= language['USERNAME_PLACE_HOLDER'] %>"
+                        name="usernameOrEmail"
+                    />
+                </label>
+                <!-- Error for password -->
+                <% if (form_error[0]) {%> 
+                    <p style="font-size: xx-small; color: red;"><%= form_error[0].password %></p>
+                <% } %> 
+                <label id="password">
+                    <input 
+                        type="password"
+                        placeholder="<%= language['PASSWORD_PLACE_HOLDER'] %>"
+                        name="password"
+                    />
+                </label>
+                <label id="signin-footer">
+                    <button id='signUpButton' type="submit"><%= language['SIGN_IN_BUTTON'] %></button>
+                    <span> <a href="/auth/register?language=<%= selectedLanguage %>" style="text-decoration: none; color:black;"><%= language['NOT_A_MEMBER'] %></a></span>
+                    <br>
+                    <span> <a href="/auth/forgotten-password-part1?language=<%= selectedLanguage %>" style="text-decoration: none; color:black; font-size: smaller;"><%= language['HAVE_YOU_FORGOTTEN_YOUR_PASSWORD'] %></a></span>
+                    <br>
+                    <span> <a href="/auth/forgotten-password-admin?language=<%= selectedLanguage %>" style="text-decoration: none; color:black; font-size: x-small;"><%= language['ARE_YOU_AN_ADMIN'] %></a></span>
+                </label>
+            </div>
+        </form>
     </body>
 </html>

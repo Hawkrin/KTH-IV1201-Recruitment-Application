@@ -6,8 +6,27 @@
     <title>Show Application</title>
   </head>
   <body>
-    <%- include('./partials/navbar.header.ejs') %>
+    <%- include('./partials/navbar.ejs') %>
 
-    <%- include('./partials/show-application.body.ejs') %>
+    <h2><%= language['APPLICATIONS_RECRUITER'] %>: <%= user.name %> <%= user.surname %><br></h2>
+    <br>
+    <h3>Show Application</h3>
+    The recruiter chooses an application from the applications listed <br>
+    The system displays a full view of the job application and its status<br>
+    The recruiter may choose to change the application's status.<br>
+    The recruiter may choose to go back to view the listing of all applications.<br>
+    <br>
+    <form method="post" action="/applications/<%=  %>/status">
+        <label for="status">Update Status:</label>
+        <select name="status" id="status">
+            <option value="Pending">Accepted</option>
+            <option value="Accepted"> Rejected</option>
+            <option value="Rejected">Unhandled</option>
+        </select>
+        <button type="submit">Update</button>
+    </form>
+    <form id="ShowApplicationButtonBox" action="/application/applications">
+        <button id="ShowApplicationButton" type="submit" onclick="window.history.back()">Go back to applications</button>
+    </form>
   </body>
 </html>
