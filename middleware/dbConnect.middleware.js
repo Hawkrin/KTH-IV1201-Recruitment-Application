@@ -9,7 +9,7 @@ const { db } = require('../dbconfig');
  * @param {*} next 
  */
 const connectToDb = (req, res, next) => {
-    db.close()
+    //db.close()
     db.authenticate()
         .then(() => {
             console.log("Database connection has been established successfully.\n");
