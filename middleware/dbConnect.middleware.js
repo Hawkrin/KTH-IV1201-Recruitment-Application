@@ -12,7 +12,6 @@ const connectToDb = (req, res, next) => {
     //db.close()
     db.authenticate()
         .then(() => {
-            console.log("Database connection has been established successfully.\n");
             req.db = db;
             next();
         })

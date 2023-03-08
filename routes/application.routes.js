@@ -108,10 +108,10 @@ router
             }
           }
         })
+
+        
         await db.transaction((t) => {
           registerAvailability(person_id, from_date, to_date)
-            .then(() => { })
-            .catch(() => { })
         })
 
         res.redirect(application_SENT_APPLICATION);

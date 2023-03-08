@@ -298,3 +298,23 @@
 {"level":"request","message":"GET request made to /login at Wed Mar 08 2023 12:53:51 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"error","message":"An error occurred: Error: ConnectionManager.getConnection was called after the connection manager was closed! at Wed Mar 08 2023 12:53:52 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"error","message":"An error occurred: Error: ConnectionManager.getConnection was called after the connection manager was closed! at Wed Mar 08 2023 12:53:52 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /login at Wed Mar 08 2023 21:33:17 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /login at Wed Mar 08 2023 21:33:22 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-form at Wed Mar 08 2023 21:33:22 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /application-form at Wed Mar 08 2023 21:34:47 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:34:47 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-form at Wed Mar 08 2023 21:34:47 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /application-form at Wed Mar 08 2023 21:35:11 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:35:11 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-form at Wed Mar 08 2023 21:35:11 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /application-form at Wed Mar 08 2023 21:36:02 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:36:02 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-form at Wed Mar 08 2023 21:36:02 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /application-form at Wed Mar 08 2023 21:36:50 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:36:50 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-form at Wed Mar 08 2023 21:36:50 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /application-form at Wed Mar 08 2023 21:37:31 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-sent at Wed Mar 08 2023 21:37:31 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /application-form at Wed Mar 08 2023 21:37:43 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:37:43 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-form at Wed Mar 08 2023 21:37:43 GMT+0100 (Central European Standard Time)","service":"user-service"}
