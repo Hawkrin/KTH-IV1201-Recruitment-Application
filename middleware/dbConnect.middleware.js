@@ -9,6 +9,7 @@ const { db } = require('../dbconfig');
  * @param {*} next 
  */
 const connectToDb = (req, res, next) => {
+    db.close()
     db.authenticate()
         .then(() => {
             console.log("Database connection has been established successfully.\n");
@@ -18,7 +19,7 @@ const connectToDb = (req, res, next) => {
         .catch((error) => {
             console.log('Error connecting to database:', error);
             res.status(500)
-            .send("The database seems to be down, Please try again later." + "We're currently working on it")
+            .render("500")
             next(error);
         });
 };
