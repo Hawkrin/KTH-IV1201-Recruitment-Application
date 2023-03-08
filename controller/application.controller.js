@@ -75,9 +75,9 @@ const registerCompetence = async (
         years_of_experience: years_of_experience,
       },
     })
-    if (competenceProfileExists) {
-      throw new Error('Competence profile already exists')
-    }
+   // if (competenceProfileExists) {
+    //  throw new Error('Competence profile already exists')
+    //}
     const newCompetenceProfile = await CompetenceProfile.create({
       person_id: person_id,
       competence_id: competence_id,
