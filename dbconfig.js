@@ -14,13 +14,5 @@ const sequelizeOptions = {
 };
 
 const db = new Sequelize(URI, sequelizeOptions);
-    // db
-    // .authenticate()
-    // .then(() => {
-    //     console.log("Database connection has been established successfully.\n");
-    // })
-    // .catch((err) => {
-    //     console.error("\n Unable to connect to the database: \n", err + "\n");
-    // });
 
 module.exports = { db };
