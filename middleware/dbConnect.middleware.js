@@ -11,15 +11,16 @@ const { db } = require('../dbconfig');
 const connectToDb = (req, res, next) => {
     db.authenticate()
         .then(() => {
+            console.log("Database connection has been established successfully.\n");
             req.db = db;
             next();
         })
         .catch((error) => {
-            console.error('Error connecting to database:', error);
-            req.flash('error', 'Unable to connect to the database');
-            next();
+            console.log('Error connecting to database:', error);
+            res.status(500)
+            .send("The database seems to be down, Please try again later." + "We're currently working on it")
+            next(error);
         });
 };
 
-
-module.exports = connectToDb;
+module.exports =  connectToDb;

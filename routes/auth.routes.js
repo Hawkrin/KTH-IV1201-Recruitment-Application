@@ -10,6 +10,7 @@ const { db } = require('../dbconfig');
 const Person = require('../model/person.model');
 const Code_Vault = require('../model/code_vault.model');
 const Sequelize = require('sequelize');
+const connectToDb = require('../middleware/dbConnect.middleware')
 const {
   auth_LOGIN,
   auth_REGISTER,
@@ -22,9 +23,15 @@ const {
 
 const router = Router()
 
-router.use(requestLogger, queryLogger, errorLogger, selectLanguage, loginManyAttemptsLogger, fake_mailLogger);
+router.use(requestLogger, queryLogger, errorLogger, selectLanguage, loginManyAttemptsLogger, fake_mailLogger, connectToDb);
 
 router
+
+  .get("/", (req, res, next) => {
+
+    res.redirect(auth_LOGIN);
+
+  })
 
   /*Login routes*/
   .get("/login", (req, res, next) => {
@@ -36,13 +43,6 @@ router
       cookie: null
     });
   })
-
-  .get("/", (req, res, next) => {
-
-    res.redirect(auth_LOGIN);
-
-  })
-
 
   .post("/login",
 
