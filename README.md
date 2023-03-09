@@ -6,13 +6,15 @@ Recruitment application is project in the course ***iv1201 Design of Global Appl
 ## To run the application:
 
 1. Clone the repository to your local machine.
-
+```bash
+cd functions
+```
 2. To start the project first you need to download `existing-database.sql` from canvas.
     * Create database and upload sql file above.
     * Create file `.env` in the project `functions/.env`
     * Put all the information about the DB such as `db-name`, `db_password`, etc...  
 
-3. Install all the dependencies.
+3. Run the installation of the application.
 ```bash
 npm install
 ```
