@@ -6,9 +6,9 @@ const { application_APPLICATION_FORM, auth_LOGIN } = require("../util/url");
 /**
  * Function used for authorizing users, verifies JWTs which are given when login.
  *
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Next} next
  * @returns
  */
 const authenticated = (req, res, next) => {

@@ -54,14 +54,9 @@ const registerAvailability = async (person_id, from_date, to_date) => {
  * 
  * @returns {Object} The newly created competence profile. 
  */
-const registerCompetence = async (
-  person_id,
-  competence_id,
-  years_of_experience,
-) => {
+const registerCompetence = async (person_id, competence_id, years_of_experience, ) => {
+
   try {
-
-
     // Input validation
     if (!person_id || !competence_id || !years_of_experience) {
       throw new Error('Invalid input values')

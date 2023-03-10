@@ -4,9 +4,9 @@ const { db } = require('../dbconfig');
 /**
  * Authenticates a connection to the db
  * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Next} next
  */
 const connectToDb = (req, res, next) => {
     //db.close()

@@ -6,7 +6,7 @@ const Sequelize = require('sequelize')
 /**
  * Swaps the values in the Competence table depending on which langugage is choose. Used for internationalization.
  * 
- * @param {String} language 
+ * @param {String} language the chosen language
  */
 const updateCompetenceNames = async (language) => {
     await Competence.update(
@@ -19,9 +19,9 @@ const updateCompetenceNames = async (language) => {
 /**
  * Swaps between languages, and saves them to the current session.
  * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Next} next
  */
 const selectLanguage = async (req, res, next) => {
 

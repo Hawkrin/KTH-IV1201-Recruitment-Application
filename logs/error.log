@@ -88,3 +88,5 @@
 {"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:36:02 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:36:50 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:37:43 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: ConnectionManager.getConnection was called after the connection manager was closed! at Fri Mar 10 2023 09:07:31 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: ConnectionManager.getConnection was called after the connection manager was closed! at Fri Mar 10 2023 09:07:31 GMT+0100 (Central European Standard Time)","service":"user-service"}

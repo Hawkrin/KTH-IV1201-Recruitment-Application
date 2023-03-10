@@ -62,10 +62,10 @@ const queryLogger = (req, res, next) => {
 /**
  * Logs all error which are thrown
  * 
- * @param {*} err 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {Error} err 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Next} next
  */
 const errorLogger = (err, req, res, next) => {
     logger.error(`An error occurred: ${err} at ${new Date().toString()}`);
@@ -76,9 +76,9 @@ const errorLogger = (err, req, res, next) => {
 /**
  * Keeps watch and logs if a user tries to log on more than 10 times.
  * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Next} next
  */
 const loginAttempts = {};
 const loginManyAttemptsLogger = (req, res, next) => {
@@ -100,9 +100,9 @@ const loginManyAttemptsLogger = (req, res, next) => {
  * Dummy mail function, imitates an email being sent
  * 
  * @param {String} randomCode 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Next} next
  */
 const fake_mailLogger = (randomCode, req, res, next) => {
     logger.fake_email(`

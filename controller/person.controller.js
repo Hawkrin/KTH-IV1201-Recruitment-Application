@@ -30,6 +30,7 @@ const getUser = async (id) => {
  * 
  * @param {String} username the username of the user
  * @param {Integer} password the password of the user
+ * @param {Integer} confirmpassword the password of the user
  * @param {String} name the name of the user
  * @param {String} surname the surname of the user
  * @param {Integer} pnr the personal number of the user

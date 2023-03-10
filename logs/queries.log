@@ -264,3 +264,13 @@
 {"level":"error","message":"An error occurred: Error: Competence profile already exists at Wed Mar 08 2023 21:37:43 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"request","message":"GET request made to /application-form at Wed Mar 08 2023 21:37:43 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"query","message":"Executing query: [object Object] with parameters: [object Object] at Wed Mar 08 2023 21:37:43 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /login at Fri Mar 10 2023 09:07:10 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"query","message":"Executing query: [object Object] with parameters: [object Object] at Fri Mar 10 2023 09:07:10 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: ConnectionManager.getConnection was called after the connection manager was closed! at Fri Mar 10 2023 09:07:31 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"error","message":"An error occurred: Error: ConnectionManager.getConnection was called after the connection manager was closed! at Fri Mar 10 2023 09:07:31 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /login at Fri Mar 10 2023 09:07:45 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"query","message":"Executing query: [object Object] with parameters: [object Object] at Fri Mar 10 2023 09:07:45 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"POST request made to /login at Fri Mar 10 2023 09:08:00 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"query","message":"Executing query: [object Object] with parameters: [object Object] at Fri Mar 10 2023 09:08:00 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /application-form at Fri Mar 10 2023 09:08:00 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"query","message":"Executing query: [object Object] with parameters: [object Object] at Fri Mar 10 2023 09:08:00 GMT+0100 (Central European Standard Time)","service":"user-service"}

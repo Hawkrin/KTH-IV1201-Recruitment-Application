@@ -6,7 +6,7 @@ const session = require("express-session"); // init session
 const flash = require("connect-flash"); // init flash
 const connectToDb = require('./middleware/dbConnect.middleware'); // connects to db
 const { requestLogger, queryLogger, errorLogger, loginManyAttemptsLogger } = require('./middleware/logger.middleware'); // loggers used
-const MemoryStore = require('memorystore')(session)
+const MemoryStore = require('memorystore')(session) //init the memorystore
 const { hashUnhashedPasswords } = require('./controller/person.controller')
 const http = require("http");
 
@@ -39,7 +39,7 @@ app.use(flash())
 // CSS files
 app.use('/assets', express.static('assets'))
 
-// // App Routes
+// App Routes
 app.get('/', (req, res) => { res.redirect("/auth/login") })
 app.use('/auth', require('./routes/auth.routes'))
 app.use('/application', require('./routes/application.routes'))
