@@ -50,6 +50,7 @@ router
     } catch (error) {
       errorLogger(error, req, res, () => {
         req.flash('error', "Error retrieving application data")
+        t.rollback();
         return res.redirect(application_APPLICATIONS)
       })
     }
