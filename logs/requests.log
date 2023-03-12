@@ -326,3 +326,4 @@
 {"level":"request","message":"GET request made to /application-form at Fri Mar 10 2023 09:08:00 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"request","message":"GET request made to /logout? at Fri Mar 10 2023 09:08:02 GMT+0100 (Central European Standard Time)","service":"user-service"}
 {"level":"request","message":"GET request made to /login at Fri Mar 10 2023 09:08:02 GMT+0100 (Central European Standard Time)","service":"user-service"}
+{"level":"request","message":"GET request made to /login at Fri Mar 10 2023 09:09:22 GMT+0100 (Central European Standard Time)","service":"user-service"}

@@ -27,24 +27,32 @@ router
 
   /*Application List*/
   .get('/applications', requireRole1, async (req, res, next) => {
-    const availability = await getAllAvailability();
-    const applicant = await getAllApplicant();
-    const applicationsStatus = await getAllApplicationsStatus();
+    try {
+      await db.transaction(async (t) => {
+        const availability = await getAllAvailability();
+        const applicant = await getAllApplicant();
+        const applicationsStatus = await getAllApplicationsStatus();
 
-    const applicationsData = availability
-      .flatMap(avail => {
-        const applicantData = applicant.find(a => a.person_id === avail.person_id);
-        const statusData = applicationsStatus.find(s => s.availability_id === avail.availability_id && s.person_id === avail.person_id);
-        return applicantData && statusData ? [{ applicant: applicantData, availability: avail, applicationsStatus: statusData }] : [];
+        const applicationsData = availability
+          .flatMap(avail => {
+            const applicantData = applicant.find(a => a.person_id === avail.person_id);
+            const statusData = applicationsStatus.find(s => s.availability_id === avail.availability_id && s.person_id === avail.person_id);
+            return applicantData && statusData ? [{ applicant: applicantData, availability: avail, applicationsStatus: statusData }] : [];
+          });
+
+        res.render('applications', {
+          user: req.user,
+          availability: availability,
+          applicationsData: applicationsData,
+          cookie: req.session.cookie,
+        })
       });
-
-    res.render('applications', {
-      user: req.user,
-      availability: availability,
-
-      applicationsData: applicationsData,
-      cookie: req.session.cookie,
-    })
+    } catch (error) {
+      errorLogger(error, req, res, () => {
+        req.flash('error', "Error retrieving application data")
+        return res.redirect(application_APPLICATIONS)
+      })
+    }
   })
 
   .post('/applications', requireRole1,
@@ -119,6 +127,7 @@ router
       } catch (error) {
         errorLogger(error, req, res, () => {
           req.flash('error', "Fill out the form correctly")
+          t.rollback();
           return res.redirect(application_APPLICATION_FORM)
         })
       }

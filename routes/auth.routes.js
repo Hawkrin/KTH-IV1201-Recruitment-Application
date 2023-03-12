@@ -95,6 +95,7 @@ router
           })
           .catch((error) => {
             req.flash('error', 'Login Failed, check your login credentials')
+            t.rollback();
             errorLogger(error, req, res, () => {
               return res.redirect(auth_LOGIN);
             });
@@ -166,6 +167,7 @@ router
         });
       } catch (error) {
         errorLogger(error, req, res, () => {
+          t.rollback();
           req.flash('error', 'The entered personal number cant be found');
           return res.redirect(auth_FORGET_PASSWORD_1);
         });
@@ -241,6 +243,7 @@ router
           .catch((error) => {
             errorLogger(error, req, res, () => {
               req.flash('error', 'Make sure that you have entered the right code')
+              t.rollback();
               return res.redirect(auth_FORGET_PASSWORD_2);
             });
           });
@@ -304,6 +307,7 @@ router
       } catch (error) {
         errorLogger(error, req, res, () => {
           req.flash('error', 'The entered username cant be found');
+          t.rollback();
           return res.redirect(auth_FORGET_PASSWORD_ADMIN);
         });
       }
@@ -421,6 +425,7 @@ router
           .catch((error) => {
             errorLogger(error, req, res, () => {
               req.flash('error', "There're problems registering your account at this moment, please try again.")
+              t.rollback();
               return res.redirect(auth_REGISTER)
             })
           })
